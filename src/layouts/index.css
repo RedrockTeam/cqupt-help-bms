@@ -1,0 +1,69 @@
+.layout {
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 45px;
+  padding-right: 80px;
+  height: 70px;
+  background-color: #fff;
+  box-shadow: 0px 20px 20px rgba(0, 0, 0, .05);
+  z-index: 1;
+}
+
+.title {
+  font-size: 22px;
+  width: 320px;
+}
+
+.routeName {
+  flex: 1;
+}
+
+.sider {
+  width: 330px;
+}
+
+.self {
+  height: 160px;
+  padding: 40px 0 40px 45px;
+  display: flex;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  margin-right: 15px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.name {
+  font-size:20px;
+  color: #2B2E37;
+  font-weight:400;
+  line-height: 20px;
+}
+
+.subInfo {
+  color: #8D94A8;
+  font-size:14px;
+  font-weight:400;
+  line-height: 14px;
+}
+
+.item {
+  font-size: 18px;
+}
+
+.content {
+  padding: 40px 80px 0 40px;
+  background-color: #F2F6FC;
+}

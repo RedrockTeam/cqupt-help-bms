@@ -1,0 +1,16 @@
+.operate {
+  font-size: 16px;
+  font-weight: 400;
+  margin-right: 30px;
+  cursor: pointer;
+}
+
+.update {
+  composes: operate;
+  color: #36CA94;
+}
+
+.delete {
+  composes: operate;
+  color: #FF3B3B;
+}

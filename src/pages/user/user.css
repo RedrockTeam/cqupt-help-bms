@@ -1,0 +1,16 @@
+.history {
+  width: 95px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #636B81;
+  font-size: 18px;
+}
+
+.description {
+  color: #636B81;
+  font-size: 16px;
+  line-height: 32px;
+  margin: 0;
+  padding: 0 30px;
+}
