@@ -11,20 +11,20 @@ import {
 } from '@ant-design/icons'
 import 'normalize.css'
 
-import { pathnameToRoute } from '../configs'
+import { pathnameToPagename } from '../configs'
 import styles from './index.css'
 
 const iconStyle = { fontSize: '1vw', paddingLeft: '1vw' }
 
 const { Header, Sider, Content } = Layout
 
-export default function ({ children, location, route, history, match }: IRouteComponentProps) {
+function MyLayout({ children, location, route, history, match }: IRouteComponentProps) {
   const pathSnippets = location.pathname.split('/').filter(i => i)
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
     return (
       <Breadcrumb.Item key={url}>
-        <Link to={url}>{pathnameToRoute[url]}</Link>
+        <Link to={url}>{pathnameToPagename(pathSnippets.slice(0, index + 1))}</Link>
       </Breadcrumb.Item>
     );
   });
@@ -50,7 +50,7 @@ export default function ({ children, location, route, history, match }: IRouteCo
             </div>
           </div>
           <Menu
-            defaultSelectedKeys={[pathnameToRoute[location.pathname]]}
+            // defaultSelectedKeys={[pathnameToPagename(location.pathname)]}
             mode="inline"
             theme="light"
           >
@@ -97,3 +97,5 @@ export default function ({ children, location, route, history, match }: IRouteCo
     </Layout>
   )
 }
+
+export default MyLayout

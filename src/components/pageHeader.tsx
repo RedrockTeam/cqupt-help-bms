@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styles from './pageHeader.css'
 
-const PageHeader: React.FC<{ title: string }> = ({ children, title }) => {
+const PageHeader = ({ children, title }: { title: string, children?: ReactNode }) => {
   return (
     <div className={styles.header}>
       <div className={styles.title}>{title}</div>

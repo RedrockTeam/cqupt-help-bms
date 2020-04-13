@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table } from 'antd'
-import PageHeader from '../../../components/pageHeader'
+import PageHeader from '@/components/pageHeader'
 import { useHistory } from 'umi';
 
 const columns = [
@@ -29,7 +29,7 @@ const data = [
   },
 ]
 
-export default () => {
+const ActivityHistory = () => {
   const history = useHistory()
   return (
     <div>
@@ -42,9 +42,11 @@ export default () => {
           y: '76vh',
         }}
         onRow={record => ({
-          onClick: event => history.push(`/activity/history/info?name=${record.activity}`),
+          onClick: event => history.push(`/activity/history/${record.activity}`),
         })}
       />
     </div>
   )
 }
+
+export default ActivityHistory

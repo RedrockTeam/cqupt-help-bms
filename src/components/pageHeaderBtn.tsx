@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styles from './pageHeaderBtn.css'
 import {
   ClockCircleOutlined,
   PlusOutlined,
 } from '@ant-design/icons'
 
-const PageHeaderBtn: React.FC<{
-  type: 'add' | 'history',
-  onClick?: (e: React.MouseEvent) => void
-}> = ({ children, type, onClick }) => {
+const PageHeaderBtn = ({ children, type, onClick }: {
+  type?: 'add' | 'history',
+  onClick?: (e: React.MouseEvent) => void,
+  children?: ReactNode,
+}) => {
   function Icon() {
     if (type === 'add') {
       return <PlusOutlined />
