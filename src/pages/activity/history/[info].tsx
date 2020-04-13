@@ -35,11 +35,11 @@ const data = [
 ]
 
 const Info = () => {
-  const location = useLocation()
+  const title = useLocation().pathname.split('/').filter(i => i).pop()
 
   return (
     <div>
-      <PageHeader title={(location as any).query.name} />
+      <PageHeader title={title!} />
       <Table
         columns={columns}
         pagination={false}

@@ -3,6 +3,7 @@ import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import { useParams, useRouteMatch, useLocation, Link } from 'umi';
 import PageHeaderBtn from '@/components/pageHeaderBtn';
+import styles from './activity.css'
 
 const columns = [
   { title: '获奖人', dataIndex: 'winner', key: 'winner' },
@@ -41,9 +42,13 @@ const Info = () => {
   return (
     <div>
       <PageHeader title={title!}>
-        <Link to={`/activity/${title}/update`}>
-          <PageHeaderBtn>修改</PageHeaderBtn>
-        </Link>
+        <PageHeaderBtn>
+          <Link
+            to={`/activity/${title}/update`}
+            className={styles.pageHeaderBtn}
+            style={{ color: '#36CA94' }}
+          >修改</Link>
+        </PageHeaderBtn>
       </PageHeader>
       <Table
         columns={columns}

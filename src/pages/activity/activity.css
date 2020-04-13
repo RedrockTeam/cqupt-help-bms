@@ -15,7 +15,15 @@
   color: #FF3B3B;
 }
 
-.btn {
+.pageHeaderBtn {
+  color: unset;
+  margin-left: 10px;
+}
+.pageHeaderBtn:hover {
+  color: unset;
+}
+
+.submitBtn {
   width:175px;
   height:50px;
   background:rgba(107,131,255,1);

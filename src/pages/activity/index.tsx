@@ -59,10 +59,12 @@ const Activity = () => {
   return (
     <div>
       <PageHeader title="活动奖品推送中心">
-        <PageHeaderBtn type="add" onClick={() => setVisible(true)}>新建活动</PageHeaderBtn>
-        <Link to="/activity/history">
-          <PageHeaderBtn type="history">历史记录</PageHeaderBtn>
-        </Link>
+        <PageHeaderBtn type="add" onClick={() => setVisible(true)}>
+          <span className={styles.pageHeaderBtn}>新建活动</span>
+        </PageHeaderBtn>
+        <PageHeaderBtn type="history">
+          <Link to="/activity/history" className={styles.pageHeaderBtn}>历史记录</Link>
+        </PageHeaderBtn>
       </PageHeader>
       <Table
         pagination={false}
@@ -100,7 +102,7 @@ const Activity = () => {
             <DatePicker />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className={styles.btn}>
+            <Button type="primary" htmlType="submit" className={styles.submitBtn}>
               完成
             </Button>
           </Form.Item>
