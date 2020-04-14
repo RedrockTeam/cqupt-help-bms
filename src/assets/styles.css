@@ -1,0 +1,9 @@
+/* 抽离常用的公共样式 */
+
+.pageHeaderBtn {
+  color: unset;
+  margin-left: 10px;
+}
+.pageHeaderBtn:hover {
+  color: unset;
+}

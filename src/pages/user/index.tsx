@@ -2,8 +2,9 @@ import React from 'react'
 import { Link } from 'umi'
 import { Table } from 'antd'
 import styles from './user.css'
-import PageHeader from '../../components/pageHeader'
-import PageHeaderBtn from '../../components/pageHeaderBtn'
+import PageHeader from '@/components/pageHeader'
+import PageHeaderBtn from '@/components/pageHeaderBtn'
+import sharedStyles from '@/assets/styles.css'
 
 const columns = [
   { title: '活动任务', dataIndex: 'job', key: 'job' },
@@ -31,19 +32,21 @@ const data = [
   },
 ];
 
-export default () => {
+const User = () => {
   return (
     <div>
       <PageHeader title="我的任务">
-        <Link to="/user/history">
-          <PageHeaderBtn type="history">历史任务</PageHeaderBtn>
-        </Link>
+        <PageHeaderBtn type="history">
+          <Link to="/user/history" className={sharedStyles.pageHeaderBtn}>历史任务</Link>
+        </PageHeaderBtn>
       </PageHeader>
       <Table
         columns={columns}
         pagination={false}
         expandable={{
-          expandedRowRender: record => <p className={styles.description}>{record.description}</p>,
+          expandedRowRender(record) {
+            return <p className={styles.description}>{record.description}</p>
+          },
           expandIconColumnIndex: 2,
         }}
         dataSource={data}
@@ -55,3 +58,5 @@ export default () => {
     </div>
   )
 }
+
+export default User

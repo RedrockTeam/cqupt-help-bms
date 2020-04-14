@@ -28,7 +28,7 @@ const data = [
   },
 ]
 
-export default () => {
+const UserHistory = () => {
   return (
     <div>
       <PageHeader title="历史任务" />
@@ -43,3 +43,5 @@ export default () => {
     </div>
   )
 }
+
+export default UserHistory

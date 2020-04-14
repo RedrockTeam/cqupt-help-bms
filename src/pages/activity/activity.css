@@ -15,14 +15,6 @@
   color: #FF3B3B;
 }
 
-.pageHeaderBtn {
-  color: unset;
-  margin-left: 10px;
-}
-.pageHeaderBtn:hover {
-  color: unset;
-}
-
 .submitBtn {
   width:175px;
   height:50px;

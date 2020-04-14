@@ -9,7 +9,10 @@ type pathMap = {
 
 const map: pathMap = {
   user: {
-    [nameSymbol]: '个人中心'
+    [nameSymbol]: '个人中心',
+    history: {
+      [nameSymbol]: '历史任务',
+    },
   },
   activity: {
     [nameSymbol]: '活动奖品推送中心',

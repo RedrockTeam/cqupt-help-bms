@@ -1,6 +1,8 @@
-import { Link, IRouteComponentProps, useRouteMatch, useParams } from 'umi'
-import React, { useState } from 'react'
+import { Link, IRouteComponentProps, connect, ConnectProps } from 'umi'
+import React, { useState, ReactNode } from 'react'
 import { Layout, Menu, Avatar, Breadcrumb } from 'antd'
+import { UserModelState } from '@/models/user'
+import { LayoutModelState } from '@/models/layout'
 import {
   HomeOutlined,
   GiftOutlined,
@@ -9,19 +11,28 @@ import {
   HeartOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
-import 'normalize.css'
 
-import { pathnameToPagename } from '../configs'
 import styles from './index.css'
+import { pathnameToPagename } from '@/utils'
 
 const iconStyle = { fontSize: '1vw', paddingLeft: '1vw' }
 
 const { Header, Sider, Content } = Layout
 
-function MyLayout({ children, location, route, history, match }: IRouteComponentProps) {
+interface ConnectState {
+  user: UserModelState,
+  layout: LayoutModelState,
+}
+
+type Props = ConnectProps & ConnectState & {
+  children: ReactNode,
+}
+
+function MyLayout({ children, location, user }: Props) {
   const pathSnippets = location.pathname.split('/').filter(i => i)
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
-    const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+    const url = `/${pathSnippets.slice(0, index + 1).join('/')}`
+    // TODO: 先这样写，之后优化把 pathnameToPagename 的逻辑放到 layout model 的 subscription 里面
     return (
       <Breadcrumb.Item key={url}>
         <Link to={url}>{pathnameToPagename(pathSnippets.slice(0, index + 1))}</Link>
@@ -42,15 +53,18 @@ function MyLayout({ children, location, route, history, match }: IRouteComponent
       <Layout>
         <Sider width={'17vw'} theme={'light'} className={styles.sider}>
           <div className={styles.self}>
-            <Avatar className={styles.avatar} />
+            <Avatar className={styles.avatar} src={user.avatar} />
             <div className={styles.info}>
-              <div className={styles.name}>{'重小邮'}</div>
-              <div className={styles.subInfo}>学院：{'软件学院'}</div>
-              <div className={styles.subInfo}>组织：{'红岩网校工作站'}</div>
+              <div className={styles.name}>{user.name}</div>
+              <div className={styles.subInfo}>
+                学院：<span className={styles.infoContent}>{user.college}</span>
+              </div>
+              <div className={styles.subInfo}>
+                组织：<span className={styles.infoContent}>{user.team}</span>
+              </div>
             </div>
           </div>
           <Menu
-            // defaultSelectedKeys={[pathnameToPagename(location.pathname)]}
             mode="inline"
             theme="light"
           >
@@ -98,4 +112,7 @@ function MyLayout({ children, location, route, history, match }: IRouteComponent
   )
 }
 
-export default MyLayout
+export default connect((state: ConnectState) => ({
+  user: state.user,
+  layout: state.layout,
+}))(MyLayout)

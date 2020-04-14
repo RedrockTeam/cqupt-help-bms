@@ -1,9 +1,10 @@
 import React from 'react'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
-import { useParams, useRouteMatch, useLocation, Link } from 'umi';
-import PageHeaderBtn from '@/components/pageHeaderBtn';
+import { useParams, useRouteMatch, useLocation, Link } from 'umi'
+import PageHeaderBtn from '@/components/pageHeaderBtn'
 import styles from './activity.css'
+import sharedStyles from '@/assets/styles.css'
 
 const columns = [
   { title: '获奖人', dataIndex: 'winner', key: 'winner' },
@@ -45,7 +46,7 @@ const Info = () => {
         <PageHeaderBtn>
           <Link
             to={`/activity/${title}/update`}
-            className={styles.pageHeaderBtn}
+            className={sharedStyles.pageHeaderBtn}
             style={{ color: '#36CA94' }}
           >修改</Link>
         </PageHeaderBtn>

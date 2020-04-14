@@ -3,6 +3,7 @@ import { Link, useHistory } from 'umi'
 import { Table, Modal, Button, Form, DatePicker, Input } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import styles from './activity.css'
+import sharedStyles from '@/assets/styles.css'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 
@@ -60,10 +61,10 @@ const Activity = () => {
     <div>
       <PageHeader title="活动奖品推送中心">
         <PageHeaderBtn type="add" onClick={() => setVisible(true)}>
-          <span className={styles.pageHeaderBtn}>新建活动</span>
+          <span className={sharedStyles.pageHeaderBtn}>新建活动</span>
         </PageHeaderBtn>
         <PageHeaderBtn type="history">
-          <Link to="/activity/history" className={styles.pageHeaderBtn}>历史记录</Link>
+          <Link to="/activity/history" className={sharedStyles.pageHeaderBtn}>历史记录</Link>
         </PageHeaderBtn>
       </PageHeader>
       <Table
