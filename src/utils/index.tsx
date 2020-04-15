@@ -38,8 +38,14 @@ const map: pathMap = {
   volunteer: {
     [nameSymbol]: '志愿服务管理',
   },
-  organization: {
-    [nameSymbol]: '组织管理',
+  'organization-auth': {
+    [nameSymbol]: '组织管理 < 权限管理',
+  },
+  'organization-member': {
+    [nameSymbol]: '组织管理 < 部门成员',
+  },
+  'organization-task': {
+    [nameSymbol]: '组织管理 < 任务发布',
   },
 }
 

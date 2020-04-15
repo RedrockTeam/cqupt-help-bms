@@ -1,41 +1,28 @@
 import React from 'react'
+import { connect, ConnectProps } from 'umi'
 import { Table } from 'antd'
-import PageHeader from '../../components/pageHeader'
+import { UserModelState } from '@/models/user'
+import PageHeader from '@/components/pageHeader'
 
 const columns = [
-  { title: '活动任务', dataIndex: 'job', key: 'job' },
-  { title: '发布时间', dataIndex: 'time', key: 'time' },
-];
-
-const data = [
-  {
-    key: 1,
-    job: '活动上线设置',
-    time: '2020/01/02',
-    description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-  },
-  {
-    key: 2,
-    job: '活动获奖推送编辑',
-    time: '2020/01/02',
-    description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-  },
-  {
-    key: 3,
-    job: '影票发布',
-    time: '2020/01/02',
-    description: '将上线内容提前发布至重邮帮后台系统，同时准备奖品内容的推送，为后序用户领奖做准备。将上线内容提前发布至重邮帮后台系统，同时准备奖品内容的推送，为后序用户领奖做准备。将上线前发布至重邮帮后台系统，同时准备奖品内容的推送，为后序用户领奖做准备。将上线内容提前发布至重邮帮后台系统，同时准备奖品内容的推送，为后序用户领奖做准备。将上线。',
-  },
+  { title: '活动任务', dataIndex: 'detail', key: 'detail' },
+  { title: '发布时间', dataIndex: 'created_at', key: 'created_at' },
 ]
 
-const UserHistory = () => {
+type ConnectState = {
+  user: UserModelState,
+}
+
+type Props = ConnectProps & ConnectState
+
+const UserHistory = ({ user }: Props) => {
   return (
     <div>
       <PageHeader title="历史任务" />
       <Table
         columns={columns}
         pagination={false}
-        dataSource={data}
+        dataSource={user.histories.map(h => ({ ...h, key: h.id }))}
         scroll={{
           y: '76vh',
         }}
@@ -44,4 +31,6 @@ const UserHistory = () => {
   )
 }
 
-export default UserHistory
+export default connect((state: ConnectState) => ({
+  user: state.user,
+}))(UserHistory)

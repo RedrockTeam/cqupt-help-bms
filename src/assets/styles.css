@@ -7,3 +7,10 @@
 .pageHeaderBtn:hover {
   color: unset;
 }
+
+.wrapper {
+  width: 1470px;
+  padding: 39px 48px 18px 39px;
+  max-height: 744px;
+  background-color: #ffffff;
+}

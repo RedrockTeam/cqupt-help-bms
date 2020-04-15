@@ -1,0 +1,21 @@
+.organizationPerson {
+  display: flex;
+  flex-direction: column;
+  height: 96px;
+  width: 64px;
+  margin-right: 30px;
+  justify-content: space-between;
+  align-items: center;
+  color: #2B2E37;
+  font-size:14px;
+  font-family:Microsoft YaHei;
+  font-weight:300;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius:6px;
+}

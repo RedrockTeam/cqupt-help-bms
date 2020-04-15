@@ -53,14 +53,14 @@ function MyLayout({ children, location, user }: Props) {
       <Layout>
         <Sider width={'17vw'} theme={'light'} className={styles.sider}>
           <div className={styles.self}>
-            <Avatar className={styles.avatar} src={user.avatar} />
+            <Avatar className={styles.avatar} src={user.info.avatar} />
             <div className={styles.info}>
-              <div className={styles.name}>{user.name}</div>
+              <div className={styles.name}>{user.info.name}</div>
               <div className={styles.subInfo}>
-                学院：<span className={styles.infoContent}>{user.college}</span>
+                学院：<span className={styles.infoContent}>{user.info.college}</span>
               </div>
               <div className={styles.subInfo}>
-                组织：<span className={styles.infoContent}>{user.team}</span>
+                组织：<span className={styles.infoContent}>{user.info.team}</span>
               </div>
             </div>
           </div>
@@ -98,12 +98,24 @@ function MyLayout({ children, location, user }: Props) {
                 <span className={styles.item}>志愿服务管理</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="组织管理">
-              <Link to="/organization">
-                <SettingOutlined style={iconStyle} />
-                <span className={styles.item}>组织管理</span>
-              </Link>
-            </Menu.Item>
+            <Menu.SubMenu key="组织管理"
+              title={
+                <span>
+                  <SettingOutlined style={iconStyle} />
+                  <span className={styles.item}>组织管理</span>
+                </span>
+              }
+            >
+              <Menu.Item key="权限管理">
+                <Link to="/organization-auth">权限管理</Link>
+              </Menu.Item>
+              <Menu.Item key="部门成员">
+                <Link to="/organization-member">部门成员</Link>
+              </Menu.Item>
+              <Menu.Item key="任务发布">
+                <Link to="/organization-task">任务发布</Link>
+              </Menu.Item>
+            </Menu.SubMenu>
           </Menu>
         </Sider>
         <Content className={styles.content}>{children}</Content>
