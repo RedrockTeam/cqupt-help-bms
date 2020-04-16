@@ -1,6 +1,6 @@
 import { Link, IRouteComponentProps, connect, ConnectProps } from 'umi'
-import React, { useState, ReactNode } from 'react'
-import { Layout, Menu, Avatar, Breadcrumb } from 'antd'
+import React, { useState, ReactNode, useEffect } from 'react'
+import { Layout, Menu, Avatar, Breadcrumb, message } from 'antd'
 import { UserModelState } from '@/models/user'
 import { LayoutModelState } from '@/models/layout'
 import {
@@ -28,7 +28,7 @@ type Props = ConnectProps & ConnectState & {
   children: ReactNode,
 }
 
-function MyLayout({ children, location, user }: Props) {
+function MyLayout({ children, location, user, layout }: Props) {
   const pathSnippets = location.pathname.split('/').filter(i => i)
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`
@@ -37,8 +37,13 @@ function MyLayout({ children, location, user }: Props) {
       <Breadcrumb.Item key={url}>
         <Link to={url}>{pathnameToPagename(pathSnippets.slice(0, index + 1))}</Link>
       </Breadcrumb.Item>
-    );
-  });
+    )
+  })
+
+  useEffect(() => {
+    layout.errors.forEach(err => message.error(err.message))
+  }, [layout.errors])
+
   return (
     <Layout className={styles.layout}>
       <Header className={styles.header}>

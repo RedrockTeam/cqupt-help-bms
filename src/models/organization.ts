@@ -2,7 +2,8 @@ import { Effect, ImmerReducer, Subscription } from 'umi'
 import { pathToRegexp } from 'path-to-regexp'
 import { OrganizationMembersResponse } from '@/interfaces'
 import { OrganizationMembers } from '@/interfaces/organization'
-import { getOrganizationMembers } from '@/api/organization'
+import { getOrganizationMembers, updateOrganizationMember } from '@/api/organization'
+import { createFetchError } from '@/utils'
 
 export interface OrganizationModelState {
   members: OrganizationMembers,
@@ -15,6 +16,8 @@ export interface OrganizationModel {
   },
   effects: {
     fetchMembers: Effect,
+    deleteMember: Effect,
+    addMember: Effect,
   },
   reducers: {
     setMembers: ImmerReducer<OrganizationModelState>,
@@ -36,7 +39,7 @@ const organizationModel: OrganizationModel = {
     },
   },
   effects: {
-    *fetchMembers(action, { call, put }) {
+    * fetchMembers(action, { call, put }) {
       const res: OrganizationMembersResponse = yield call(getOrganizationMembers)
       if (res.status === 10000) {
         yield put({
@@ -45,19 +48,43 @@ const organizationModel: OrganizationModel = {
         })
       } else {
         yield put({
-          type: 'global/error',
-          payload: new Error(`fetchError: fetchMembers, ${res.status}`),
+          type: 'layout/error',
+          payload: createFetchError('organization/fetchMembers', res.status, res.info),
         })
       }
     },
+    * deleteMember({ payload }, { call, put }) {
+      // TODO: 等后端改成 stuNum
+      const res = yield call(updateOrganizationMember, 'delete', payload.id, payload.job_id)
+      if (res.status === 10000) {
+        yield put({
+          type: 'fetchMembers',
+        })
+      } else {
+        yield put({
+          type: 'layout/error',
+          payload: createFetchError('organization/deleteMember', res.status, res.info),
+        })
+      }
+    },
+    * addMember({ payload }, { call, put }) {
+      const res = yield call(updateOrganizationMember, 'add', payload.stuNum, payload.job_id)
+      if (res.status === 10000) {
+        yield put({
+          type: 'fetchMembers',
+        })
+      } else {
+        yield put({
+          type: 'layout/error',
+          payload: createFetchError('organization/addMember', res.status, res.info),
+        })
+      }
+    }
   },
   reducers: {
     setMembers(state, { payload }) {
       state.members = payload
     },
-    deleteMember(state, { payload }) {
-      
-    }
   },
 }
 

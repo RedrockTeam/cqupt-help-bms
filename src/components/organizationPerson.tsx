@@ -4,13 +4,18 @@ import { Avatar } from 'antd'
 import { TeamPerson } from '@/interfaces/organization'
 
 const PageHeader = ({ person, onClick }: {
-  person: TeamPerson,
+  person?: TeamPerson,
   onClick?: (e: React.MouseEvent) => void,
 }) => {
   return (
     <div className={styles.organizationPerson} onClick={onClick}>
-      <Avatar className={styles.avatar} shape="square" src={person.avatar} />
-      <div>{person.name}</div>
+      <Avatar
+        className={styles.avatar}
+        style={{ background: '#F5F8FF' }}
+        shape="square"
+        src={person?.avatar}
+      />
+      <div style={{ color: person ? '#2B2E37' : '#36CA94' }}>{person?.name ?? '添加'}</div>
     </div>
   )
 }

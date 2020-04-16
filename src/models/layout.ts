@@ -8,7 +8,7 @@ import { pathnameToPagename } from '@/utils'
 type Breadcrumb = string[]
 
 export interface LayoutModelState {
-  error: Error | null,
+  errors: Error[],
   // breadcrumb: Breadcrumb,
 }
 
@@ -25,7 +25,7 @@ export interface LayoutModel {
 
 const layoutModel: LayoutModel = {
   state: {
-    error: null,
+    errors: [],
   },
   // subscriptions: {
   //   getBreadcrumb({ dispatch, history }) {
@@ -36,7 +36,8 @@ const layoutModel: LayoutModel = {
   // },
   reducers: {
     error(state, { payload }) {
-
+      if (!Array.isArray(payload)) state.errors = [payload]
+      else state.errors = payload
     },
   },
 }

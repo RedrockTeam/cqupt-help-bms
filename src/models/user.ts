@@ -3,6 +3,7 @@ import { getUserInfo, getUserToolAuth, getUserTasks, getUserHistories } from '@/
 import { Effect, ImmerReducer, Reducer, Subscription } from 'umi'
 import { UserToolAuth, UserInfo, UserTasks, UserHistories } from '@/interfaces/user'
 import { UserToolAuthResponse, UserInfoResponse, UserTasksResponse, UserHistoriesResponse } from '@/interfaces'
+import { createFetchError } from '@/utils'
 export interface UserModelState {
   info: {
     name: string,
@@ -66,7 +67,7 @@ const userModel: UserModel = {
     }
   },
   effects: {
-    *fetchUserInfo(action, { call, put, all }) {
+    * fetchUserInfo(action, { call, put, all }) {
       const [infoRes, toolRes]: [
         UserInfoResponse,
         UserToolAuthResponse,
@@ -85,12 +86,15 @@ const userModel: UserModel = {
         })
       } else {
         yield put({
-          type: 'global/error',
-          payload: new Error(`fetchError: fetchUserInfo, ${infoRes.status}, ${toolRes.status}`),
+          type: 'layout/error',
+          payload: [
+            createFetchError('user/fetchUserInfo/getUserInfo', infoRes.status, infoRes.info),
+            createFetchError('user/fetchUserInfo/getUserToolAuth', toolRes.status, toolRes.info),
+          ],
         })
       }
     },
-    *fetchUserTasks(action, { call, put }) {
+    * fetchUserTasks(action, { call, put }) {
       const res: UserTasksResponse = yield call(getUserTasks)
       if (res.status === 10000) {
         yield put({
@@ -99,12 +103,12 @@ const userModel: UserModel = {
         })
       } else {
         yield put({
-          type: 'global/error',
-          payload: new Error(`fetchError: fetchUserTasks, ${res.status}`),
+          type: 'layout/error',
+          payload: createFetchError('user/fetchUserTasks/getUserTasks', res.status, res.info),
         })
       }
     },
-    *fetchUserHistories(action, { call, put }) {
+    * fetchUserHistories(action, { call, put }) {
       const res: UserHistoriesResponse = yield call(getUserHistories)
       if (res.status === 10000) {
         yield put({
@@ -113,8 +117,8 @@ const userModel: UserModel = {
         })
       } else {
         yield put({
-          type: 'global/error',
-          payload: new Error(`fetchError: fetchUserHistories, ${res.status}`),
+          type: 'layout/error',
+          payload: createFetchError('user/fetchUserHistories/getUserHistories', res.status, res.info),
         })
       }
     }

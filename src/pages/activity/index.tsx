@@ -34,10 +34,7 @@ const Activity = () => {
   const [visible, setVisible] = useState<boolean>(false)
 
   const closeModal = useCallback(() => setVisible(false), [])
-  const submitModal = useCallback(() => {
-    closeModal()
-  }, [closeModal])
-  const onFinish = (values: any) => {
+  const submit = (values: any) => {
     setData(data => [...data, {
       key: values.activityName,
       time: new Date().toLocaleDateString(),
@@ -91,11 +88,10 @@ const Activity = () => {
         title="新建活动申请"
         visible={visible}
         centered
-        onOk={submitModal}
         onCancel={closeModal}
         footer={null}
       >
-        <Form name="modal-form" onFinish={onFinish} layout="vertical">
+        <Form name="modal-form" onFinish={submit} layout="vertical">
           <Form.Item name="activityName" label="活动名称" rules={[{ required: true, message: '请填写活动名称' }]}>
             <Input />
           </Form.Item>
