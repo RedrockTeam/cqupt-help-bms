@@ -15,3 +15,8 @@ export interface OrganizationMember {
 }
 
 export type OrganizationMembers = OrganizationMember[]
+
+// auth
+export type OrganizationAuth = OrganizationMember
+
+export type OrganizationAuths = OrganizationAuth[]

@@ -1,6 +1,6 @@
 // 前后端接口定义
 import { UserInfo, UserToolAuth, UserTasks, UserHistories } from './user'
-import { OrganizationMembers } from './organization'
+import { OrganizationMembers, OrganizationAuths } from './organization'
 
 interface BaseStatus {
   /**
@@ -30,4 +30,8 @@ export interface UserHistoriesResponse extends BaseStatus {
 
 export interface OrganizationMembersResponse extends BaseStatus {
   data: OrganizationMembers
+}
+
+export interface OrganizationAuthsResponse extends BaseStatus {
+  data: OrganizationAuths
 }

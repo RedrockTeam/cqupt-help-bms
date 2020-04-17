@@ -17,7 +17,7 @@ type Props = ConnectProps & ConnectState
 const OrganizationMenber = ({ organization, dispatch }: Props) => {
   const [visible, setVisible] = useState<boolean>(false)
   const [jobId, setJobId] = useState<number>()
-
+  // TODO: fix type
   const submit = (values: any) => {
     dispatch!({
       type: 'organization/addMember',
@@ -30,6 +30,7 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
   }
   const close = () => setVisible(false)
 
+  // 用于获取部门成员的 jobId，用于后端接口
   useEffect(() => {
     setJobId(organization.members[1]?.job.job_id)
   }, [organization.members])
@@ -42,10 +43,10 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
           <Member key={group.job.job_id} title={group.job.job_name}>
             {group.TeamPersons.map(person =>
               <OrganizationPerson
-                onClick={() => Modal.confirm({
-                  title: 'Do you want to delete these items?',
+                onClick={() => Modal.confirm({ // 移除的对话 Modal
+                  title: '请确认',
                   icon: <ExclamationCircleOutlined />,
-                  content: 'When clicked the OK button, this dialog will be closed after 1 second',
+                  content: '确认将该成员移出部门？',
                   onOk: () => dispatch!({
                     type: 'organization/deleteMember',
                     payload: {
@@ -57,6 +58,7 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
                 key={person.id}
                 person={person}
               />)}
+              {/* 添加，index === 0 是部长，没有添加，其他的有添加 */}
               {index !== 0 && <OrganizationPerson
                 onClick={() => setVisible(true)}
                 key={'add'}
@@ -65,6 +67,7 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
         )}
       </div>
 
+      {/* 添加的对话 Modal */}
       <Modal
         title="添加成员"
         visible={visible}
@@ -73,7 +76,11 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
         footer={null}
       >
         <Form name="modal-form" onFinish={submit} layout="vertical">
-          <Form.Item name="stu_num" label="成员学号" rules={[{ required: true, message: '请填写学号' }]}>
+          <Form.Item
+            name="stu_num"
+            label="成员学号"
+            rules={[{ required: true, message: '请填写学号', max: 10 }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item>
