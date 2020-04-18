@@ -99,7 +99,7 @@ const Activity = () => {
             <DatePicker />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className={styles.submitBtn}>
+            <Button type="primary" htmlType="submit" className={sharedStyles.okButton}>
               完成
             </Button>
           </Form.Item>

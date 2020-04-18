@@ -9,6 +9,7 @@ type Breadcrumb = string[]
 
 export interface LayoutModelState {
   errors: Error[],
+  infos: string[],
   // breadcrumb: Breadcrumb,
 }
 
@@ -19,6 +20,7 @@ export interface LayoutModel {
   // },
   reducers: {
     error: ImmerReducer<LayoutModelState>,
+    info: ImmerReducer<LayoutModelState>,
     // setBreadcrumb: ImmerReducer<LayoutModelState>,
   },
 }
@@ -26,6 +28,7 @@ export interface LayoutModel {
 const layoutModel: LayoutModel = {
   state: {
     errors: [],
+    infos: [],
   },
   // subscriptions: {
   //   getBreadcrumb({ dispatch, history }) {
@@ -38,6 +41,10 @@ const layoutModel: LayoutModel = {
     error(state, { payload }) {
       if (!Array.isArray(payload)) state.errors = [payload]
       else state.errors = payload
+    },
+    info(state, { payload }) {
+      if (!Array.isArray(payload)) state.infos = [payload]
+      else state.infos = payload
     },
   },
 }

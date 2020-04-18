@@ -4,7 +4,7 @@ import { OrganizationModelState } from '@/models/organization'
 import PageHeader from '@/components/pageHeader'
 import Member from '@/components/organizationMember'
 import OrganizationPerson from '@/components/organizationPerson'
-import StyleSheet from '@/assets/styles.css'
+import sharedStyles from '@/assets/styles.css'
 import { Modal, Button, Form, Radio } from 'antd'
 import { TeamPersons } from '@/interfaces/organization'
 
@@ -69,7 +69,7 @@ const OrganizationAuth = ({ organization, dispatch }: Props) => {
   return (
     <div>
       <PageHeader title="权限管理" />
-      <div className={StyleSheet.wrapper}>
+      <div className={sharedStyles.wrapper}>
         {organization.auths.map((group, index) =>
           <Member key={group.job.job_id} title={group.job.job_name}>
             {group.TeamPersons.map(person => (

@@ -35,3 +35,5 @@ export interface OrganizationMembersResponse extends BaseStatus {
 export interface OrganizationAuthsResponse extends BaseStatus {
   data: OrganizationAuths
 }
+
+export type OrganizationPublishTaskResponse = BaseStatus

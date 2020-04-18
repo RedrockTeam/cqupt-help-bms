@@ -4,7 +4,7 @@ import { OrganizationModelState } from '@/models/organization'
 import PageHeader from '@/components/pageHeader'
 import Member from '@/components/organizationMember'
 import OrganizationPerson from '@/components/organizationPerson'
-import StyleSheet from '@/assets/styles.css'
+import sharedStyles from '@/assets/styles.css'
 import { Modal, Input, Button, Form } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 
@@ -38,7 +38,7 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
   return (
     <div>
       <PageHeader title="部门成员" />
-      <div className={StyleSheet.wrapper}>
+      <div className={sharedStyles.wrapper}>
         {organization.members.map((group, index) =>
           <Member key={group.job.job_id} title={group.job.job_name}>
             {group.TeamPersons.map(person =>

@@ -114,5 +114,10 @@ export default {
   'POST /api/team/person/update': {
     "status": 10000,
     "info": "success",
-  }
+  },
+
+  'POST /api/team/task/update': {
+    "status": 10000,
+    "info": "success",
+  },
 }

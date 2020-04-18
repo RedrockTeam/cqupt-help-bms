@@ -44,6 +44,10 @@ function MyLayout({ children, location, user, layout }: Props) {
     layout.errors.forEach(err => message.error(err.message))
   }, [layout.errors])
 
+  useEffect(() => {
+    layout.infos.forEach(info => message.success(info))
+  }, [layout.infos])
+
   return (
     <Layout className={styles.layout}>
       <Header className={styles.header}>

@@ -38,3 +38,13 @@ export const updateOrganizationAuths = (job_id: number, origin_user_id: number, 
     }),
   }).then(r => r.json()).catch(alert)
 }
+
+export const publishTask = (title: string, content: string) => {
+  return fetch(`${API}/team/task/update`, {
+    method: 'POST',
+    body: JSON.stringify({
+      title,
+      content,
+    }),
+  }).then(r => r.json()).catch(alert)
+}
