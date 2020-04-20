@@ -1,6 +1,7 @@
 import { API } from './index'
+import { GetOrganizationMembersResponse, GetOrganizationAuthsResponse } from '@/interfaces'
 
-export const getOrganizationMembers = () => {
+export const getOrganizationMembers = (): Promise<GetOrganizationMembersResponse> => {
   return fetch(`${API}/team/person/info`).then(r => r.json()).catch(alert)
 }
 
@@ -15,7 +16,7 @@ export const updateOrganizationMember = (operation: 'delete' | 'add', stuNum: st
   }).then(r => r.json()).catch(alert)
 }
 
-export const getOrganizationAuths = () => {
+export const getOrganizationAuths = (): Promise<GetOrganizationAuthsResponse> => {
   return fetch(`${API}/team/permission/info`).then(r => r.json()).catch(alert)
 }
 

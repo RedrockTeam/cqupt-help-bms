@@ -1,6 +1,7 @@
 // 前后端接口定义
 import { UserInfo, UserToolAuth, UserTasks, UserHistories } from './user'
 import { OrganizationMembers, OrganizationAuths } from './organization'
+import { IdInfos } from './id'
 
 interface BaseStatus {
   /**
@@ -12,28 +13,41 @@ interface BaseStatus {
   info: string,
 }
 
-// TODO: 优化 interface 定义逻辑
-export interface UserInfoResponse extends BaseStatus {
+// User
+export interface GetUserInfoResponse extends BaseStatus {
   data: UserInfo,
 }
-export interface UserToolAuthResponse extends BaseStatus {
+export interface GetUserToolAuthResponse extends BaseStatus {
   data: UserToolAuth,
 }
 
-export interface UserTasksResponse extends BaseStatus {
+export interface GetUserTasksResponse extends BaseStatus {
   data: UserTasks
 }
 
-export interface UserHistoriesResponse extends BaseStatus {
+export interface GetUserHistoriesResponse extends BaseStatus {
   data: UserHistories
 }
 
-export interface OrganizationMembersResponse extends BaseStatus {
+// Organization
+export interface GetOrganizationMembersResponse extends BaseStatus {
   data: OrganizationMembers
 }
 
-export interface OrganizationAuthsResponse extends BaseStatus {
+export interface GetOrganizationAuthsResponse extends BaseStatus {
   data: OrganizationAuths
 }
 
+export interface GetOrganizationCanAuthListResponse extends BaseStatus {
+
+}
+
 export type OrganizationPublishTaskResponse = BaseStatus
+
+export interface GetApplyingIdInfosResponse extends BaseStatus {
+  data: IdInfos,
+}
+
+export type GetPassedIdInfosResponse = GetApplyingIdInfosResponse
+
+export type PassIdApplyResponse = BaseStatus

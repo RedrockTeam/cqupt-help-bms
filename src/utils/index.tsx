@@ -31,6 +31,9 @@ const map: pathMap = {
   },
   id: {
     [nameSymbol]: '身份有证管理中心',
+    history: {
+      [nameSymbol]: '通过名单',
+    },
   },
   ticket: {
     [nameSymbol]: '影票上线管理中心',

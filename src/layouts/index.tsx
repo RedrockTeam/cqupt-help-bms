@@ -41,12 +41,12 @@ function MyLayout({ children, location, user, layout }: Props) {
   })
 
   useEffect(() => {
-    layout.errors.forEach(err => message.error(err.message))
-  }, [layout.errors])
+    layout.errorMessages.forEach(err => message.error(err.message))
+  }, [layout.errorMessages])
 
   useEffect(() => {
-    layout.infos.forEach(info => message.success(info))
-  }, [layout.infos])
+    layout.successMessages.forEach(info => message.success(info))
+  }, [layout.successMessages])
 
   return (
     <Layout className={styles.layout}>
@@ -69,7 +69,7 @@ function MyLayout({ children, location, user, layout }: Props) {
                 学院：<span className={styles.infoContent}>{user.info.college}</span>
               </div>
               <div className={styles.subInfo}>
-                组织：<span className={styles.infoContent}>{user.info.team}</span>
+                组织：<span className={styles.infoContent}>{user.info.team_name}</span>
               </div>
             </div>
           </div>

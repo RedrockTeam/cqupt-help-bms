@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect, ConnectProps } from 'umi'
-import { OrganizationModelState } from '@/models/organization'
+import { OrganizationModelState, createPublishTask } from '@/models/organization'
 import PageHeader from '@/components/pageHeader'
-import Member from '@/components/organizationMember'
-import OrganizationPerson from '@/components/organizationPerson'
 import sharedStyles from '@/assets/styles.css'
 import styles from './index.css'
-import { Modal, Input, Button, Form } from 'antd'
-import { ExclamationCircleOutlined } from '@ant-design/icons'
+import { Input, Button } from 'antd'
 
 type ConnectState = {
   organization: OrganizationModelState,
@@ -20,13 +17,7 @@ const OrganizationTask = ({ organization, dispatch }: Props) => {
   const [content, setContent] = useState<string>('')
 
   const publish = () => {
-    dispatch!({
-      type: 'organization/publishTask',
-      payload: {
-        title,
-        content,
-      }
-    })
+    dispatch!(createPublishTask(title, content))
   }
   
   return (

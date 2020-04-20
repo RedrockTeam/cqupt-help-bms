@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect, ConnectProps } from 'umi'
-import { OrganizationModelState } from '@/models/organization'
+import { OrganizationModelState, createAddMember, createDeleteMember } from '@/models/organization'
 import PageHeader from '@/components/pageHeader'
 import Member from '@/components/organizationMember'
 import OrganizationPerson from '@/components/organizationPerson'
@@ -19,13 +19,7 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
   const [jobId, setJobId] = useState<number>()
   // TODO: fix type
   const submit = (values: any) => {
-    dispatch!({
-      type: 'organization/addMember',
-      payload: {
-        stuNum: values.stu_num,
-        job_id: jobId,
-      }
-    })
+    dispatch!(createAddMember(values.stu_num, jobId!))
     close()
   }
   const close = () => setVisible(false)
@@ -47,13 +41,8 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
                   title: '请确认',
                   icon: <ExclamationCircleOutlined />,
                   content: '确认将该成员移出部门？',
-                  onOk: () => dispatch!({
-                    type: 'organization/deleteMember',
-                    payload: {
-                      id: person.id, // TODO: 等后端改成 stuNum
-                      job_id: group.job.job_id,
-                    },
-                  }),
+                  // TODO: 等后端改成 stuNum
+                  onOk: () => dispatch!(createDeleteMember(person.id, group.job.job_id)),
                 })}
                 key={person.id}
                 person={person}

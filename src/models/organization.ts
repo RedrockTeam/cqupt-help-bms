@@ -1,9 +1,10 @@
 import { Effect, ImmerReducer, Subscription } from 'umi'
 import { pathToRegexp } from 'path-to-regexp'
-import { OrganizationMembersResponse, OrganizationAuthsResponse, OrganizationPublishTaskResponse } from '@/interfaces'
+// import { OrganizationMembersResponse, OrganizationAuthsResponse, OrganizationPublishTaskResponse } from '@/interfaces'
 import { OrganizationMembers, OrganizationAuths, TeamPersons } from '@/interfaces/organization'
 import { getOrganizationMembers, updateOrganizationMember, getOrganizationAuths, getOrganizationCanAuthList, updateOrganizationAuths, publishTask } from '@/api/organization'
 import { createFetchError } from '@/utils'
+import { createSuccessMessage, createErrorMessage } from './layout'
 
 export interface OrganizationModelState {
   members: OrganizationMembers,
@@ -27,11 +28,59 @@ export interface OrganizationModel {
     publishTask: Effect,
   },
   reducers: {
-    setMembers: ImmerReducer<OrganizationModelState>,
-    setAuths: ImmerReducer<OrganizationModelState>,
-    setCanAuthList: ImmerReducer<OrganizationModelState>,
+    setMembers: ImmerReducer<OrganizationModelState, ReturnType<typeof createSetMembers>>,
+    setAuths: ImmerReducer<OrganizationModelState, ReturnType<typeof createSetAuths>>,
+    setCanAuthList: ImmerReducer<OrganizationModelState, ReturnType<typeof createSetCanAuthList>>,
   },
 }
+
+export const createFetchAuths = () => ({ type: 'organization/fetchAuths' })
+export const createFetchMembers = () => ({ type: 'organization/fetchMembers' })
+export const createSetAuths = (auths: OrganizationAuths) => ({
+  type: 'organization/setAuths',
+  payload: auths || [],
+})
+export const createSetCanAuthList = (canAuthList: TeamPersons) => ({
+  type: 'organization/setCanAuthList',
+  payload: canAuthList || [],
+})
+export const createSetMembers = (members: OrganizationMembers) => ({
+  type: 'organization/setMembers',
+  payload: members || [],
+})
+export const createUpdateAuth = (jobId: number, UserId: number, originUserId: number) => ({
+  type: 'organization/updateAuth',
+  payload: {
+    job_id: jobId,
+    user_id: UserId,
+    origin_user_id: originUserId,
+  }
+})
+export const createFetchCanAuthList = (jobId: number) => ({
+  type: 'organization/fetchCanAuthList',
+  payload: { job_id: jobId },
+})
+export const createAddMember = (stuNum: string, jobId: number) => ({
+  type: 'organization/addMember',
+  payload: {
+    stuNum,
+    job_id: jobId,
+  }
+})
+export const createDeleteMember = (id: number, jobId: number) => ({
+  type: 'organization/deleteMember',
+  payload: {
+    id, // TODO: 等后端改成 stuNum
+    job_id: jobId,
+  },
+})
+export const createPublishTask = (title: string, content: string) => ({
+  type: 'organization/publishTask',
+  payload: {
+    title,
+    content,
+  }
+})
 
 const organizationModel: OrganizationModel = {
   state: {
@@ -44,7 +93,7 @@ const organizationModel: OrganizationModel = {
       history.listen(({ pathname }) => {
         const match = pathToRegexp('/organization-auth').exec(pathname)
         if (match) {
-          dispatch({ type: 'fetchAuths' })
+          dispatch(createFetchAuths())
         }
       })
     },
@@ -52,106 +101,67 @@ const organizationModel: OrganizationModel = {
       history.listen(({ pathname }) => {
         const match = pathToRegexp('/organization-member').exec(pathname)
         if (match) {
-          dispatch({ type: 'fetchMembers' })
+          dispatch(createFetchMembers())
         }
       })
     },
   },
   effects: {
     * fetchAuths(action, { call, put }) {
-      const res: OrganizationAuthsResponse = yield call(getOrganizationAuths)
+      const res = yield call(getOrganizationAuths)
       if (res.status === 10000) {
-        yield put({
-          type: 'setAuths',
-          payload: res.data || [],
-        })
+        yield put(createSetAuths(res.data))
       } else {
-        yield put({
-          type: 'layout/error',
-          payload: createFetchError('organization/fetchAuths', res.status, res.info),
-        })
+        yield put(createErrorMessage(createFetchError('organization/fetchAuths', res.status, res.info)))
       }
     },
     * fetchCanAuthList({ payload }, { call, put }) {
       const res = yield call(getOrganizationCanAuthList, payload.job_id)
       if (res.status === 10000) {
-        yield put({
-          type: 'setCanAuthList',
-          payload: res.data || [],
-        })
+        yield put(createSetCanAuthList(res.data))
       } else {
-        yield put({
-          type: 'layout/error',
-          payload: createFetchError('organization/fetchCanAuthList', res.status, res.info),
-        })
+        yield put(createErrorMessage(createFetchError('organization/fetchCanAuthList', res.status, res.info)))
       }
     },
     * updateAuth({ payload }, { call, put }) {
       const res = yield call(updateOrganizationAuths, payload.job_id, payload.origin_user_id, payload.user_id)
       if (res.status === 10000) {
-        yield put({
-          type: 'fetchAuths',
-        })
+        yield put(createFetchAuths())
       } else {
-        yield put({
-          type: 'layout/error',
-          payload: createFetchError('organization/updateAuth', res.status, res.info),
-        })
+        yield put(createErrorMessage(createFetchError('organization/updateAuth', res.status, res.info)))
       }
     },
     * fetchMembers(action, { call, put }) {
-      const res: OrganizationMembersResponse = yield call(getOrganizationMembers)
+      const res = yield call(getOrganizationMembers)
       if (res.status === 10000) {
-        yield put({
-          type: 'setMembers',
-          payload: res.data || [],
-        })
+        yield put(createSetMembers(res.data))
       } else {
-        yield put({
-          type: 'layout/error',
-          payload: createFetchError('organization/fetchMembers', res.status, res.info),
-        })
+        yield put(createErrorMessage(createFetchError('organization/fetchMembers', res.status, res.info)))
       }
     },
     * deleteMember({ payload }, { call, put }) {
       // TODO: 等后端改成 stuNum
       const res = yield call(updateOrganizationMember, 'delete', payload.id, payload.job_id)
       if (res.status === 10000) {
-        yield put({
-          type: 'fetchMembers',
-        })
+        yield put(createFetchMembers())
       } else {
-        yield put({
-          type: 'layout/error',
-          payload: createFetchError('organization/deleteMember', res.status, res.info),
-        })
+        yield put(createErrorMessage(createFetchError('organization/deleteMember', res.status, res.info)))
       }
     },
     * addMember({ payload }, { call, put }) {
       const res = yield call(updateOrganizationMember, 'add', payload.stuNum, payload.job_id)
       if (res.status === 10000) {
-        yield put({
-          type: 'fetchMembers',
-        })
+        yield put(createFetchMembers())
       } else {
-        yield put({
-          type: 'layout/error',
-          payload: createFetchError('organization/addMember', res.status, res.info),
-        })
+        yield put(createErrorMessage(createFetchError('organization/addMember', res.status, res.info)))
       }
     },
     * publishTask({ payload }, { call, put }) {
-      const res: OrganizationPublishTaskResponse = yield call(publishTask, payload.title, payload.content)
+      const res = yield call(publishTask, payload.title, payload.content)
       if (res.status === 10000) {
-        yield put({
-          type: 'layout/info',
-          payload: '发送成功',
-        })
+        yield put(createSuccessMessage('发送成功'))
       } else {
-        yield put({
-          type: 'layout/error',
-          payload: createFetchError('organization/publishTask', res.status, res.info),
-        })
+        yield put(createErrorMessage(createFetchError('organization/publishTask', res.status, res.info)))
       }
     },
   },

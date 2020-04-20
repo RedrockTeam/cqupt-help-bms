@@ -1,50 +1,45 @@
 // Layout 页面的 model
-// error: 统一的错误处理，出错时会使 Layout 页面 Content 部分提示出错
-// breadcrumb: 面包屑，顶部 `活动奖品推送中心 < 历史推送 < 历史推送名单`
-import { Effect, ImmerReducer, Reducer, Subscription } from 'umi'
+// errors: 错误信息的提示，同时处理错误
+// infos: 成功信息的提示
+// TODO: breadcrumb: 面包屑，顶部 `活动奖品推送中心 < 历史推送 < 历史推送名单`
+import { ImmerReducer } from 'umi'
 import { pathToRegexp } from 'path-to-regexp'
-import { pathnameToPagename } from '@/utils'
-
-type Breadcrumb = string[]
 
 export interface LayoutModelState {
-  errors: Error[],
-  infos: string[],
-  // breadcrumb: Breadcrumb,
+  errorMessages: Error[],
+  successMessages: string[],
 }
 
 export interface LayoutModel {
   state: LayoutModelState,
-  // subscriptions: {
-  //   getBreadcrumb: Subscription,
-  // },
   reducers: {
-    error: ImmerReducer<LayoutModelState>,
-    info: ImmerReducer<LayoutModelState>,
-    // setBreadcrumb: ImmerReducer<LayoutModelState>,
+    error: ImmerReducer<LayoutModelState, ReturnType<typeof createErrorMessage>>,
+    success: ImmerReducer<LayoutModelState, ReturnType<typeof createSuccessMessage>>,
   },
 }
 
+export const createErrorMessage = (err: Error[] | Error) => ({
+  type: 'layout/error',
+  payload: err,
+})
+export const createSuccessMessage = (msg: string[] | string) => ({
+  type: 'layout/success',
+  payload: msg,
+})
+
 const layoutModel: LayoutModel = {
   state: {
-    errors: [],
-    infos: [],
+    errorMessages: [],
+    successMessages: [],
   },
-  // subscriptions: {
-  //   getBreadcrumb({ dispatch, history }) {
-  //     history.listen(({ pathname }) => {
-  //       pathnameToPagename(pathname)
-  //     })
-  //   },
-  // },
   reducers: {
     error(state, { payload }) {
-      if (!Array.isArray(payload)) state.errors = [payload]
-      else state.errors = payload
+      if (!Array.isArray(payload)) state.errorMessages = [payload]
+      else state.errorMessages = payload
     },
-    info(state, { payload }) {
-      if (!Array.isArray(payload)) state.infos = [payload]
-      else state.infos = payload
+    success(state, { payload }) {
+      if (!Array.isArray(payload)) state.successMessages = [payload]
+      else state.successMessages = payload
     },
   },
 }

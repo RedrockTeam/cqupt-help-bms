@@ -1,17 +1,20 @@
 import { pathToRegexp } from 'path-to-regexp'
 import { getUserInfo, getUserToolAuth, getUserTasks, getUserHistories } from '@/api/user.ts'
-import { Effect, ImmerReducer, Reducer, Subscription } from 'umi'
-import { UserToolAuth, UserInfo, UserTasks, UserHistories } from '@/interfaces/user'
-import { UserToolAuthResponse, UserInfoResponse, UserTasksResponse, UserHistoriesResponse } from '@/interfaces'
+import { Effect, ImmerReducer, Subscription } from 'umi'
+import { UserToolAuth, UserTasks, UserHistories } from '@/interfaces/user'
+import { GetUserToolAuthResponse, GetUserInfoResponse, GetUserTasksResponse, GetUserHistoriesResponse } from '@/interfaces'
 import { createFetchError } from '@/utils'
+import { createErrorMessage } from './layout'
+
+export interface UserInfo {
+  name: string,
+  avatar: string,
+  college: string,
+  team_name: string,
+  toolAuth: UserToolAuth,
+}
 export interface UserModelState {
-  info: {
-    name: string,
-    avatar: string,
-    college: string,
-    team: string,
-    toolAuth: UserToolAuth,
-  },
+  info: UserInfo,
   tasks: UserTasks,
   histories: UserHistories,
 }
@@ -28,11 +31,27 @@ export interface UserModel {
     fetchUserHistories: Effect,
   },
   reducers: {
-    setUserInfo: ImmerReducer<UserModelState>,
-    setUserTasks: ImmerReducer<UserModelState>,
-    setUserHistories: ImmerReducer<UserModelState>,
+    setUserInfo: ImmerReducer<UserModelState, ReturnType<typeof createSetUserInfo>>,
+    setUserTasks: ImmerReducer<UserModelState, ReturnType<typeof createSetUserTasks>>,
+    setUserHistories: ImmerReducer<UserModelState, ReturnType<typeof createSetUserHistories>>,
   },
 }
+
+export const createFetchUserInfo = () => ({ type: 'user/fetchUserInfo' })
+export const createFetchUserTasks = () => ({ type: 'user/fetchUserTasks' })
+export const createFetchUserHistories = () => ({ type: 'user/fetchUserHistories' })
+export const createSetUserInfo = (userInfo: UserInfo) => ({
+  type: 'user/setUserInfo',
+  payload: userInfo,
+})
+export const createSetUserTasks = (userTask: UserTasks) => ({
+  type: 'user/setUserTasks',
+  payload: userTask || [],
+})
+export const createSetUserHistories = (userHistories: UserHistories) => ({
+  type: 'user/setUserHistories',
+  payload: userHistories || [],
+})
 
 const userModel: UserModel = {
   state: {
@@ -40,7 +59,7 @@ const userModel: UserModel = {
       name: '',
       avatar: '',
       college: '',
-      team: '',
+      team_name: '',
       toolAuth: [],
     },
     tasks: [],
@@ -52,8 +71,8 @@ const userModel: UserModel = {
         // TODO: 等登录页面的接口，放到登录逻辑，目前先放到这，每次进入 user 页面会发请求
         const match = pathToRegexp('/user').exec(pathname)
         if (match) {
-          dispatch({ type: 'fetchUserInfo' })
-          dispatch({ type: 'fetchUserTasks' })
+          dispatch(createFetchUserInfo())
+          dispatch(createFetchUserTasks())
         }
       })
     },
@@ -61,7 +80,7 @@ const userModel: UserModel = {
       history.listen(({ pathname }) => {
         const match = pathToRegexp('/user/history').exec(pathname)
         if (match) {
-          dispatch({ type: 'fetchUserHistories' })
+          dispatch(createFetchUserHistories())
         }
       })
     }
@@ -69,57 +88,35 @@ const userModel: UserModel = {
   effects: {
     * fetchUserInfo(action, { call, put, all }) {
       const [infoRes, toolRes]: [
-        UserInfoResponse,
-        UserToolAuthResponse,
+        GetUserInfoResponse,
+        GetUserToolAuthResponse,
       ] = yield all([
         call(getUserInfo),
         call(getUserToolAuth),
       ])
       if (infoRes.status === 10000 && toolRes.status === 10000) {
-        yield put({
-          type: 'setUserInfo',
-          payload: {
-            ...infoRes.data,
-            team: infoRes.data.team_name,
-            toolAuth: toolRes.data,
-          },
-        })
+        yield put(createSetUserInfo({ ...infoRes.data, toolAuth: toolRes.data }))
       } else {
-        yield put({
-          type: 'layout/error',
-          payload: [
-            createFetchError('user/fetchUserInfo/getUserInfo', infoRes.status, infoRes.info),
-            createFetchError('user/fetchUserInfo/getUserToolAuth', toolRes.status, toolRes.info),
-          ],
-        })
+        yield put(createErrorMessage([
+          createFetchError('user/fetchUserInfo/getUserInfo', infoRes.status, infoRes.info),
+          createFetchError('user/fetchUserInfo/getUserToolAuth', toolRes.status, toolRes.info),
+        ]))
       }
     },
     * fetchUserTasks(action, { call, put }) {
-      const res: UserTasksResponse = yield call(getUserTasks)
+      const res: GetUserTasksResponse = yield call(getUserTasks)
       if (res.status === 10000) {
-        yield put({
-          type: 'setUserTasks',
-          payload: res.data || [],
-        })
+        yield put(createSetUserTasks(res.data))
       } else {
-        yield put({
-          type: 'layout/error',
-          payload: createFetchError('user/fetchUserTasks/getUserTasks', res.status, res.info),
-        })
+        yield put(createErrorMessage(createFetchError('user/fetchUserTasks/getUserTasks', res.status, res.info)))
       }
     },
     * fetchUserHistories(action, { call, put }) {
-      const res: UserHistoriesResponse = yield call(getUserHistories)
+      const res: GetUserHistoriesResponse = yield call(getUserHistories)
       if (res.status === 10000) {
-        yield put({
-          type: 'setUserHistories',
-          payload: res.data || [],
-        })
+        yield put(createSetUserHistories(res.data))
       } else {
-        yield put({
-          type: 'layout/error',
-          payload: createFetchError('user/fetchUserHistories/getUserHistories', res.status, res.info),
-        })
+        yield put(createErrorMessage(createFetchError('user/fetchUserHistories/getUserHistories', res.status, res.info)))
       }
     }
   },

@@ -1,12 +1,11 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState } from 'react'
 import { connect, ConnectProps } from 'umi'
-import { OrganizationModelState } from '@/models/organization'
+import { OrganizationModelState, createUpdateAuth, createFetchCanAuthList } from '@/models/organization'
 import PageHeader from '@/components/pageHeader'
 import Member from '@/components/organizationMember'
 import OrganizationPerson from '@/components/organizationPerson'
 import sharedStyles from '@/assets/styles.css'
 import { Modal, Button, Form, Radio } from 'antd'
-import { TeamPersons } from '@/interfaces/organization'
 
 const radioStyle = {
   display: 'block',
@@ -29,21 +28,11 @@ const OrganizationAuth = ({ organization, dispatch }: Props) => {
 
   // TODO: fix type
   const submitUpdate = (values: any) => {
-    dispatch!({
-      type: 'organization/updateAuth',
-      payload: {
-        job_id: jobId,
-        user_id: values.authValue,
-        origin_user_id: originUserId,
-      }
-    })
+    dispatch!(createUpdateAuth(jobId!, values.authValue, originUserId!))
     closeUpdateModal()
   }
   const openUpdateModal = (jobId: number, originUserId: number) => {
-    dispatch!({
-      type: 'organization/fetchCanAuthList',
-      payload: { job_id: jobId },
-    })
+    dispatch!(createFetchCanAuthList(jobId))
     setJobId(jobId)
     setOriginUserId(originUserId)
     setUpdateModalVisible(true)
