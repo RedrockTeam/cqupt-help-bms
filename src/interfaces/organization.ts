@@ -20,3 +20,5 @@ export type OrganizationMembers = OrganizationMember[]
 export type OrganizationAuth = OrganizationMember
 
 export type OrganizationAuths = OrganizationAuth[]
+
+export type OrganizationCanAuthList = TeamPersons

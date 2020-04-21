@@ -1,7 +1,9 @@
 // 前后端接口定义
+// TODO: 完善
 import { UserInfo, UserToolAuth, UserTasks, UserHistories } from './user'
-import { OrganizationMembers, OrganizationAuths } from './organization'
+import { OrganizationMembers, OrganizationAuths, OrganizationCanAuthList } from './organization'
 import { IdInfos } from './id'
+import { ActivityInfos } from './activity'
 
 interface BaseStatus {
   /**
@@ -22,28 +24,33 @@ export interface GetUserToolAuthResponse extends BaseStatus {
 }
 
 export interface GetUserTasksResponse extends BaseStatus {
-  data: UserTasks
+  data: UserTasks,
 }
 
 export interface GetUserHistoriesResponse extends BaseStatus {
-  data: UserHistories
+  data: UserHistories,
 }
 
 // Organization
 export interface GetOrganizationMembersResponse extends BaseStatus {
-  data: OrganizationMembers
+  data: OrganizationMembers,
 }
 
 export interface GetOrganizationAuthsResponse extends BaseStatus {
-  data: OrganizationAuths
+  data: OrganizationAuths,
 }
 
 export interface GetOrganizationCanAuthListResponse extends BaseStatus {
-
+  data: OrganizationCanAuthList,
 }
 
 export type OrganizationPublishTaskResponse = BaseStatus
 
+export type UpdateOrganizationMemberResponse = BaseStatus
+
+export type UpdateOrganizationAuthResponse = BaseStatus
+
+// Id
 export interface GetApplyingIdInfosResponse extends BaseStatus {
   data: IdInfos,
 }
@@ -51,3 +58,9 @@ export interface GetApplyingIdInfosResponse extends BaseStatus {
 export type GetPassedIdInfosResponse = GetApplyingIdInfosResponse
 
 export type PassIdApplyResponse = BaseStatus
+
+// Activity
+export interface GetActivityInfosResponse extends BaseStatus {
+  data: ActivityInfos,
+}
+

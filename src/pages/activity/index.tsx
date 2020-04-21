@@ -1,46 +1,26 @@
 import React, { useState, useCallback } from 'react'
-import { Link, useHistory } from 'umi'
+import { Link, useHistory, connect, ConnectProps } from 'umi'
 import { Table, Modal, Button, Form, DatePicker, Input } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import styles from './activity.css'
 import sharedStyles from '@/assets/styles.css'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
+import { ActivityModelState } from '@/models/activity'
 
-const originData = [
-  {
-    key: 1,
-    activity: '活动上线设置',
-    creator: '重小邮',
-    time: '2020/01/02',
-  },
-  {
-    key: 2,
-    activity: '双十一寻找锦鲤活动抽奖',
-    creator: '重小邮',
-    time: '2020/01/02',
-  },
-  {
-    key: 3,
-    activity: '国庆献礼三大活动获奖名单',
-    creator: '重小邮',
-    time: '2020/01/02',
-  },
-]
+type ConnectState = {
+  activity: ActivityModelState,
+}
 
-const Activity = () => {
+type Props = ConnectState & ConnectProps
+
+const Activity = ({ activity }: Props) => {
   const history = useHistory()
-  const [data, setData] = useState(originData)
   const [visible, setVisible] = useState<boolean>(false)
 
   const closeModal = useCallback(() => setVisible(false), [])
   const submit = (values: any) => {
-    setData(data => [...data, {
-      key: values.activityName,
-      time: new Date().toLocaleDateString(),
-      activity: values.activityName,
-      creator: 'ahabhgk',
-    }])
+    // TODO
     closeModal()
   }
   const deleteActivity = (record: any) => {
@@ -49,7 +29,7 @@ const Activity = () => {
       icon: <ExclamationCircleOutlined />,
       // content: '',
       onOk() {
-        setData(data.filter((item) => record.activity !== item.activity))
+        // TODO
       },
     })
   }
@@ -66,20 +46,20 @@ const Activity = () => {
       </PageHeader>
       <Table
         pagination={false}
-        dataSource={data}
+        dataSource={activity.activities.map(a => ({ ...a, key: a.id }))}
         scroll={{
           y: '76vh',
         }}
         onRow={record => ({
-          onClick: () => history.push(`/activity/${record.activity}`),
+          onClick: () => history.push(`/activity/${record.name}`),
         })}
       >
-        <Table.Column title="活动名称" dataIndex="activity" key="activity" />
-        <Table.Column title="创建人" dataIndex="creator" key="creator" />
-        <Table.Column title="创建时间" dataIndex="time" key="time" />
+        <Table.Column title="活动名称" dataIndex="name" key="name" />
+        <Table.Column title="创建人" dataIndex="username" key="username" />
+        <Table.Column title="创建时间" dataIndex="create_time" key="create_time" />
         <Table.Column title="操作" key="operate" render={(record) => (
           <div>
-            <Link to={`/activity/${record.activity}/update`} onClick={(e) => e.stopPropagation()}><span className={styles.update}>修改</span></Link>
+            <Link to={`/activity/${record.name}/update`} onClick={(e) => e.stopPropagation()}><span className={styles.update}>修改</span></Link>
             <span onClick={() => deleteActivity(record)} className={styles.delete}>删除</span>
           </div>
         )} />
@@ -109,4 +89,6 @@ const Activity = () => {
   )
 }
 
-export default Activity
+export default connect((state: ConnectState) => ({
+  activity: state.activity,
+}))(Activity)

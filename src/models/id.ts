@@ -5,13 +5,13 @@ import { createFetchError } from '@/utils'
 import { getApplyingIdInfos, getPassedIdInfos, passIdApply } from '@/api/id'
 import { createSuccessMessage, createErrorMessage } from './layout'
 
-export interface IdModuleState {
+export interface IdModelState {
   applyList: IdInfos,
   passList: IdInfos,
 }
 
-export interface LayoutModel {
-  state: IdModuleState,
+export interface IdModel {
+  state: IdModelState,
   subscriptions: {
     onIdPage: Subscription,
     onIdHistory: Subscription,
@@ -22,8 +22,8 @@ export interface LayoutModel {
     passIdApply: Effect,
   },
   reducers: {
-    setApplyingIdInfos: ImmerReducer<IdModuleState, ReturnType<typeof createSetApplyingIdInfos>>,
-    setPassedIdInfos: ImmerReducer<IdModuleState, ReturnType<typeof createSetPassedIdInfos>>,
+    setApplyingIdInfos: ImmerReducer<IdModelState, ReturnType<typeof createSetApplyingIdInfos>>,
+    setPassedIdInfos: ImmerReducer<IdModelState, ReturnType<typeof createSetPassedIdInfos>>,
   },
 }
 
@@ -42,7 +42,7 @@ export const createPassIdApply = (ids: number[]) => ({
   payload: { ids },
 })
 
-const layoutModel: LayoutModel = {
+const idModel: IdModel = {
   state: {
     applyList: [],
     passList: [],
@@ -87,9 +87,7 @@ const layoutModel: LayoutModel = {
       if (res.status === 10000) {
         yield all([
           put(createSuccessMessage('生成成功')),
-          put({
-            type: 'fetchApplyingIdInfos',
-          }),
+          put(createFetchApplyingIdInfos()),
         ])
       } else {
         yield put(createErrorMessage(createFetchError('id/passIdApply/passIdApply', res.status, res.info)))
@@ -106,4 +104,4 @@ const layoutModel: LayoutModel = {
   },
 }
 
-export default layoutModel
+export default idModel

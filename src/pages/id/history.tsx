@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect, ConnectProps, IdModuleState } from 'umi'
+import { connect, ConnectProps, IdModelState } from 'umi'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import { IdInfo } from '@/interfaces/id'
@@ -19,7 +19,7 @@ const columns = [
 ]
 
 type ConnectState = {
-  id: IdModuleState,
+  id: IdModelState,
 }
 
 type Props = ConnectState & ConnectProps

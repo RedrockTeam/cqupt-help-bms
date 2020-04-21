@@ -2,7 +2,7 @@ import { Effect, ImmerReducer, Subscription } from 'umi'
 import { pathToRegexp } from 'path-to-regexp'
 // import { OrganizationMembersResponse, OrganizationAuthsResponse, OrganizationPublishTaskResponse } from '@/interfaces'
 import { OrganizationMembers, OrganizationAuths, TeamPersons } from '@/interfaces/organization'
-import { getOrganizationMembers, updateOrganizationMember, getOrganizationAuths, getOrganizationCanAuthList, updateOrganizationAuths, publishTask } from '@/api/organization'
+import { getOrganizationMembers, updateOrganizationMember, getOrganizationAuths, getOrganizationCanAuthList, updateOrganizationAuth, publishTask } from '@/api/organization'
 import { createFetchError } from '@/utils'
 import { createSuccessMessage, createErrorMessage } from './layout'
 
@@ -124,7 +124,7 @@ const organizationModel: OrganizationModel = {
       }
     },
     * updateAuth({ payload }, { call, put }) {
-      const res = yield call(updateOrganizationAuths, payload.job_id, payload.origin_user_id, payload.user_id)
+      const res = yield call(updateOrganizationAuth, payload.job_id, payload.origin_user_id, payload.user_id)
       if (res.status === 10000) {
         yield put(createFetchAuths())
       } else {

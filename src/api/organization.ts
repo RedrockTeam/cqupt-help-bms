@@ -1,11 +1,18 @@
 import { API } from './index'
-import { GetOrganizationMembersResponse, GetOrganizationAuthsResponse } from '@/interfaces'
+import {
+  GetOrganizationMembersResponse,
+  GetOrganizationAuthsResponse,
+  GetOrganizationCanAuthListResponse,
+  OrganizationPublishTaskResponse,
+  UpdateOrganizationAuthResponse,
+  UpdateOrganizationMemberResponse,
+} from '@/interfaces'
 
 export const getOrganizationMembers = (): Promise<GetOrganizationMembersResponse> => {
   return fetch(`${API}/team/person/info`).then(r => r.json()).catch(alert)
 }
 
-export const updateOrganizationMember = (operation: 'delete' | 'add', stuNum: string, id: number) => {
+export const updateOrganizationMember = (operation: 'delete' | 'add', stuNum: string, id: number): Promise<UpdateOrganizationMemberResponse> => {
   return fetch(`${API}/team/person/update`, {
     method: 'POST',
     body: JSON.stringify({
@@ -20,7 +27,7 @@ export const getOrganizationAuths = (): Promise<GetOrganizationAuthsResponse> =>
   return fetch(`${API}/team/permission/info`).then(r => r.json()).catch(alert)
 }
 
-export const getOrganizationCanAuthList = (id: number) => {
+export const getOrganizationCanAuthList = (id: number): Promise<GetOrganizationCanAuthListResponse> => {
   return fetch(`${API}/team/permission/person`, {
     method: 'POST',
     body: JSON.stringify({
@@ -29,7 +36,7 @@ export const getOrganizationCanAuthList = (id: number) => {
   }).then(r => r.json()).catch(alert)
 }
 
-export const updateOrganizationAuths = (job_id: number, origin_user_id: number, user_id: number) => {
+export const updateOrganizationAuth = (job_id: number, origin_user_id: number, user_id: number): Promise<UpdateOrganizationAuthResponse> => {
   return fetch(`${API}/team/permission/update`, {
     method: 'POST',
     body: JSON.stringify({
@@ -40,7 +47,7 @@ export const updateOrganizationAuths = (job_id: number, origin_user_id: number, 
   }).then(r => r.json()).catch(alert)
 }
 
-export const publishTask = (title: string, content: string) => {
+export const publishTask = (title: string, content: string): Promise<OrganizationPublishTaskResponse> => {
   return fetch(`${API}/team/task/update`, {
     method: 'POST',
     body: JSON.stringify({

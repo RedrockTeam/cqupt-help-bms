@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, connect, ConnectProps, IdModuleState } from 'umi'
+import { Link, connect, ConnectProps, IdModelState } from 'umi'
 import { Table, Button } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
@@ -22,7 +22,7 @@ const columns = [
 ]
 
 type ConnectState = {
-  id: IdModuleState,
+  id: IdModelState,
 }
 
 type Props = ConnectState & ConnectProps
@@ -65,7 +65,7 @@ const Id = ({ id, dispatch }: Props) => {
               }
             }}
             className={sharedStyles.okButton}
-          >完成</Button>
+          >生成证件</Button>
         </div>
       </div>
     </div>
