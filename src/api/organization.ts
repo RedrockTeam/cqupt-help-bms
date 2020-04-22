@@ -12,13 +12,13 @@ export const getOrganizationMembers = (): Promise<GetOrganizationMembersResponse
   return fetch(`${API}/team/person/info`).then(r => r.json()).catch(alert)
 }
 
-export const updateOrganizationMember = (operation: 'delete' | 'add', stuNum: string, id: number): Promise<UpdateOrganizationMemberResponse> => {
+export const updateOrganizationMember = (operation: 'delete' | 'add', stuNum: string, jobId: number): Promise<UpdateOrganizationMemberResponse> => {
   return fetch(`${API}/team/person/update`, {
     method: 'POST',
     body: JSON.stringify({
       operation,
       stuNum,
-      job_id: id,
+      job_id: jobId,
     }),
   }).then(r => r.json()).catch(alert)
 }

@@ -46,7 +46,7 @@ const Activity = ({ activity }: Props) => {
       </PageHeader>
       <Table
         pagination={false}
-        dataSource={activity.activities.map(a => ({ ...a, key: a.id }))}
+        dataSource={activity.activityInfos.map(a => ({ ...a, key: a.id }))}
         scroll={{
           y: '76vh',
         }}
@@ -59,8 +59,17 @@ const Activity = ({ activity }: Props) => {
         <Table.Column title="创建时间" dataIndex="create_time" key="create_time" />
         <Table.Column title="操作" key="operate" render={(record) => (
           <div>
-            <Link to={`/activity/${record.name}/update`} onClick={(e) => e.stopPropagation()}><span className={styles.update}>修改</span></Link>
-            <span onClick={() => deleteActivity(record)} className={styles.delete}>删除</span>
+            <Link
+              to={`/activity/${record.name}/update`}
+              onClick={(e) => e.stopPropagation()}
+            ><span className={styles.update}>修改</span></Link>
+            <span
+              onClick={(e) => {
+                e.stopPropagation()
+                deleteActivity(record)
+              }}
+              className={styles.delete}
+            >删除</span>
           </div>
         )} />
       </Table>

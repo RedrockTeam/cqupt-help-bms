@@ -1,35 +1,21 @@
 import React from 'react'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
-import { useHistory } from 'umi';
+import { useHistory, connect, ConnectProps } from 'umi';
+import { ActivityModelState } from '@/models/activity'
 
 const columns = [
-  { title: '活动名称', dataIndex: 'activity', key: 'activity' },
-  { title: '创建人', dataIndex: 'creator', key: 'creator' },
+  { title: '活动名称', dataIndex: 'name', key: 'name' },
+  { title: '创建人', dataIndex: 'username', key: 'username' },
 ];
 
-const data = [
-  {
-    key: 1,
-    activity: '活动上线设置',
-    creator: '重小邮',
-    time: '2020/01/02',
-  },
-  {
-    key: 2,
-    activity: '双十一寻找锦鲤活动抽奖',
-    creator: '重小邮',
-    time: '2020/01/02',
-  },
-  {
-    key: 3,
-    activity: '国庆献礼三大活动获奖名单',
-    creator: '重小邮',
-    time: '2020/01/02',
-  },
-]
+type ConnectState = {
+  activity: ActivityModelState,
+}
 
-const ActivityHistory = () => {
+type Props = ConnectState & ConnectProps
+
+const ActivityHistory = ({ activity }: Props) => {
   const history = useHistory()
   return (
     <div>
@@ -37,16 +23,18 @@ const ActivityHistory = () => {
       <Table
         columns={columns}
         pagination={false}
-        dataSource={data}
+        dataSource={activity.activityHistoryInfos.map(a => ({ ...a, key: a.id }))}
         scroll={{
           y: '76vh',
         }}
         onRow={record => ({
-          onClick: event => history.push(`/activity/history/${record.activity}`),
+          onClick: event => history.push(`/activity/history/${record.name}?id=${record.id}`),
         })}
       />
     </div>
   )
 }
 
-export default ActivityHistory
+export default connect((state: ConnectState) => ({
+  activity: state.activity,
+}))(ActivityHistory)

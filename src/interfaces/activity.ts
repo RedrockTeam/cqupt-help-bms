@@ -7,3 +7,16 @@ export interface ActivityInfo {
 
 export type ActivityInfos = ActivityInfo[]
 
+export type ActivityHistoryInfos = ActivityInfo[]
+
+export interface GiftInfo {
+  level: number,
+  name: string,
+  infos: {
+    stu_num: string,
+    name: string,
+  }[],
+}
+
+export type GiftInfos = GiftInfo[]
+

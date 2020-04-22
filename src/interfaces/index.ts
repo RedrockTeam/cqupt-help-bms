@@ -3,7 +3,7 @@
 import { UserInfo, UserToolAuth, UserTasks, UserHistories } from './user'
 import { OrganizationMembers, OrganizationAuths, OrganizationCanAuthList } from './organization'
 import { IdInfos } from './id'
-import { ActivityInfos } from './activity'
+import { ActivityInfos, ActivityHistoryInfos, GiftInfos } from './activity'
 
 interface BaseStatus {
   /**
@@ -64,3 +64,10 @@ export interface GetActivityInfosResponse extends BaseStatus {
   data: ActivityInfos,
 }
 
+export interface GetActivityHistoryInfosResponse extends BaseStatus {
+  data: ActivityHistoryInfos,
+}
+
+export interface GetActivityHistoryGiftsResponse extends BaseStatus {
+  data: GiftInfos,
+}

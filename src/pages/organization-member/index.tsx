@@ -41,7 +41,6 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
                   title: '请确认',
                   icon: <ExclamationCircleOutlined />,
                   content: '确认将该成员移出部门？',
-                  // TODO: 等后端改成 stuNum
                   onOk: () => dispatch!(createDeleteMember(person.id, group.job.job_id)),
                 })}
                 key={person.id}

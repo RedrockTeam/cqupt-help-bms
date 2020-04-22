@@ -70,7 +70,7 @@ export const createAddMember = (stuNum: string, jobId: number) => ({
 export const createDeleteMember = (id: number, jobId: number) => ({
   type: 'organization/deleteMember',
   payload: {
-    id, // TODO: 等后端改成 stuNum
+    stu_num: `${id}`, // 后端接口，删除时由于没有获得 stu_num 直接在这里使用 id 替代，类型兼容 stu_num 所以转换成 string
     job_id: jobId,
   },
 })
@@ -140,7 +140,6 @@ const organizationModel: OrganizationModel = {
       }
     },
     * deleteMember({ payload }, { call, put }) {
-      // TODO: 等后端改成 stuNum
       const res = yield call(updateOrganizationMember, 'delete', payload.id, payload.job_id)
       if (res.status === 10000) {
         yield put(createFetchMembers())
