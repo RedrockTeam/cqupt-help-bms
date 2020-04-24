@@ -27,14 +27,14 @@ export interface IdModel {
   },
 }
 
-export const createFetchApplyingIdInfos = () => ({ type: 'id/fetchApplyingIdInfos' })
-export const createFetchPassedIdInfos = () => ({ type: 'id/fetchPassedIdInfos' })
+export const createFetchApplyingIdInfos = () => ({ type: 'fetchApplyingIdInfos' })
+export const createFetchPassedIdInfos = () => ({ type: 'fetchPassedIdInfos' })
 export const createSetApplyingIdInfos = (applyingIdInfos: IdInfos) => ({
-  type: 'id/setApplyingIdInfos',
+  type: 'setApplyingIdInfos',
   payload: applyingIdInfos || [],
 })
 export const createSetPassedIdInfos = (passedIdInfos: IdInfos) => ({
-  type: 'id/setPassedIdInfos',
+  type: 'setPassedIdInfos',
   payload: passedIdInfos || [],
 })
 export const createPassIdApply = (ids: number[]) => ({

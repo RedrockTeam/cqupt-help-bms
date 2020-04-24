@@ -37,19 +37,19 @@ export interface UserModel {
   },
 }
 
-export const createFetchUserInfo = () => ({ type: 'user/fetchUserInfo' })
-export const createFetchUserTasks = () => ({ type: 'user/fetchUserTasks' })
-export const createFetchUserHistories = () => ({ type: 'user/fetchUserHistories' })
+export const createFetchUserInfo = () => ({ type: 'fetchUserInfo' })
+export const createFetchUserTasks = () => ({ type: 'fetchUserTasks' })
+export const createFetchUserHistories = () => ({ type: 'fetchUserHistories' })
 export const createSetUserInfo = (userInfo: UserInfo) => ({
-  type: 'user/setUserInfo',
+  type: 'setUserInfo',
   payload: userInfo,
 })
 export const createSetUserTasks = (userTask: UserTasks) => ({
-  type: 'user/setUserTasks',
+  type: 'setUserTasks',
   payload: userTask || [],
 })
 export const createSetUserHistories = (userHistories: UserHistories) => ({
-  type: 'user/setUserHistories',
+  type: 'setUserHistories',
   payload: userHistories || [],
 })
 

@@ -3,6 +3,7 @@ export interface ActivityInfo {
   name: string,
   username: string,
   create_time: string,
+  form: '线上活动' | '线下活动',
 }
 
 export type ActivityInfos = ActivityInfo[]
@@ -20,3 +21,15 @@ export interface GiftInfo {
 
 export type GiftInfos = GiftInfo[]
 
+export interface UpdateActivityOptions {
+  activity_id: number,
+  operation: 'add' | 'update' | 'delete',
+  title?: string,
+  time_done?: number,
+  type?: 1 | 2, // 1 是线上，2 是线下
+  link?: string,
+  introduction?: string,
+  role?: string,
+  location?: string,
+  time?: string,
+}

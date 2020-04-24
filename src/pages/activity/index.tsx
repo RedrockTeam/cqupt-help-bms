@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react'
 import { Link, useHistory, connect, ConnectProps } from 'umi'
-import { Table, Modal, Button, Form, DatePicker, Input } from 'antd'
+import { Table, Modal, Button, Form, DatePicker, Input, Select } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import styles from './activity.css'
 import sharedStyles from '@/assets/styles.css'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { ActivityModelState } from '@/models/activity'
+import { ActivityModelState, createDeleteActivity, createAddActivity } from '@/models/activity'
 
 type ConnectState = {
   activity: ActivityModelState,
@@ -14,13 +14,14 @@ type ConnectState = {
 
 type Props = ConnectState & ConnectProps
 
-const Activity = ({ activity }: Props) => {
+const Activity = ({ dispatch, activity }: Props) => {
   const history = useHistory()
   const [visible, setVisible] = useState<boolean>(false)
+  const [isOnlineForm, setIsOnlineForm] = useState<boolean>()
 
   const closeModal = useCallback(() => setVisible(false), [])
   const submit = (values: any) => {
-    // TODO
+    dispatch!(createAddActivity({ ...values, time_done: values.time_done.unix() }))
     closeModal()
   }
   const deleteActivity = (record: any) => {
@@ -29,7 +30,7 @@ const Activity = ({ activity }: Props) => {
       icon: <ExclamationCircleOutlined />,
       // content: '',
       onOk() {
-        // TODO
+        dispatch!(createDeleteActivity(record.id))
       },
     })
   }
@@ -51,16 +52,17 @@ const Activity = ({ activity }: Props) => {
           y: '76vh',
         }}
         onRow={record => ({
-          onClick: () => history.push(`/activity/${record.name}`),
+          onClick: () => history.push(`/activity/${record.name}?id=${record.id}`),
         })}
       >
         <Table.Column title="活动名称" dataIndex="name" key="name" />
+        <Table.Column title="活动形式" dataIndex="form" key="form" />
         <Table.Column title="创建人" dataIndex="username" key="username" />
         <Table.Column title="创建时间" dataIndex="create_time" key="create_time" />
         <Table.Column title="操作" key="operate" render={(record) => (
           <div>
             <Link
-              to={`/activity/${record.name}/update`}
+              to={`/activity/${record.name}/update?id=${record.id}`}
               onClick={(e) => e.stopPropagation()}
             ><span className={styles.update}>修改</span></Link>
             <span
@@ -81,11 +83,44 @@ const Activity = ({ activity }: Props) => {
         footer={null}
       >
         <Form name="modal-form" onFinish={submit} layout="vertical">
-          <Form.Item name="activityName" label="活动名称" rules={[{ required: true, message: '请填写活动名称' }]}>
+          <Form.Item name="title" label="活动名称" rules={[{ required: true, message: '请填写活动名称' }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="endDate" label="下线时间" rules={[{ required: true, message: '请选择时间' }]}>
+          <Form.Item name="time_done" label="下线时间" rules={[{ required: true, message: '请选择时间' }]}>
             <DatePicker />
+          </Form.Item>
+          <Form.Item name="type" label="活动形式" rules={[{ required: true, message: '请选择活动形式' }]}>
+            <Select
+              showSearch
+              style={{ width: 200 }}
+              placeholder="选择活动形式"
+              optionFilterProp="children"
+              onChange={(value) => {
+                setIsOnlineForm(value === '线上活动')
+              }}
+            >
+              <Select.Option value="线上活动">线上活动</Select.Option>
+              <Select.Option value="线下活动">线下活动</Select.Option>
+            </Select>
+          </Form.Item>
+          {isOnlineForm !== undefined &&
+            (isOnlineForm
+              ? <Form.Item name="link" label="活动链接" rules={[{ required: true, message: '请写明活动链接' }]}>
+                <Input placeholder="例：https://ahabhgk.github.io/welcome-2019-PC/#/" />
+              </Form.Item>
+              : <>
+              <Form.Item name="introduction" label="活动介绍" rules={[{ required: true, message: '请选择时间' }]}>
+                <Input.TextArea placeholder="请输入本次活动的介绍（不超过 200 字）" />
+              </Form.Item>
+              <Form.Item name="role" label="活动规则" rules={[{ required: true, message: '请选择时间' }]}>
+                <Input.TextArea placeholder="请输入本次活动的规则（不超过 200 字）" maxLength={200} />
+              </Form.Item>
+              <Form.Item name="location" label="活动地点" rules={[{ required: true, message: '请选择时间' }]}>
+                <Input.TextArea placeholder="请输入本次活动的地点" />
+              </Form.Item>
+              </>)}
+          <Form.Item name="time" label="活动时间" rules={[{ required: true, message: '请写明活动时间' }]}>
+            <Input.TextArea placeholder="请输入本次活动时间，例：3 月 12 日 - 3 月 15 日，每天 18 - 20 点" />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" className={sharedStyles.okButton}>

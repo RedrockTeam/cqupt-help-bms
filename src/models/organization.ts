@@ -34,18 +34,18 @@ export interface OrganizationModel {
   },
 }
 
-export const createFetchAuths = () => ({ type: 'organization/fetchAuths' })
-export const createFetchMembers = () => ({ type: 'organization/fetchMembers' })
+export const createFetchAuths = () => ({ type: 'fetchAuths' })
+export const createFetchMembers = () => ({ type: 'fetchMembers' })
 export const createSetAuths = (auths: OrganizationAuths) => ({
-  type: 'organization/setAuths',
+  type: 'setAuths',
   payload: auths || [],
 })
 export const createSetCanAuthList = (canAuthList: TeamPersons) => ({
-  type: 'organization/setCanAuthList',
+  type: 'setCanAuthList',
   payload: canAuthList || [],
 })
 export const createSetMembers = (members: OrganizationMembers) => ({
-  type: 'organization/setMembers',
+  type: 'setMembers',
   payload: members || [],
 })
 export const createUpdateAuth = (jobId: number, UserId: number, originUserId: number) => ({

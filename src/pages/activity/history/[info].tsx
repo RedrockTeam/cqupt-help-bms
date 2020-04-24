@@ -9,30 +9,6 @@ const columns = [
   { title: '学号', dataIndex: 'stuNum', key: 'stuNum' },
   { title: '奖品', dataIndex: 'name', key: 'name' },
   { title: '奖项', dataIndex: 'level', key: 'level' },
-];
-
-const data = [
-  {
-    key: 1,
-    winner: '刘静',
-    schoolId: '2018214139',
-    prize: '零食大礼包',
-    awards: '一等奖',
-  },
-  {
-    key: 2,
-    winner: '刘小静',
-    schoolId: '2018214139',
-    prize: '零食小礼包',
-    awards: '二等奖',
-  },
-  {
-    key: 3,
-    winner: '刘静静',
-    schoolId: '2018214139',
-    prize: '猪猪',
-    awards: '特等奖',
-  },
 ]
 
 interface Person {

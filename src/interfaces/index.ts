@@ -71,3 +71,14 @@ export interface GetActivityHistoryInfosResponse extends BaseStatus {
 export interface GetActivityHistoryGiftsResponse extends BaseStatus {
   data: GiftInfos,
 }
+
+export interface GetActivityGiftsResponse extends BaseStatus {
+  data: GiftInfos,
+}
+
+export type DeleteActivityResponse = BaseStatus
+export type AddActivityResponse = BaseStatus
+export type UpdateActivityResponse = BaseStatus
+
+
+
