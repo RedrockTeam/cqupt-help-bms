@@ -4,7 +4,11 @@ import styles from './giftInfoInput.css'
 import sharedStyles from '@/assets/styles.css'
 import { PushGiftInputResult } from '@/interfaces/activity'
 
-type Props = any // TODO
+type Props = {
+  onChangeGiftInputLevel: (level: number) => void,
+  onChangeGiftInputName: (name: string) => void,
+  onChangeGiftInputStuNum: (stuNum: string) => void,
+}
 
 const Member = ({ onChangeGiftInputLevel, onChangeGiftInputName, onChangeGiftInputStuNum }: Props) => {
 
@@ -33,7 +37,7 @@ const Member = ({ onChangeGiftInputLevel, onChangeGiftInputName, onChangeGiftInp
             mode="tags"
             className={styles.stuNum}
             placeholder="输入学号"
-            onSelect={(stuNum) => onChangeGiftInputStuNum(stuNum)}
+            onSelect={(stuNum) => onChangeGiftInputStuNum(`${stuNum}`)}
           />
         </div>
       </div>

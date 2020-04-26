@@ -67,7 +67,6 @@ const Update = ({ activity, dispatch }: Props) => {
         </div>
         {activity.pushGiftInputs.map((info, index) => <GiftInfoInput
           key={index}
-          giftInputValues={info}
           onChangeGiftInputLevel={(level: number) => {
             dispatch!(createSetPushGiftInputLevel(index, level))
           }}
