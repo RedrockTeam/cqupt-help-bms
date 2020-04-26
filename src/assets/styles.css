@@ -11,7 +11,8 @@
 .wrapper {
   width: 1470px;
   padding: 39px 48px 18px 39px;
-  max-height: 744px;
+  max-height: 850px;
+  overflow-y: auto;
   background-color: #ffffff;
 }
 
@@ -21,4 +22,32 @@
   background:rgba(107,131,255,1);
   border-radius:6px;
   font-size:18px;
+}
+
+.inputBorder {
+  width: 320px;
+  height: 50px;
+  background:rgba(248,250,251,1);
+  border-radius:6px;
+  line-height: 50px;
+  border: none;
+  color:rgba(43,46,55,1);
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  font-size:18px;
+  font-family:Microsoft YaHei;
+  font-weight:400;
+  color:rgba(43,46,55,1);
+  margin: 30px 0;
+}
+
+.name {
+  font-size:18px;
+  font-family:Microsoft YaHei;
+  font-weight:400;
+  color:rgba(99,107,129,1);
+  margin-right: 20px;
 }

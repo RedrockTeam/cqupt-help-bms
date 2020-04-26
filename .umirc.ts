@@ -7,6 +7,9 @@ export default defineConfig({
     '@menu-inline-toplevel-item-height': '80px',
     // '@table-expanded-row-bg': '#F5F8FF',
     // 'table-row-hover-bg': '#F5F8FF',
+    '@select-border-color': 'transparent',
+    '@select-background': '#F8FAFB',
+    '@select-selection-item-bg': '#E5E9FF',
   },
   nodeModulesTransform: {
     type: 'none',

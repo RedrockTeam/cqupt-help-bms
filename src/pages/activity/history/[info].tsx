@@ -1,8 +1,9 @@
 import React from 'react'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
-import { useParams, connect, ConnectProps } from 'umi';
+import { useParams, connect, ConnectProps, useLocation } from 'umi';
 import { ActivityModelState } from '@/models/activity'
+import { parse } from 'query-string';
 
 const columns = [
   { title: '获奖人', dataIndex: 'username', key: 'username' },
@@ -26,11 +27,11 @@ type ConnectState = {
 type Props = ConnectState & ConnectProps
 
 const Info = ({ activity }: Props) => {
-  const params = useParams<{ info: string }>()
+  const { title } = parse(useLocation().search)
 
   return (
     <div>
-      <PageHeader title={params.info} />
+      <PageHeader title={title as string} />
       <Table
         columns={columns}
         pagination={false}

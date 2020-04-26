@@ -1,11 +1,11 @@
 import React from 'react'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
-import { useParams, useRouteMatch, useLocation, Link, connect, ConnectProps } from 'umi'
+import { useLocation, Link, connect, ConnectProps } from 'umi'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
-import styles from './activity.css'
 import sharedStyles from '@/assets/styles.css'
 import { ActivityModelState } from '@/models/activity'
+import { parse } from 'query-string'
 
 const columns = [
   { title: '获奖人', dataIndex: 'username', key: 'username' },
@@ -29,14 +29,15 @@ type ConnectState = {
 type Props = ConnectState & ConnectProps
 
 const Info = ({ activity }: Props) => {
-  const title = useLocation().pathname.split('/').filter(i => i).pop()
+  const location = useLocation()
+  const { title } = parse(location.search)
 
   return (
     <div>
-      <PageHeader title={title!}>
+      <PageHeader title={title as string}>
         <PageHeaderBtn>
           <Link
-            to={`/activity/${title}/update`}
+            to={`${location.pathname}/update?title=${title}`}
             className={sharedStyles.pageHeaderBtn}
             style={{ color: '#36CA94' }}
           >修改</Link>

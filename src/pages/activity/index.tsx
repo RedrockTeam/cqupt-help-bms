@@ -52,7 +52,7 @@ const Activity = ({ dispatch, activity }: Props) => {
           y: '76vh',
         }}
         onRow={record => ({
-          onClick: () => history.push(`/activity/${record.name}?id=${record.id}`),
+          onClick: () => history.push(`/activity/${record.id}?title=${record.name}`),
         })}
       >
         <Table.Column title="活动名称" dataIndex="name" key="name" />
@@ -62,7 +62,7 @@ const Activity = ({ dispatch, activity }: Props) => {
         <Table.Column title="操作" key="operate" render={(record) => (
           <div>
             <Link
-              to={`/activity/${record.name}/update?id=${record.id}`}
+              to={`/activity/${record.id}/update?title=${record.name}`}
               onClick={(e) => e.stopPropagation()}
             ><span className={styles.update}>修改</span></Link>
             <span

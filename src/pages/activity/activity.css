@@ -14,3 +14,25 @@
   composes: operate;
   color: #FF3B3B;
 }
+
+.dateTip {
+  width: 550px;
+  height: 50px;
+  background:rgba(248,250,251,1);
+  border-radius:6px;
+  line-height: 50px;
+  border: none;
+  color:rgba(43,46,55,1);
+  margin-left: 20px;
+  color: #B8BECE;
+  text-indent: 16px;
+}
+
+.add {
+  cursor: pointer;
+  color: #36CA94;
+  font-size:18px;
+  font-family:Microsoft YaHei;
+  font-weight:400;
+  margin-bottom: 20px;
+}

@@ -28,7 +28,7 @@ const ActivityHistory = ({ activity }: Props) => {
           y: '76vh',
         }}
         onRow={record => ({
-          onClick: event => history.push(`/activity/history/${record.name}?id=${record.id}`),
+          onClick: event => history.push(`/activity/history/${record.id}?title=${record.name}`),
         })}
       />
     </div>

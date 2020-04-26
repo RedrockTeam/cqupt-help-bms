@@ -33,3 +33,20 @@ export interface UpdateActivityOptions {
   location?: string,
   time?: string,
 }
+
+export interface PushGiftInputResult {
+  name: string,
+  level: number,
+  stu_nums: string[],
+}
+
+export type PushGiftInputResults = PushGiftInputResult[]
+
+export interface PushGiftInfoOptions {
+	activity_id: number,
+	location: string,
+	time_begin: number,
+	time_end: number,
+	time_out: number,
+  gift_models: PushGiftInputResults,
+}

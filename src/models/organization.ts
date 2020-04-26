@@ -93,6 +93,7 @@ const organizationModel: OrganizationModel = {
       history.listen(({ pathname }) => {
         const match = pathToRegexp('/organization-auth').exec(pathname)
         if (match) {
+          console.log('on page: /organization-auth')
           dispatch(createFetchAuths())
         }
       })
@@ -101,6 +102,7 @@ const organizationModel: OrganizationModel = {
       history.listen(({ pathname }) => {
         const match = pathToRegexp('/organization-member').exec(pathname)
         if (match) {
+          console.log('on page: /organization-member')
           dispatch(createFetchMembers())
         }
       })

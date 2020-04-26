@@ -71,6 +71,7 @@ const userModel: UserModel = {
         // TODO: 等登录页面的接口，放到登录逻辑，目前先放到这，每次进入 user 页面会发请求
         const match = pathToRegexp('/user').exec(pathname)
         if (match) {
+          console.log('on page: /user')
           dispatch(createFetchUserInfo())
           dispatch(createFetchUserTasks())
         }
@@ -80,6 +81,7 @@ const userModel: UserModel = {
       history.listen(({ pathname }) => {
         const match = pathToRegexp('/user/history').exec(pathname)
         if (match) {
+          console.log('on page: /user/history')
           dispatch(createFetchUserHistories())
         }
       })

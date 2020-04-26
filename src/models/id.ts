@@ -52,6 +52,7 @@ const idModel: IdModel = {
       history.listen(({ pathname }) => {
         const match = pathToRegexp('/id').exec(pathname)
         if (match) {
+          console.log('on page: /id')
           dispatch(createFetchApplyingIdInfos())
         }
       })
@@ -60,6 +61,7 @@ const idModel: IdModel = {
       history.listen(({ pathname }) => {
         const match = pathToRegexp('/id/history').exec(pathname)
         if (match) {
+          console.log('on page: /id/history')
           dispatch(createFetchPassedIdInfos())
         }
       })
