@@ -19,7 +19,7 @@ type ConnectState = {
 
 type Props = ConnectProps & ConnectState
 
-// 先把添加成员的逻辑注释了，防止产品 🦐🐔8 改
+// 先把添加成员的逻辑注释了
 const OrganizationAuth = ({ organization, dispatch }: Props) => {
   // const [addModalVisible, setAddModalVisible] = useState<boolean>(false)
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false)

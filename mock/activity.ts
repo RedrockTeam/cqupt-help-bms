@@ -163,4 +163,9 @@ export default {
     "status": 10000,
     "info": "success",
   },
+
+  'POST /api/activity/gift/update': {
+    "status": 10000,
+    "info": "success",
+  },
 }

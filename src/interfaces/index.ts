@@ -4,6 +4,7 @@ import { UserInfo, UserToolAuth, UserTasks, UserHistories } from './user'
 import { OrganizationMembers, OrganizationAuths, OrganizationCanAuthList } from './organization'
 import { IdInfos } from './id'
 import { ActivityInfos, ActivityHistoryInfos, GiftInfos } from './activity'
+import { Tickets } from './ticket'
 
 interface BaseStatus {
   /**
@@ -80,5 +81,12 @@ export type DeleteActivityResponse = BaseStatus
 export type AddActivityResponse = BaseStatus
 export type UpdateActivityResponse = BaseStatus
 
+export type UpdateGiftResponse = BaseStatus
 
+// Ticket
+export interface GetTicketsResponse extends BaseStatus {
+  data: Tickets,
+}
 
+export type AddTicketResponse = BaseStatus
+export type UpdateTicketResponse = BaseStatus

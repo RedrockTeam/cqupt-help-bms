@@ -1,5 +1,5 @@
 import { API } from './index'
-import { GetActivityInfosResponse, GetActivityHistoryInfosResponse, GetActivityHistoryGiftsResponse, GetActivityGiftsResponse, DeleteActivityResponse, AddActivityResponse, UpdateActivityResponse } from '@/interfaces'
+import { GetActivityInfosResponse, GetActivityHistoryInfosResponse, GetActivityHistoryGiftsResponse, GetActivityGiftsResponse, DeleteActivityResponse, AddActivityResponse, UpdateActivityResponse, UpdateGiftResponse } from '@/interfaces'
 import { UpdateActivityOptions, PushGiftInfoOptions } from '@/interfaces/activity'
 
 export const getActivityInfos = (): Promise<GetActivityInfosResponse> => {
@@ -92,8 +92,8 @@ export function updateActivity(id: number, time: string, linkOrlocation: string,
   }).then(r => r.json()).catch(alert)
 }
 
-export const commitPushGift = (opts: PushGiftInfoOptions) => {
-  return fetch(`${API}/activity/activity/update`, {
+export const commitPushGift = (opts: PushGiftInfoOptions): Promise<UpdateGiftResponse> => {
+  return fetch(`${API}/activity/gift/update`, {
     method: 'POST',
     body: JSON.stringify({ ...opts, operation: 'update' }),
   }).then(r => r.json()).catch(alert)
