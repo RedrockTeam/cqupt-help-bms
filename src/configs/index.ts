@@ -46,6 +46,12 @@ export const pathMap: PathMap = {
   },
   volunteer: {
     [nameSymbol]: '志愿服务管理',
+    add: {
+      [nameSymbol]: '新增活动',
+    },
+    [paramsSymbol]: {
+      [nameSymbol]: '活动详情',
+    },
   },
   'organization-auth': {
     [nameSymbol]: '组织管理 < 权限管理',

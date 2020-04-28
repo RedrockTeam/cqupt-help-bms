@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { connect, ConnectProps } from 'umi'
-import { Input, DatePicker, Button } from 'antd'
+import { Input, DatePicker, Button, message } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import sharedStyles from '@/assets/styles.css'
 import { createAddTicket } from '@/models/ticket'
 import { createSuccessMessage } from '@/models/layout'
+import ImageUploader from '@/components/imageUploader'
 
 type Props = ConnectProps
 
@@ -23,11 +24,11 @@ const AddTicket = ({ dispatch }: Props) => {
         <div className={sharedStyles.inputWrapper} style={{ margin: 0 }}>
           <span className={sharedStyles.name}>电影名称</span>
           <Input className={sharedStyles.inputBorder} onChange={(e) => setName(e.target.value)} />
-        </div>、
+        </div>
         {/* TODO: 等后端加个上传图片的接口 */}
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>影票图片</span>
-          <Input className={sharedStyles.inputBorder} onChange={(e) => setImage(e.target.value)} />
+          <ImageUploader image={image} setImage={setImage} />
         </div>
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>放映时间</span>

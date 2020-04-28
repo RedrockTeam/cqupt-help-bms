@@ -5,6 +5,7 @@ import { OrganizationMembers, OrganizationAuths, OrganizationCanAuthList } from 
 import { IdInfos } from './id'
 import { ActivityInfos, ActivityHistoryInfos, GiftInfos } from './activity'
 import { Tickets } from './ticket'
+import { VolunteerActivities } from './volunteer'
 
 interface BaseStatus {
   /**
@@ -90,3 +91,8 @@ export interface GetTicketsResponse extends BaseStatus {
 
 export type AddTicketResponse = BaseStatus
 export type UpdateTicketResponse = BaseStatus
+
+// Volunteer
+export interface GetVolunteerActivitiesResponse extends BaseStatus {
+  data: VolunteerActivities,
+}

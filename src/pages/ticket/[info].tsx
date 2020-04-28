@@ -7,6 +7,7 @@ import sharedStyles from '@/assets/styles.css'
 import { createUpdateTicket, TicketModelState } from '@/models/ticket'
 import { createSuccessMessage } from '@/models/layout'
 import moment from 'moment'
+import ImageUploader from '@/components/imageUploader'
 
 type ConnectState = {
   ticket: TicketModelState,
@@ -18,7 +19,6 @@ const AddTicket = ({ dispatch, ticket }: Props) => {
   const { info } = useParams()
   const id = parseInt(info!, 10)
   const [thisOne] = ticket.tickets.filter(t => t.id === id)
-  console.log(thisOne)
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false)
   const [name, setName] = useState<string>(thisOne.name)
   const [image, setImage] = useState<string>(thisOne.image)
@@ -43,16 +43,11 @@ const AddTicket = ({ dispatch, ticket }: Props) => {
             onChange={(e) => setName(e.target.value)}
             disabled={!isUpdateMode}
           />
-        </div>、
+        </div>
         {/* TODO: 等后端加个上传图片的接口 */}
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>影票图片</span>
-          <Input
-            value={image}
-            className={sharedStyles.inputBorder}
-            onChange={(e) => setImage(e.target.value)}
-            disabled={!isUpdateMode}
-          />
+          <ImageUploader image={image} setImage={setImage} disabled={!isUpdateMode} />
         </div>
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>放映时间</span>
