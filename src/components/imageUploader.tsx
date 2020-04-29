@@ -62,7 +62,7 @@ const ImageUploader = ({
         axios
           .post('http://api-234.redrock.team/GraphBed/GraphBed/upload', formData)
           .then(({ data: response }) => {
-            // TODO
+            // TODO: 完善接口，目前有跨域问题
             console.log(response)
             setImage(response['图片url'])
           })

@@ -1,0 +1,16 @@
+.textInput {
+  border: none;
+  width:448px;
+  height:143px;
+  background:rgba(248,250,251,1);
+  border-radius:6px;
+  padding: 15px;
+  font-size:18px;
+  font-family:Microsoft YaHei;
+  font-weight:400;
+  color:rgba(43,46,55,1);
+}
+
+.textName {
+  margin-top: 15px;
+}

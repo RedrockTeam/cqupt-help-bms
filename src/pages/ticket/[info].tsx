@@ -44,7 +44,6 @@ const AddTicket = ({ dispatch, ticket }: Props) => {
             disabled={!isUpdateMode}
           />
         </div>
-        {/* TODO: 等后端加个上传图片的接口 */}
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>影票图片</span>
           <ImageUploader image={image} setImage={setImage} disabled={!isUpdateMode} />

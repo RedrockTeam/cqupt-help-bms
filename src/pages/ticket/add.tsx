@@ -25,7 +25,6 @@ const AddTicket = ({ dispatch }: Props) => {
           <span className={sharedStyles.name}>电影名称</span>
           <Input className={sharedStyles.inputBorder} onChange={(e) => setName(e.target.value)} />
         </div>
-        {/* TODO: 等后端加个上传图片的接口 */}
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>影票图片</span>
           <ImageUploader image={image} setImage={setImage} />
