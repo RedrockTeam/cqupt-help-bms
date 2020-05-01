@@ -1,9 +1,23 @@
 import { ImmerReducer, Subscription, Effect } from 'umi'
+import { message } from 'antd'
 import { pathToRegexp } from 'path-to-regexp'
-import { ActivityInfos, ActivityHistoryInfos, GiftInfos, UpdateActivityOptions, PushGiftInputResults } from '@/interfaces/activity'
-import { getActivityInfos, getActivityHistoryInfos, getActivityHistoryGifts, getActivityGifts, deleteActivity, addActivity, commitPushGift } from '@/api/activity'
-import { createFetchError } from '@/utils'
-import { createErrorMessage, createSuccessMessage } from './layout'
+import {
+  ActivityInfos,
+  ActivityHistoryInfos,
+  GiftInfos,
+  UpdateActivityOptions,
+  PushGiftInputResults,
+} from '@/interfaces/activity'
+import {
+  getActivityInfos,
+  getActivityHistoryInfos,
+  getActivityHistoryGifts,
+  getActivityGifts,
+  deleteActivity,
+  addActivity,
+  commitPushGift,
+} from '@/api/activity'
+import { redirectTo } from '@/utils'
 
 export interface ActivityModelState {
   activityInfos: ActivityInfos,
@@ -149,72 +163,39 @@ const activityModel: ActivityModel = {
   },
   effects: {
     * fetchActivityInfos(action, { call, put }) {
-      const res = yield call(getActivityInfos)
-      if (res.status === 10000) {
-        yield put(createSetActivityInfos(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('activity/fetchActivityInfos/getActivityInfos', res.status, res.info)))
-      }
+      const data = yield call(getActivityInfos)
+      yield put(createSetActivityInfos(data))
     },
     * fetchActivityHistoryInfos(action, { call, put }) {
-      const res = yield call(getActivityHistoryInfos)
-      if (res.status === 10000) {
-        yield put(createSetActivityHistoryInfos(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('activity/fetchActivityHistoryInfos/getActivityHistoryInfos', res.status, res.info)))
-      }
+      const data = yield call(getActivityHistoryInfos)
+      yield put(createSetActivityHistoryInfos(data))
     },
     * fetchActivityHistoryGifts({ payload }, { call, put }) {
-      const res = yield call(getActivityHistoryGifts, payload.id)
-      if (res.status === 10000) {
-        yield put(createSetActivityHistoryGifts(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('activity/fetchActivityHistoryGifts/getActivityHistoryGifts', res.status, res.info)))
-      }
+      const data = yield call(getActivityHistoryGifts, payload.id)
+      yield put(createSetActivityHistoryGifts(data))
     },
     * fetchActivityGifts({ payload }, { call, put }) {
-      const res = yield call(getActivityGifts, payload.id)
-      if (res.status === 10000) {
-        yield put(createSetActivityGifts(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('activity/fetchActivityGifts/getActivityGifts', res.status, res.info)))
-      }
+      const data = yield call(getActivityGifts, payload.id)
+      yield put(createSetActivityGifts(data))
     },
-    * deleteActivity({ payload }, { call, put, all }) {
-      const res = yield call(deleteActivity, payload.id)
-      if (res.status === 10000) {
-        yield all([
-          put(createFetchActivityInfos()),
-          put(createSuccessMessage('删除成功'))
-        ])
-      } else {
-        yield put(createErrorMessage(createFetchError('activity/deleteActivity/deleteActivity', res.status, res.info)))
-      }
+    * deleteActivity({ payload }, { call, put }) {
+      yield call(deleteActivity, payload.id)
+      yield put(createFetchActivityInfos())
+      message.success('删除成功')
     },
-    * addActivity({ payload }, { call, put, all }) {
-      let res
+    * addActivity({ payload }, { call, put }) {
       if (payload.type === '线上活动') {
-        res = yield call(addActivity, payload.title, payload.time_done, payload.time, payload.type, payload.link)
+        yield call(addActivity, payload.title, payload.time_done, payload.time, payload.type, payload.link)
       } else {
-        res = yield call(addActivity, payload.title, payload.time_done, payload.time, payload.type, payload.location, payload.introduction, payload.role)
+        yield call(addActivity, payload.title, payload.time_done, payload.time, payload.type, payload.location, payload.introduction, payload.role)
       }
-      if (res.status === 10000) {
-        yield all([
-          put(createFetchActivityInfos()),
-          put(createSuccessMessage('申请成功')),
-        ])
-      } else {
-        yield put(createErrorMessage(createFetchError('activity/addActivity/addActivity', res.status, res.info)))
-      }
+      yield put(createFetchActivityInfos())
+      message.success('申请成功')
     },
-    * commitPushGift({ payload }, { call, put }) {
-      const res = yield call(commitPushGift, payload)
-      if (res.status === 10000) {
-        yield put(createSuccessMessage('推送成功'))
-        setTimeout(() => window.location.pathname = '/activity', 2000)
-      } else {
-        yield put(createErrorMessage(createFetchError('activity/commitPushGift/commitPushGift', res.status, res.info)))
-      }
+    * commitPushGift({ payload }, { call }) {
+      yield call(commitPushGift, payload)
+      message.success('推送成功')
+      redirectTo('/activity', 2000)
     }
   },
   reducers: {

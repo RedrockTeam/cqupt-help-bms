@@ -1,18 +1,18 @@
-import { API } from './index'
-import { GetUserToolAuthResponse, GetUserTasksResponse, GetUserInfoResponse, GetUserHistoriesResponse } from '@/interfaces'
+import { request } from 'umi'
+import { UserTasks, UserToolAuth, UserInfo, UserHistories } from '@/interfaces/user'
 
-export const getUserInfo = (): Promise<GetUserInfoResponse> => {
-  return fetch(`${API}/user/info`).then(r => r.json()).catch(alert)
+export const getUserInfo = (): Promise<UserInfo> => {
+  return request(`/user/info`)
 }
 
-export const getUserToolAuth = (): Promise<GetUserToolAuthResponse> => {
-  return fetch(`${API}/main/tool`).then(r => r.json()).catch(alert)
+export const getUserToolAuth = (): Promise<UserToolAuth> => {
+  return request(`/main/tool`)
 }
 
-export const getUserTasks = (): Promise<GetUserTasksResponse> => {
-  return fetch(`${API}/user/task`).then(r => r.json()).catch(alert)
+export const getUserTasks = (): Promise<UserTasks> => {
+  return request(`/user/task`)
 }
 
-export const getUserHistories = (): Promise<GetUserHistoriesResponse> => {
-  return fetch(`${API}/user/history`).then(r => r.json()).catch(alert)
+export const getUserHistories = (): Promise<UserHistories> => {
+  return request(`/user/history`)
 }

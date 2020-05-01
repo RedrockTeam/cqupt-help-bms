@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, DatePicker, Button } from 'antd'
+import { Input, DatePicker, Button, message } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import { useLocation, connect, ConnectProps, useParams } from 'umi'
 import sharedStyles from '@/assets/styles.css'
@@ -11,7 +11,6 @@ import {
   createSetPushGiftInputStuNum,
   createCommitPushGift
 } from '@/models/activity'
-import { createSuccessMessage } from '@/models/layout'
 import styles from '../activity.css'
 import { parse } from 'query-string'
 import GiftInfoInput from '@/components/giftInfoInput'
@@ -93,7 +92,7 @@ const Update = ({ activity, dispatch }: Props) => {
                 activity.pushGiftInputs,
               ))
             } else {
-              dispatch!(createSuccessMessage('请填写完整推送信息'))
+              message.warn('请填写完整推送信息')
             }
           }}
         >完成</Button>

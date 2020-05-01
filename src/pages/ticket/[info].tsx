@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { connect, ConnectProps, useParams } from 'umi'
-import { Input, DatePicker, Button } from 'antd'
+import { Input, DatePicker, Button, message } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
 import sharedStyles from '@/assets/styles.css'
 import { createUpdateTicket, TicketModelState } from '@/models/ticket'
-import { createSuccessMessage } from '@/models/layout'
 import moment from 'moment'
 import ImageUploader from '@/components/imageUploader'
 
@@ -113,7 +112,7 @@ const AddTicket = ({ dispatch, ticket }: Props) => {
                 }))
                 setIsUpdateMode(false)
               } else {
-                dispatch!(createSuccessMessage('请填写完整信息'))
+                message.warn('请填写完整信息')
               }
             }}
           >完成</Button>

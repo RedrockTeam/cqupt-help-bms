@@ -15,3 +15,7 @@ export const pathnameToPagename = (url: string[]) => {
 export const createFetchError = (where: string, status: number, message: string) => {
   return new Error(`请求错误，请重试…… Error at ${where} with ${status} - ${message}`)
 }
+
+export const redirectTo = (pathname: string, delay = 0) => {
+  setTimeout(() => window.location.pathname = pathname, delay)
+}

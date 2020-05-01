@@ -114,7 +114,6 @@ export default {
     ]
   },
 
-
   'GET /api/identity/pass/info': {
     "status": 10000,
     "info": "success",

@@ -2,7 +2,6 @@ import { Link, IRouteComponentProps, connect, ConnectProps } from 'umi'
 import React, { useState, ReactNode, useEffect } from 'react'
 import { Layout, Menu, Avatar, Breadcrumb, message } from 'antd'
 import { UserModelState } from '@/models/user'
-import { LayoutModelState } from '@/models/layout'
 import {
   HomeOutlined,
   GiftOutlined,
@@ -21,14 +20,15 @@ const { Header, Sider, Content } = Layout
 
 interface ConnectState {
   user: UserModelState,
-  layout: LayoutModelState,
 }
 
 type Props = ConnectProps & ConnectState & {
   children: ReactNode,
 }
 
-function MyLayout({ children, location, user, layout }: Props) {
+function MyLayout({ children, location, user }: Props) {
+  if (location.pathname === '/') return <>{children}</>
+
   const pathSnippets = location.pathname.split('/').filter(i => i)
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`
@@ -39,14 +39,6 @@ function MyLayout({ children, location, user, layout }: Props) {
       </Breadcrumb.Item>
     )
   })
-
-  useEffect(() => {
-    layout.errorMessages.forEach(err => message.error(err.message))
-  }, [layout.errorMessages])
-
-  useEffect(() => {
-    layout.successMessages.forEach(info => message.success(info))
-  }, [layout.successMessages])
 
   return (
     <Layout className={styles.layout}>
@@ -135,5 +127,4 @@ function MyLayout({ children, location, user, layout }: Props) {
 
 export default connect((state: ConnectState) => ({
   user: state.user,
-  layout: state.layout,
 }))(MyLayout)

@@ -1,9 +1,8 @@
 import { Effect, ImmerReducer, Subscription } from 'umi'
 import { pathToRegexp } from 'path-to-regexp'
 import { IdInfos } from '@/interfaces/id'
-import { createFetchError } from '@/utils'
 import { getApplyingIdInfos, getPassedIdInfos, passIdApply } from '@/api/id'
-import { createSuccessMessage, createErrorMessage } from './layout'
+import { message } from 'antd'
 
 export interface IdModelState {
   applyList: IdInfos,
@@ -69,31 +68,17 @@ const idModel: IdModel = {
   },
   effects: {
     * fetchApplyingIdInfos(action, { call, put }) {
-      const res = yield call(getApplyingIdInfos)
-      if (res.status === 10000) {
-        yield put(createSetApplyingIdInfos(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('id/fetchApplyingIdInfos/getApplyingIdInfos', res.status, res.info)))
-      }
+      const data = yield call(getApplyingIdInfos)
+      yield put(createSetApplyingIdInfos(data))
     },
     * fetchPassedIdInfos(action, { call, put }) {
-      const res = yield call(getPassedIdInfos)
-      if (res.status === 10000) {
-        yield put(createSetPassedIdInfos(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('id/fetchPassedIdInfos/getPassedIdInfos', res.status, res.info)))
-      }
+      const data = yield call(getPassedIdInfos)
+      yield put(createSetPassedIdInfos(data))
     },
     * passIdApply({ payload }, { call, put, all }) {
-      const res = yield call(passIdApply, payload.ids)
-      if (res.status === 10000) {
-        yield all([
-          put(createSuccessMessage('生成成功')),
-          put(createFetchApplyingIdInfos()),
-        ])
-      } else {
-        yield put(createErrorMessage(createFetchError('id/passIdApply/passIdApply', res.status, res.info)))
-      }
+      yield call(passIdApply, payload.ids)
+      yield put(createFetchApplyingIdInfos())
+      message.success('生成成功')
     }
   },
   reducers: {

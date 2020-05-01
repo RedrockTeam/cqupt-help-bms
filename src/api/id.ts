@@ -1,20 +1,20 @@
-import { API } from './index'
-import { GetApplyingIdInfosResponse, GetPassedIdInfosResponse, PassIdApplyResponse } from '@/interfaces'
+import { request } from 'umi'
+import { IdInfos } from '@/interfaces/id'
 
-export const getApplyingIdInfos = (): Promise<GetApplyingIdInfosResponse> => {
-  return fetch(`${API}/identity/apply/info`).then(r => r.json()).catch(alert)
+export const getApplyingIdInfos = (): Promise<IdInfos> => {
+  return request(`/identity/apply/info`)
 }
 
-export const getPassedIdInfos = (): Promise<GetPassedIdInfosResponse> => {
-  return fetch(`${API}/identity/pass/info`).then(r => r.json()).catch(alert)
+export const getPassedIdInfos = (): Promise<IdInfos> => {
+  return request(`/identity/pass/info`)
 }
 
-export const passIdApply = (ids: number[]): Promise<PassIdApplyResponse> => {
-  return fetch(`${API}/team/permission/person`, {
+export const passIdApply = (ids: number[]): Promise<null> => {
+  return request(`/team/permission/person`, {
     method: 'POST',
     body: JSON.stringify({
       operation: 'add',
       ids,
     }),
-  }).then(r => r.json()).catch(alert)
+  })
 }

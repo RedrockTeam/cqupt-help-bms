@@ -5,7 +5,6 @@ import PageHeader from '@/components/pageHeader'
 import sharedStyles from '@/assets/styles.css'
 import styles from './volunteer.css'
 import { createAddVolunteerActivity } from '@/models/volunteer'
-import { createSuccessMessage } from '@/models/layout'
 
 type Props = ConnectProps
 
@@ -66,7 +65,7 @@ const AddVolunteerActivity = ({ dispatch }: Props) => {
                 num,
               }))
             } else {
-              dispatch!(createSuccessMessage('请填写完整信息'))
+              message.warn('请填写完整信息')
             }
           }}
         >完成</Button>

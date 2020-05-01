@@ -1,9 +1,9 @@
 import { ImmerReducer, Subscription, Effect } from 'umi'
+import { message } from 'antd'
 import { pathToRegexp } from 'path-to-regexp'
 import { Tickets, UpdateTicketOption } from '@/interfaces/ticket'
 import { getTickets, addTicket, updateTicket } from '@/api/ticket'
-import { createErrorMessage, createSuccessMessage } from './layout'
-import { createFetchError } from '@/utils'
+import { redirectTo } from '@/utils'
 
 export interface TicketModelState {
   tickets: Tickets,
@@ -61,29 +61,17 @@ const ticketModel: TicketModel = {
   },
   effects: {
     * fetchTickets(action, { call, put }) {
-      const res = yield call(getTickets)
-      if (res.status === 10000) {
-        yield put(createSetTickets(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('activity/fetchActivityGifts/getActivityGifts', res.status, res.info)))
-      }
+      const data = yield call(getTickets)
+      yield put(createSetTickets(data))
     },
-    * addTicket({ payload }, { call, put }) {
-      const res = yield call(addTicket, payload)
-      if (res.status === 10000) {
-        yield put(createSuccessMessage('添加成功'))
-        setTimeout(() => window.location.pathname = '/ticket', 2000)
-      } else {
-        yield put(createErrorMessage(createFetchError('activity/addTicket/addTicket', res.status, res.info)))
-      }
+    * addTicket({ payload }, { call }) {
+      yield call(addTicket, payload)
+      message.success('添加成功')
+      redirectTo('/ticket', 2000)
     },
-    * updateTicket({ payload }, { call, put }) {
-      const res = yield call(updateTicket, payload)
-      if (res.status === 10000) {
-        yield put(createSuccessMessage('修改成功'))
-      } else {
-        yield put(createErrorMessage(createFetchError('activity/updateTicket/updateTicket', res.status, res.info)))
-      }
+    * updateTicket({ payload }, { call }) {
+      yield call(updateTicket, payload)
+      message.success('修改成功')
     }
   },
   reducers: {

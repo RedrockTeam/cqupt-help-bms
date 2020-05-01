@@ -4,7 +4,6 @@ import { Input, DatePicker, Button, message } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import sharedStyles from '@/assets/styles.css'
 import { createAddTicket } from '@/models/ticket'
-import { createSuccessMessage } from '@/models/layout'
 import ImageUploader from '@/components/imageUploader'
 
 type Props = ConnectProps
@@ -65,7 +64,7 @@ const AddTicket = ({ dispatch }: Props) => {
             if (timePlay && timeOut) {
               dispatch!(createAddTicket(name, image, timePlay, location, timeOut, num))
             } else {
-              dispatch!(createSuccessMessage('请填写完整信息'))
+              message.warn('请填写完整信息')
             }
           }}
         >完成</Button>

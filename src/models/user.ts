@@ -2,9 +2,6 @@ import { pathToRegexp } from 'path-to-regexp'
 import { getUserInfo, getUserToolAuth, getUserTasks, getUserHistories } from '@/api/user.ts'
 import { Effect, ImmerReducer, Subscription } from 'umi'
 import { UserToolAuth, UserTasks, UserHistories } from '@/interfaces/user'
-import { GetUserToolAuthResponse, GetUserInfoResponse, GetUserTasksResponse, GetUserHistoriesResponse } from '@/interfaces'
-import { createFetchError } from '@/utils'
-import { createErrorMessage } from './layout'
 
 export interface UserInfo {
   name: string,
@@ -72,7 +69,7 @@ const userModel: UserModel = {
         const match = pathToRegexp('/user').exec(pathname)
         if (match) {
           console.log('on page: /user')
-          dispatch(createFetchUserInfo())
+          // dispatch(createFetchUserInfo())
           dispatch(createFetchUserTasks())
         }
       })
@@ -89,37 +86,19 @@ const userModel: UserModel = {
   },
   effects: {
     * fetchUserInfo(action, { call, put, all }) {
-      const [infoRes, toolRes]: [
-        GetUserInfoResponse,
-        GetUserToolAuthResponse,
-      ] = yield all([
+      const [infoData, toolData] = yield all([
         call(getUserInfo),
         call(getUserToolAuth),
       ])
-      if (infoRes.status === 10000 && toolRes.status === 10000) {
-        yield put(createSetUserInfo({ ...infoRes.data, toolAuth: toolRes.data }))
-      } else {
-        yield put(createErrorMessage([
-          createFetchError('user/fetchUserInfo/getUserInfo', infoRes.status, infoRes.info),
-          createFetchError('user/fetchUserInfo/getUserToolAuth', toolRes.status, toolRes.info),
-        ]))
-      }
+      yield put(createSetUserInfo({ ...infoData, toolAuth: toolData }))
     },
     * fetchUserTasks(action, { call, put }) {
-      const res: GetUserTasksResponse = yield call(getUserTasks)
-      if (res.status === 10000) {
-        yield put(createSetUserTasks(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('user/fetchUserTasks/getUserTasks', res.status, res.info)))
-      }
+      const data = yield call(getUserTasks)
+      yield put(createSetUserTasks(data))
     },
     * fetchUserHistories(action, { call, put }) {
-      const res: GetUserHistoriesResponse = yield call(getUserHistories)
-      if (res.status === 10000) {
-        yield put(createSetUserHistories(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('user/fetchUserHistories/getUserHistories', res.status, res.info)))
-      }
+      const data = yield call(getUserHistories)
+      yield put(createSetUserHistories(data))
     }
   },
   reducers: {

@@ -1,9 +1,22 @@
 import { ImmerReducer, Effect, Subscription } from 'umi'
+import { message } from 'antd'
 import { pathToRegexp } from 'path-to-regexp'
-import { VolunteerActivities, AddVolunteerActivityInfo, UpdateVolunteerActivityInfo, VolunteerActivityUserInfos, VolunteerActivityHistoryUserInfos } from '@/interfaces/volunteer'
-import { createErrorMessage, createSuccessMessage } from './layout'
-import { createFetchError } from '@/utils'
-import { getVolunteerActivities, addVolunteerActivity, updateVolunteerActivity, getVolunteerActivityUserInfos, pushVolunteerUsers, getVolunteerActivityHistoryUserInfos } from '@/api/volunteer'
+import {
+  VolunteerActivities,
+  AddVolunteerActivityInfo,
+  UpdateVolunteerActivityInfo,
+  VolunteerActivityUserInfos,
+  VolunteerActivityHistoryUserInfos,
+} from '@/interfaces/volunteer'
+import { redirectTo } from '@/utils'
+import {
+  getVolunteerActivities,
+  addVolunteerActivity,
+  updateVolunteerActivity,
+  getVolunteerActivityUserInfos,
+  pushVolunteerUsers,
+  getVolunteerActivityHistoryUserInfos,
+} from '@/api/volunteer'
 
 export interface VolunteerModelState {
   volunteerActivities: VolunteerActivities,
@@ -101,60 +114,34 @@ const volunteerModel: VolunteerModel = {
   },
   effects: {
     * fetchVolunteerActivities(action, { call, put }) {
-      const res = yield call(getVolunteerActivities)
-      if (res.status === 10000) {
-        yield put(createSetVolunteerActivities(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('volunteer/fetchUserTasks/getUserTasks', res.status, res.info)))
-      }
+      const data = yield call(getVolunteerActivities)
+      yield put(createSetVolunteerActivities(data))
     },
-    * addVolunteerActivity({ payload }, { call, put }) {
-      const res = yield call(addVolunteerActivity, payload)
-      if (res.status === 10000) {
-        yield put(createSuccessMessage('添加成功'))
-        setTimeout(() => window.location.pathname = '/volunteer', 2000)
-      } else {
-        yield put(createErrorMessage(createFetchError('volunteer/addVolunteerActivity/addVolunteerActivity', res.status, res.info)))
-      }
+    * addVolunteerActivity({ payload }, { call }) {
+      yield call(addVolunteerActivity, payload)
+      message.success('添加成功')
+      redirectTo('/volunteer', 2000)
     },
-    * updateVolunteerActivity({ payload }, { call, put }) {
-      const res = yield call(updateVolunteerActivity, payload)
-      if (res.status === 10000) {
-        yield put(createSuccessMessage('修改成功'))
-      } else {
-        yield put(createErrorMessage(createFetchError('volunteer/updateVolunteerActivity/updateVolunteerActivity', res.status, res.info)))
-      }
+    * updateVolunteerActivity({ payload }, { call }) {
+      yield call(updateVolunteerActivity, payload)
+      message.success('修改成功')
     },
     * fetchVolunteerActivityUserInfos({ payload }, { call, put }) {
-      const res = yield call(getVolunteerActivityUserInfos, payload.id)
-      if (res.status === 10000) {
-        yield put(createSetVolunteerActivitiyUserInfos(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('volunteer/fetchVolunteerActivityUserInfos', res.status, res.info)))
-      }
+      const data = yield call(getVolunteerActivityUserInfos, payload.id)
+      yield put(createSetVolunteerActivitiyUserInfos(data))
     },
-    * pushVolunteerUsers({ payload }, { call, put, all }) {
-      const res = yield call(pushVolunteerUsers, {
+    * pushVolunteerUsers({ payload }, { call, put }) {
+      yield call(pushVolunteerUsers, {
         ids: payload.ids,
         qq: payload.qq_num,
         date: payload.down_date,
       })
-      if (res.status === 10000) {
-        yield all([
-          put(createSuccessMessage('推送成功')),
-          put(createFetchVolunteerActivityUserInfos(payload.activityId)),
-        ])
-      } else {
-        yield put(createErrorMessage(createFetchError('volunteer/pushVolunteerUsers', res.status, res.info)))
-      }
+      yield put(createFetchVolunteerActivityUserInfos(payload.activityId))
+      message.success('推送成功')
     },
     * fetchVolunteerActivityHistoryUserInfos({ payload }, { call, put }) {
-      const res = yield call(getVolunteerActivityHistoryUserInfos, payload.id)
-      if (res.status === 10000) {
-        yield put(createSetVolunteerActivityHistoryUserInfos(res.data))
-      } else {
-        yield put(createErrorMessage(createFetchError('volunteer/fetchVolunteerActivityHistoryUserInfos', res.status, res.info)))
-      }
+      const data = yield call(getVolunteerActivityHistoryUserInfos, payload.id)
+      yield put(createSetVolunteerActivityHistoryUserInfos(data))
     }
   },
   reducers: {

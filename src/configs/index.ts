@@ -69,3 +69,5 @@ export const pathMap: PathMap = {
     [nameSymbol]: '组织管理 < 任务发布',
   },
 }
+
+export const API = process.env.API
