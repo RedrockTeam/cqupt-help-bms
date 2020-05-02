@@ -44,7 +44,7 @@ const AddTicket = ({ dispatch, ticket }: Props) => {
           />
         </div>
         <div className={sharedStyles.inputWrapper}>
-          <span className={sharedStyles.name}>影票图片</span>
+          <div className={sharedStyles.name} style={{ width: '4.2vw' }}>影票图片</div>
           <ImageUploader image={image} setImage={setImage} disabled={!isUpdateMode} />
         </div>
         <div className={sharedStyles.inputWrapper}>

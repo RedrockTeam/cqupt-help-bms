@@ -1,12 +1,29 @@
 import { RequestConfig } from 'umi'
 import { message } from 'antd'
 import { API } from '@/configs'
+import { redirectTo } from './utils'
+import { getUserInfo, getUserToolAuth } from './api/user'
 
 export async function getInitialState() {
   
   // TODO: 登录逻辑，无 token 请求并跳转，有 token 继续，之后获取权限，用户信息
   // const data = await fetchXXX();
   // return data;
+  // if (!localStorage.getItem('cqupt-help-bms-token')) {
+  //   const { data } = await fetch(`https://wx.redrock.team/magicloop/rushb?b=${encodeURIComponent(/* 后端入口 */API!)}%2f&scope=student&pattern=qr`)
+  //     .then(r => r.json())
+  //     .catch(e => message.error('网络错误'))
+  //   redirectTo(data.url)
+  // }
+  if (window.location.pathname === '/') {
+    redirectTo('/user')
+  }
+  const userInfo = await getUserInfo()
+  const userToolAuth = await getUserToolAuth()
+  return {
+    ...userInfo,
+    toolAuth: userToolAuth,
+  }
 }
 
 const SUCCESS = 10000

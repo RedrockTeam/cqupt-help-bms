@@ -7,8 +7,8 @@ export interface UserInfo {
 
 export interface ToolAuth {
   id: number,
-  detail: string,
-  created_at: string,
+  name: string,
+  route: string,
 }
 
 export type UserToolAuth = ToolAuth[]

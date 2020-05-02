@@ -1,17 +1,9 @@
 import { pathToRegexp } from 'path-to-regexp'
-import { getUserInfo, getUserToolAuth, getUserTasks, getUserHistories } from '@/api/user.ts'
+import { getUserTasks, getUserHistories } from '@/api/user.ts'
 import { Effect, ImmerReducer, Subscription } from 'umi'
-import { UserToolAuth, UserTasks, UserHistories } from '@/interfaces/user'
+import { UserTasks, UserHistories } from '@/interfaces/user'
 
-export interface UserInfo {
-  name: string,
-  avatar: string,
-  college: string,
-  team_name: string,
-  toolAuth: UserToolAuth,
-}
 export interface UserModelState {
-  info: UserInfo,
   tasks: UserTasks,
   histories: UserHistories,
 }
@@ -23,24 +15,17 @@ export interface UserModel {
     onHistories: Subscription,
   },
   effects: {
-    fetchUserInfo: Effect,
     fetchUserTasks: Effect,
     fetchUserHistories: Effect,
   },
   reducers: {
-    setUserInfo: ImmerReducer<UserModelState, ReturnType<typeof createSetUserInfo>>,
     setUserTasks: ImmerReducer<UserModelState, ReturnType<typeof createSetUserTasks>>,
     setUserHistories: ImmerReducer<UserModelState, ReturnType<typeof createSetUserHistories>>,
   },
 }
 
-export const createFetchUserInfo = () => ({ type: 'fetchUserInfo' })
 export const createFetchUserTasks = () => ({ type: 'fetchUserTasks' })
 export const createFetchUserHistories = () => ({ type: 'fetchUserHistories' })
-export const createSetUserInfo = (userInfo: UserInfo) => ({
-  type: 'setUserInfo',
-  payload: userInfo,
-})
 export const createSetUserTasks = (userTask: UserTasks) => ({
   type: 'setUserTasks',
   payload: userTask || [],
@@ -52,13 +37,6 @@ export const createSetUserHistories = (userHistories: UserHistories) => ({
 
 const userModel: UserModel = {
   state: {
-    info: {
-      name: '',
-      avatar: '',
-      college: '',
-      team_name: '',
-      toolAuth: [],
-    },
     tasks: [],
     histories: [],
   },
@@ -69,7 +47,6 @@ const userModel: UserModel = {
         const match = pathToRegexp('/user').exec(pathname)
         if (match) {
           console.log('on page: /user')
-          // dispatch(createFetchUserInfo())
           dispatch(createFetchUserTasks())
         }
       })
@@ -85,13 +62,6 @@ const userModel: UserModel = {
     }
   },
   effects: {
-    * fetchUserInfo(action, { call, put, all }) {
-      const [infoData, toolData] = yield all([
-        call(getUserInfo),
-        call(getUserToolAuth),
-      ])
-      yield put(createSetUserInfo({ ...infoData, toolAuth: toolData }))
-    },
     * fetchUserTasks(action, { call, put }) {
       const data = yield call(getUserTasks)
       yield put(createSetUserTasks(data))
@@ -102,9 +72,6 @@ const userModel: UserModel = {
     }
   },
   reducers: {
-    setUserInfo(state, { payload }) {
-      state.info = payload
-    },
     setUserTasks(state, { payload }) {
       state.tasks = payload
     },

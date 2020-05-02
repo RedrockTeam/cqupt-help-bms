@@ -1,7 +1,6 @@
-import { Link, IRouteComponentProps, connect, ConnectProps } from 'umi'
-import React, { useState, ReactNode, useEffect } from 'react'
-import { Layout, Menu, Avatar, Breadcrumb, message } from 'antd'
-import { UserModelState } from '@/models/user'
+import { Link, ConnectProps, useModel, useAccess, NavLink } from 'umi'
+import React, { useState, ReactNode, useEffect, ReactChildren } from 'react'
+import { Layout, Menu, Avatar, Breadcrumb, message, Skeleton } from 'antd'
 import {
   HomeOutlined,
   GiftOutlined,
@@ -14,20 +13,29 @@ import {
 import styles from './index.css'
 import { pathnameToPagename } from '@/utils'
 
-const iconStyle = { fontSize: '1vw', paddingLeft: '1vw' }
-
 const { Header, Sider, Content } = Layout
 
-interface ConnectState {
-  user: UserModelState,
-}
-
-type Props = ConnectProps & ConnectState & {
+type Props = ConnectProps & {
   children: ReactNode,
 }
 
-function MyLayout({ children, location, user }: Props) {
-  if (location.pathname === '/') return <>{children}</>
+const Nav = ({ canEnter, route, routeName, Icon }: { canEnter: boolean, route: string, routeName: string, Icon?: ReactNode }) => {
+  return (
+    canEnter ? <NavLink to={route} className={styles.nav} activeClassName={styles.activeNav}>
+      {Icon}
+      <span className={styles.item}>{routeName}</span>
+    </NavLink> : <div onClick={() => message.warn('没有权限')} className={styles.nav}>
+      {Icon}
+      <span className={styles.item}>{routeName}</span>
+    </div>
+  )
+}
+
+function MyLayout({ children, location }: Props) {
+  // if (location.pathname === '/') return <>{children}</>
+
+  const { initialState, loading } = useModel('@@initialState')
+  const access = useAccess()
 
   const pathSnippets = location.pathname.split('/').filter(i => i)
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
@@ -53,69 +61,40 @@ function MyLayout({ children, location, user }: Props) {
       </Header>
       <Layout>
         <Sider width={'17vw'} theme={'light'} className={styles.sider}>
-          <div className={styles.self}>
-            <Avatar className={styles.avatar} src={user.info.avatar} />
-            <div className={styles.info}>
-              <div className={styles.name}>{user.info.name}</div>
-              <div className={styles.subInfo}>
-                学院：<span className={styles.infoContent}>{user.info.college}</span>
-              </div>
-              <div className={styles.subInfo}>
-                组织：<span className={styles.infoContent}>{user.info.team_name}</span>
+          <Skeleton loading={loading} active avatar>
+            <div className={styles.self}>
+              <Avatar className={styles.avatar} src={initialState?.avatar} />
+              <div className={styles.info}>
+                <div className={styles.name}>{initialState?.name}</div>
+                <div className={styles.subInfo}>
+                  学院：<span className={styles.infoContent}>{initialState?.college}</span>
+                </div>
+                <div className={styles.subInfo}>
+                  组织：<span className={styles.infoContent}>{initialState?.team_name}</span>
+                </div>
               </div>
             </div>
-          </div>
+          </Skeleton>
           <Menu
             mode="inline"
             theme="light"
           >
-            <Menu.Item key="个人中心">
-              <Link to="/user">
-                <HomeOutlined style={iconStyle} />
-                <span className={styles.item}>个人中心</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="活动奖品推送中心">
-              <Link to="/activity">
-                <GiftOutlined style={iconStyle} />
-                <span className={styles.item}>活动奖品推送中心</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="身份有证管理中心">
-              <Link to="/id">
-                <IdcardOutlined style={iconStyle} />
-                <span className={styles.item}>身份有证管理中心</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="影票上线管理中心">
-              <Link to="/ticket">
-                <WalletOutlined style={iconStyle} />
-                <span className={styles.item}>影票上线管理中心</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="志愿服务管理">
-              <Link to="/volunteer">
-                <HeartOutlined style={iconStyle} />
-                <span className={styles.item}>志愿服务管理</span>
-              </Link>
-            </Menu.Item>
+            <Nav canEnter={access.canEnterUser} route="/user" routeName="个人中心" Icon={<HomeOutlined />} />
+            <Nav canEnter={access.canEnterActivity} route="/activity" routeName="活动奖品推送中心" Icon={<GiftOutlined />} />
+            <Nav canEnter={access.canEnterId} route="/id" routeName="身份有证管理中心" Icon={<IdcardOutlined />} />
+            <Nav canEnter={access.canEnterTicket} route="/ticket" routeName="影票上线管理中心" Icon={<WalletOutlined />} />
+            <Nav canEnter={access.canEnterVolunteer} route="/volunteer" routeName="志愿服务管理" Icon={<HeartOutlined />} />
             <Menu.SubMenu key="组织管理"
               title={
-                <span>
-                  <SettingOutlined style={iconStyle} />
-                  <span className={styles.item}>组织管理</span>
+                <span style={{ color: '#636B81' }}>
+                  <SettingOutlined style={{ fontSize: '0.9375vw' }} />
+                  <span className={styles.item} style={{ marginLeft: '0.52084vw' }}>组织管理</span>
                 </span>
               }
             >
-              <Menu.Item key="权限管理">
-                <Link to="/organization-auth">权限管理</Link>
-              </Menu.Item>
-              <Menu.Item key="部门成员">
-                <Link to="/organization-member">部门成员</Link>
-              </Menu.Item>
-              <Menu.Item key="任务发布">
-                <Link to="/organization-task">任务发布</Link>
-              </Menu.Item>
+              <Nav canEnter={access.canEnterOrganization} route="/organization-auth" routeName="权限管理" />
+              <Nav canEnter={access.canEnterOrganization} route="/organization-member" routeName="部门成员" />
+              <Nav canEnter={access.canEnterOrganization} route="/organization-task" routeName="任务发布" />
             </Menu.SubMenu>
           </Menu>
         </Sider>
@@ -125,6 +104,4 @@ function MyLayout({ children, location, user }: Props) {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  user: state.user,
-}))(MyLayout)
+export default MyLayout

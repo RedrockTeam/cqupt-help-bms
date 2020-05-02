@@ -25,7 +25,7 @@ const AddTicket = ({ dispatch }: Props) => {
           <Input className={sharedStyles.inputBorder} onChange={(e) => setName(e.target.value)} />
         </div>
         <div className={sharedStyles.inputWrapper}>
-          <span className={sharedStyles.name}>影票图片</span>
+          <div className={sharedStyles.name} style={{ width: '4.2vw' }}>影票图片</div>
           <ImageUploader image={image} setImage={setImage} />
         </div>
         <div className={sharedStyles.inputWrapper}>
