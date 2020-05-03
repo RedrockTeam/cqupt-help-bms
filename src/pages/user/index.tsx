@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, connect, ConnectProps } from 'umi'
+import { Link, connect, ConnectRC, Loading } from 'umi'
 import { Table } from 'antd'
 import styles from './user.css'
 import PageHeader from '@/components/pageHeader'
@@ -12,13 +12,12 @@ const columns = [
   { title: '发布时间', dataIndex: 'updated_time', key: 'updated_time' },
 ]
 
-type ConnectState = {
+type PageProps = {
   user: UserModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const User = ({ user }: Props) => {
+const User: ConnectRC<PageProps> = ({ user, loading }) => {
   return (
     <div>
       <PageHeader title="我的任务">
@@ -39,12 +38,14 @@ const User = ({ user }: Props) => {
         scroll={{
           y: '76vh',
         }}
+        loading={loading}
         expandRowByClick
       />
     </div>
   )
 }
 
-export default connect((state: ConnectState) => ({
-  user: state.user,
+export default connect(({ user, loading }: { user: UserModelState, loading: Loading }) => ({
+  user,
+  loading: loading.models.user,
 }))(User)

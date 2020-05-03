@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect, ConnectProps } from 'umi'
+import { connect, ConnectProps, ConnectRC, Loading } from 'umi'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import { VolunteerModelState } from '@/models/volunteer'
@@ -29,13 +29,12 @@ const columns = [
   },
 ]
 
-type ConnectState = {
+type PageProps = {
   volunteer: VolunteerModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const VolunteerUserHistory = ({ volunteer }: Props) => {
+const VolunteerUserHistory: ConnectRC<PageProps> = ({ volunteer, loading }) => {
   return (
     <div>
       <PageHeader title="通过名单">
@@ -46,6 +45,7 @@ const VolunteerUserHistory = ({ volunteer }: Props) => {
           pagination={{
             style: { float: 'right', margin: 20 },
           }}
+          loading={loading}
           dataSource={volunteer.volunteerActivityHistoryUserInfos.map(i => ({ ...i, key: i.id }))}
         />
       </div>
@@ -53,6 +53,7 @@ const VolunteerUserHistory = ({ volunteer }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  volunteer: state.volunteer,
+export default connect(({ volunteer, loading }: { volunteer: VolunteerModelState, loading: Loading }) => ({
+  volunteer,
+  loading: loading.models.volunteer,
 }))(VolunteerUserHistory)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, connect, ConnectProps } from 'umi'
+import { Link, connect, ConnectRC, Loading } from 'umi'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
@@ -11,13 +11,12 @@ const columns = [
   { title: '创建人', dataIndex: 'username', key: 'username' },
 ]
 
-type ConnectState = {
+type PageProps = {
   volunteer: VolunteerModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const Volunteer = ({ volunteer, history }: Props) => {
+const Volunteer: ConnectRC<PageProps> = ({ volunteer, history, loading }) => {
   return (
     <div>
       <PageHeader title="志愿服务管理">
@@ -32,6 +31,7 @@ const Volunteer = ({ volunteer, history }: Props) => {
         scroll={{
           y: '76vh',
         }}
+        loading={loading}
         onRow={record => ({
           onClick: () => history.push(`/volunteer/${record.id}`),
         })}
@@ -40,6 +40,7 @@ const Volunteer = ({ volunteer, history }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  volunteer: state.volunteer,
+export default connect(({ volunteer, loading }: { volunteer: VolunteerModelState, loading: Loading }) => ({
+  volunteer,
+  loading: loading.models.volunteer,
 }))(Volunteer)

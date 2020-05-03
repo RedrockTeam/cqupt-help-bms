@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { connect, ConnectProps } from 'umi'
+import { connect, ConnectRC, Loading } from 'umi'
 import { OrganizationModelState, createAddMember, createDeleteMember } from '@/models/organization'
 import PageHeader from '@/components/pageHeader'
 import Member from '@/components/organizationMember'
 import OrganizationPerson from '@/components/organizationPerson'
 import sharedStyles from '@/assets/styles.css'
-import { Modal, Input, Button, Form } from 'antd'
+import { Modal, Input, Button, Form, Skeleton } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 
-type ConnectState = {
+type PageProps = {
   organization: OrganizationModelState,
+  loading: boolean,
 }
 
-type Props = ConnectProps & ConnectState
-
-const OrganizationMenber = ({ organization, dispatch }: Props) => {
+const OrganizationMenber: ConnectRC<PageProps> = ({ organization, dispatch, loading }) => {
   const [visible, setVisible] = useState<boolean>(false)
   const [jobId, setJobId] = useState<number>()
   // TODO: fix type
@@ -33,26 +32,28 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
     <div>
       <PageHeader title="部门成员" />
       <div className={sharedStyles.wrapper}>
-        {organization.members.map((group, index) =>
-          <Member key={group.job.job_id} title={group.job.job_name}>
-            {group.TeamPersons.map(person =>
-              <OrganizationPerson
-                onClick={() => Modal.confirm({ // 移除的对话 Modal
-                  title: '请确认',
-                  icon: <ExclamationCircleOutlined />,
-                  content: '确认将该成员移出部门？',
-                  onOk: () => dispatch!(createDeleteMember(person.id, group.job.job_id)),
-                })}
-                key={person.id}
-                person={person}
-              />)}
-              {/* 添加，index === 0 是部长，没有添加，其他的有添加 */}
-              {index !== 0 && <OrganizationPerson
-                onClick={() => setVisible(true)}
-                key={'add'}
-              />}
-          </Member>
-        )}
+        <Skeleton loading={loading}>
+          {organization.members.map((group, index) =>
+            <Member key={group.job.job_id} title={group.job.job_name}>
+              {group.TeamPersons.map(person =>
+                <OrganizationPerson
+                  onClick={() => Modal.confirm({ // 移除的对话 Modal
+                    title: '请确认',
+                    icon: <ExclamationCircleOutlined />,
+                    content: '确认将该成员移出部门？',
+                    onOk: () => dispatch!(createDeleteMember(person.id, group.job.job_id)),
+                  })}
+                  key={person.id}
+                  person={person}
+                />)}
+                {/* 添加，index === 0 是部长，没有添加，其他的有添加 */}
+                {index !== 0 && <OrganizationPerson
+                  onClick={() => setVisible(true)}
+                  key={'add'}
+                />}
+            </Member>
+          )}
+        </Skeleton>
       </div>
 
       {/* 添加的对话 Modal */}
@@ -82,6 +83,7 @@ const OrganizationMenber = ({ organization, dispatch }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  organization: state.organization,
+export default connect(({ organization, loading }: { organization: OrganizationModelState, loading: Loading }) => ({
+  organization,
+  loading: loading.models.organization,
 }))(OrganizationMenber)

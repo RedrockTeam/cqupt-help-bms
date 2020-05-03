@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Link, useHistory, connect, ConnectProps } from 'umi'
+import { Link, useHistory, connect, ConnectRC, Loading } from 'umi'
 import { Table, Modal, Button, Form, DatePicker, Input, Select } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import styles from './activity.css'
@@ -8,13 +8,12 @@ import PageHeaderBtn from '@/components/pageHeaderBtn'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ActivityModelState, createDeleteActivity, createAddActivity } from '@/models/activity'
 
-type ConnectState = {
+type PageProps = {
   activity: ActivityModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const Activity = ({ dispatch, activity }: Props) => {
+const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
   const history = useHistory()
   const [visible, setVisible] = useState<boolean>(false)
   const [isOnlineForm, setIsOnlineForm] = useState<boolean>()
@@ -51,6 +50,7 @@ const Activity = ({ dispatch, activity }: Props) => {
         scroll={{
           y: '76vh',
         }}
+        loading={loading}
         onRow={record => ({
           onClick: () => history.push(`/activity/${record.id}?title=${record.name}`),
         })}
@@ -133,6 +133,7 @@ const Activity = ({ dispatch, activity }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  activity: state.activity,
+export default connect(({ activity, loading }: { activity: ActivityModelState, loading: Loading }) => ({
+  activity,
+  loading: loading.models.activity,
 }))(Activity)

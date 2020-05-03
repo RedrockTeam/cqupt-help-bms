@@ -1,9 +1,10 @@
 import React from 'react'
-import { connect, ConnectProps, IdModelState } from 'umi'
+import { connect, ConnectRC, Loading } from 'umi'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import { IdInfo } from '@/interfaces/id'
 import styles from './id.css'
+import { IdModelState } from '@/models/id'
 
 const columns = [
   { title: '姓名', dataIndex: 'name', key: 'name' },
@@ -18,13 +19,12 @@ const columns = [
   },
 ]
 
-type ConnectState = {
+type PageProps = {
   id: IdModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const IdHistory = ({ id }: Props) => {
+const IdHistory: ConnectRC<PageProps> = ({ id, loading }) => {
   return (
     <div>
       <PageHeader title="通过名单">
@@ -35,6 +35,7 @@ const IdHistory = ({ id }: Props) => {
           pagination={{
             className: styles.pagination
           }}
+          loading={loading}
           dataSource={id.passList.map(i => ({ ...i, key: i.id }))}
         />
       </div>
@@ -42,6 +43,7 @@ const IdHistory = ({ id }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  id: state.id,
+export default connect(({ id, loading }: { id: IdModelState, loading: Loading }) => ({
+  id,
+  loading: loading.models.id,
 }))(IdHistory)

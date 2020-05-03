@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, connect, ConnectProps } from 'umi'
+import { Link, connect, ConnectRC, Loading } from 'umi'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
@@ -11,13 +11,12 @@ const columns = [
   { title: '创建人', dataIndex: 'username', key: 'username' },
 ]
 
-type ConnectState = {
+type PageProps = {
   ticket: TicketModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const Ticket = ({ ticket, history }: Props) => {
+const Ticket: ConnectRC<PageProps> = ({ ticket, history, loading }) => {
   return (
     <div>
       <PageHeader title="影票上线管理中心">
@@ -32,6 +31,7 @@ const Ticket = ({ ticket, history }: Props) => {
         scroll={{
           y: '76vh',
         }}
+        loading={loading}
         onRow={record => ({
           onClick: () => history.push(`/ticket/${record.id}`),
         })}
@@ -40,6 +40,7 @@ const Ticket = ({ ticket, history }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  ticket: state.ticket,
+export default connect(({ ticket, loading }: { ticket: TicketModelState, loading: Loading }) => ({
+  ticket,
+  loading: loading.models.ticket,
 }))(Ticket)

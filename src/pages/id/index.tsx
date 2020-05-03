@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Link, connect, ConnectProps, IdModelState } from 'umi'
+import { Link, connect, Loading, ConnectRC } from 'umi'
 import { Table, Button } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
 import sharedStyles from '@/assets/styles.css'
 import styles from './id.css'
 import { IdInfo } from '@/interfaces/id'
-import { createPassIdApply } from '@/models/id'
+import { createPassIdApply, IdModelState } from '@/models/id'
 
 const columns = [
   { title: '姓名', dataIndex: 'name', key: 'name' },
@@ -21,13 +21,12 @@ const columns = [
   },
 ]
 
-type ConnectState = {
+interface PageProps {
   id: IdModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const Id = ({ id, dispatch }: Props) => {
+const Id: ConnectRC<PageProps> = ({ id, dispatch, loading }) => {
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   return (
     <div>
@@ -48,6 +47,7 @@ const Id = ({ id, dispatch }: Props) => {
             className: styles.pagination
           }}
           columns={columns}
+          loading={loading}
           dataSource={id.applyList.map(i => ({ ...i, key: i.id }))}
         />
         <div
@@ -72,6 +72,7 @@ const Id = ({ id, dispatch }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  id: state.id,
+export default connect(({ id, loading }: { id: IdModelState, loading: Loading }) => ({
+  id,
+  loading: loading.models.id,
 }))(Id)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
-import { useParams, connect, ConnectProps, useLocation } from 'umi';
+import { connect, useLocation, ConnectRC, Loading } from 'umi';
 import { ActivityModelState } from '@/models/activity'
 import { parse } from 'query-string';
 
@@ -20,13 +20,12 @@ interface Person {
   key: string,
 }
 
-type ConnectState = {
+type PageProps = {
   activity: ActivityModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const Info = ({ activity }: Props) => {
+const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
   const { title } = parse(useLocation().search)
 
   return (
@@ -45,6 +44,7 @@ const Info = ({ activity }: Props) => {
           }))
           return [...acc, ...res]
         }, [])}
+        loading={loading}
         scroll={{
           y: '76vh',
         }}
@@ -53,6 +53,7 @@ const Info = ({ activity }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  activity: state.activity,
+export default connect(({ activity, loading }: { activity: ActivityModelState, loading: Loading }) => ({
+  activity,
+  loading: loading.models.activity,
 }))(Info)

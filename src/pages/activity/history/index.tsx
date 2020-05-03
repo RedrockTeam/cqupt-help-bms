@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
-import { useHistory, connect, ConnectProps } from 'umi';
+import { useHistory, connect, ConnectRC, Loading } from 'umi';
 import { ActivityModelState } from '@/models/activity'
 
 const columns = [
@@ -9,13 +9,12 @@ const columns = [
   { title: '创建人', dataIndex: 'username', key: 'username' },
 ];
 
-type ConnectState = {
+type PageProps = {
   activity: ActivityModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const ActivityHistory = ({ activity }: Props) => {
+const ActivityHistory: ConnectRC<PageProps> = ({ activity, loading }) => {
   const history = useHistory()
   return (
     <div>
@@ -27,6 +26,7 @@ const ActivityHistory = ({ activity }: Props) => {
         scroll={{
           y: '76vh',
         }}
+        loading={loading}
         onRow={record => ({
           onClick: event => history.push(`/activity/history/${record.id}?title=${record.name}`),
         })}
@@ -35,6 +35,7 @@ const ActivityHistory = ({ activity }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  activity: state.activity,
+export default connect(({ activity, loading }: { activity: ActivityModelState, loading: Loading }) => ({
+  activity,
+  loading: loading.models.activity,
 }))(ActivityHistory)

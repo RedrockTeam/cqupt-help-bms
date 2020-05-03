@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, connect, ConnectProps, useParams } from 'umi'
+import { Link, connect, useParams, ConnectRC, Loading } from 'umi'
 import { Table, Button, Modal, Form, Input, DatePicker } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
@@ -31,13 +31,12 @@ const columns = [
   },
 ]
 
-type ConnectState = {
+type PageProps = {
   volunteer: VolunteerModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const VolunteerInfo = ({ volunteer, dispatch }: Props) => {
+const VolunteerInfo: ConnectRC<PageProps> = ({ volunteer, dispatch, loading }) => {
   const { info } = useParams()
   const id = parseInt(info!, 10)
   const [selectedIds, setSelectedIds] = useState<number[]>([])
@@ -61,6 +60,7 @@ const VolunteerInfo = ({ volunteer, dispatch }: Props) => {
           pagination={{
             style: { float: 'right', margin: 20 },
           }}
+          loading={loading}
           columns={columns}
           dataSource={volunteer.volunteerActivityUserInfos.map(i => ({ ...i, key: i.id }))}
         />
@@ -123,6 +123,7 @@ const VolunteerInfo = ({ volunteer, dispatch }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  volunteer: state.volunteer,
+export default connect(({ volunteer, loading }: { volunteer: VolunteerModelState, loading: Loading }) => ({
+  volunteer,
+  loading: loading.models.volunteer,
 }))(VolunteerInfo)

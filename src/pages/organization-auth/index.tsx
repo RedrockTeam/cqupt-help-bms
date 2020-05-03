@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { connect, ConnectProps } from 'umi'
+import { connect, ConnectRC, Loading } from 'umi'
 import { OrganizationModelState, createUpdateAuth, createFetchCanAuthList } from '@/models/organization'
 import PageHeader from '@/components/pageHeader'
 import Member from '@/components/organizationMember'
 import OrganizationPerson from '@/components/organizationPerson'
 import sharedStyles from '@/assets/styles.css'
-import { Modal, Button, Form, Radio } from 'antd'
+import { Modal, Button, Form, Radio, Skeleton } from 'antd'
 
 const radioStyle = {
   display: 'block',
@@ -13,14 +13,13 @@ const radioStyle = {
   lineHeight: '30px',
 }
 
-type ConnectState = {
+type PageProps = {
   organization: OrganizationModelState,
+  loading: boolean,
 }
 
-type Props = ConnectProps & ConnectState
-
 // 先把添加成员的逻辑注释了
-const OrganizationAuth = ({ organization, dispatch }: Props) => {
+const OrganizationAuth: ConnectRC<PageProps> = ({ organization, dispatch, loading }) => {
   // const [addModalVisible, setAddModalVisible] = useState<boolean>(false)
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false)
   const [jobId, setJobId] = useState<number>()
@@ -59,22 +58,24 @@ const OrganizationAuth = ({ organization, dispatch }: Props) => {
     <div>
       <PageHeader title="权限管理" />
       <div className={sharedStyles.wrapper}>
-        {organization.auths.map((group, index) =>
-          <Member key={group.job.job_id} title={group.job.job_name}>
-            {group.TeamPersons.map(person => (
-              <OrganizationPerson
-                key={person.id}
-                onClick={() => openUpdateModal(group.job.job_id, person.id)}
-                person={person}
-              />
-            ))}
-            {/* 添加，index === 0 是部长，没有添加，其他的当人数小于 2 时有添加 */}
-            {/* {(index !== 0 && group.TeamPersons.length < 2) && <OrganizationPerson
-              onClick={() => setAddModalVisible(true)}
-              key={'add'}
-            />} */}
-          </Member>
-        )}
+        <Skeleton loading={loading}>
+          {organization.auths.map((group, index) =>
+            <Member key={group.job.job_id} title={group.job.job_name}>
+              {group.TeamPersons.map(person => (
+                <OrganizationPerson
+                  key={person.id}
+                  onClick={() => openUpdateModal(group.job.job_id, person.id)}
+                  person={person}
+                />
+              ))}
+              {/* 添加，index === 0 是部长，没有添加，其他的当人数小于 2 时有添加 */}
+              {/* {(index !== 0 && group.TeamPersons.length < 2) && <OrganizationPerson
+                onClick={() => setAddModalVisible(true)}
+                key={'add'}
+              />} */}
+            </Member>
+          )}
+        </Skeleton>
       </div>
 
       {/* 修改权限的对话 Modal */}
@@ -134,6 +135,7 @@ const OrganizationAuth = ({ organization, dispatch }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  organization: state.organization,
+export default connect(({ organization, loading }: { organization: OrganizationModelState, loading: Loading }) => ({
+  organization,
+  loading: loading.models.organization,
 }))(OrganizationAuth)

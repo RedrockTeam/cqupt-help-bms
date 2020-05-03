@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'antd'
 import PageHeader from '@/components/pageHeader'
-import { useLocation, Link, connect, ConnectProps } from 'umi'
+import { useLocation, Link, connect, ConnectRC, Loading } from 'umi'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
 import sharedStyles from '@/assets/styles.css'
 import { ActivityModelState } from '@/models/activity'
@@ -22,13 +22,12 @@ interface Person {
   key: string,
 }
 
-type ConnectState = {
+type PageProps = {
   activity: ActivityModelState,
+  loading: boolean,
 }
 
-type Props = ConnectState & ConnectProps
-
-const Info = ({ activity }: Props) => {
+const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
   const location = useLocation()
   const { title } = parse(location.search)
 
@@ -56,6 +55,7 @@ const Info = ({ activity }: Props) => {
           }))
           return [...acc, ...res]
         }, [])}
+        loading={loading}
         scroll={{
           y: '76vh',
         }}
@@ -64,6 +64,7 @@ const Info = ({ activity }: Props) => {
   )
 }
 
-export default connect((state: ConnectState) => ({
-  activity: state.activity,
+export default connect(({ activity, loading }: { activity: ActivityModelState, loading: Loading }) => ({
+  activity,
+  loading: loading.models.activity,
 }))(Info)
