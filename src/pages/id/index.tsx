@@ -74,5 +74,5 @@ const Id: ConnectRC<PageProps> = ({ id, dispatch, loading }) => {
 
 export default connect(({ id, loading }: { id: IdModelState, loading: Loading }) => ({
   id,
-  loading: loading.models.id,
+  loading: loading.effects['id/fetchApplyingIdInfos']!,
 }))(Id)

@@ -45,5 +45,5 @@ const IdHistory: ConnectRC<PageProps> = ({ id, loading }) => {
 
 export default connect(({ id, loading }: { id: IdModelState, loading: Loading }) => ({
   id,
-  loading: loading.models.id,
+  loading: loading.effects['id/fetchPassedIdInfos']!,
 }))(IdHistory)

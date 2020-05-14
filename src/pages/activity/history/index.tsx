@@ -37,5 +37,5 @@ const ActivityHistory: ConnectRC<PageProps> = ({ activity, loading }) => {
 
 export default connect(({ activity, loading }: { activity: ActivityModelState, loading: Loading }) => ({
   activity,
-  loading: loading.models.activity,
+  loading: loading.effects['activity/fetchActivityHistoryInfos']!,
 }))(ActivityHistory)

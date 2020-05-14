@@ -14,6 +14,10 @@ export const getActivityInfos = (): Promise<ActivityInfos> => {
 export const getActivityHistoryInfos = (): Promise<ActivityHistoryInfos> => {
   return request(`/activity/activity/history`, {
     method: 'POST',
+    body: JSON.stringify({
+      page: 1,
+      size: 10,
+    }),
   })
 }
 

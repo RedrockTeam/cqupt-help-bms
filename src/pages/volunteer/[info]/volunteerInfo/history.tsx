@@ -55,5 +55,5 @@ const VolunteerUserHistory: ConnectRC<PageProps> = ({ volunteer, loading }) => {
 
 export default connect(({ volunteer, loading }: { volunteer: VolunteerModelState, loading: Loading }) => ({
   volunteer,
-  loading: loading.models.volunteer,
+  loading: loading.effects['volunteer/fetchVolunteerActivityHistoryUserInfos']!,
 }))(VolunteerUserHistory)

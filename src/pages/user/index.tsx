@@ -47,5 +47,5 @@ const User: ConnectRC<PageProps> = ({ user, loading }) => {
 
 export default connect(({ user, loading }: { user: UserModelState, loading: Loading }) => ({
   user,
-  loading: loading.models.user,
+  loading: loading.effects['user/fetchUserTasks']!,
 }))(User)

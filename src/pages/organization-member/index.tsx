@@ -35,7 +35,7 @@ const OrganizationMenber: ConnectRC<PageProps> = ({ organization, dispatch, load
         <Skeleton loading={loading}>
           {organization.members.map((group, index) =>
             <Member key={group.job.job_id} title={group.job.job_name}>
-              {group.TeamPersons.map(person =>
+              {group.TeamPersons?.map(person =>
                 <OrganizationPerson
                   onClick={() => Modal.confirm({ // 移除的对话 Modal
                     title: '请确认',
@@ -85,5 +85,5 @@ const OrganizationMenber: ConnectRC<PageProps> = ({ organization, dispatch, load
 
 export default connect(({ organization, loading }: { organization: OrganizationModelState, loading: Loading }) => ({
   organization,
-  loading: loading.models.organization,
+  loading: loading.effects['organization/fetchMembers']!,
 }))(OrganizationMenber)

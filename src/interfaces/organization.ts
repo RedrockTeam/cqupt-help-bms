@@ -4,7 +4,7 @@ export interface TeamPerson {
   avatar: string,
 }
 
-export type TeamPersons = TeamPerson[]
+export type TeamPersons = TeamPerson[] | null
 
 export interface OrganizationMember {
   job: {

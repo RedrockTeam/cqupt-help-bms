@@ -164,6 +164,7 @@ const activityModel: ActivityModel = {
   effects: {
     * fetchActivityInfos(action, { call, put }) {
       const data = yield call(getActivityInfos)
+      console.log(data)
       yield put(createSetActivityInfos(data))
     },
     * fetchActivityHistoryInfos(action, { call, put }) {

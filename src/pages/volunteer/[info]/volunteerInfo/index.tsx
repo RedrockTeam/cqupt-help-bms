@@ -125,5 +125,5 @@ const VolunteerInfo: ConnectRC<PageProps> = ({ volunteer, dispatch, loading }) =
 
 export default connect(({ volunteer, loading }: { volunteer: VolunteerModelState, loading: Loading }) => ({
   volunteer,
-  loading: loading.models.volunteer,
+  loading: loading.effects['volunteer/fetchVolunteerActivityUserInfos']!,
 }))(VolunteerInfo)

@@ -42,5 +42,5 @@ const Ticket: ConnectRC<PageProps> = ({ ticket, history, loading }) => {
 
 export default connect(({ ticket, loading }: { ticket: TicketModelState, loading: Loading }) => ({
   ticket,
-  loading: loading.models.ticket,
+  loading: loading.effects['ticket/fetchTickets']!,
 }))(Ticket)

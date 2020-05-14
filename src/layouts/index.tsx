@@ -48,6 +48,8 @@ function MyLayout({ children, location }: Props) {
     )
   })
 
+  console.log(access)
+
   return (
     <Layout className={styles.layout}>
       <Header className={styles.header}>

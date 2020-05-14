@@ -27,7 +27,9 @@ const OrganizationAuth: ConnectRC<PageProps> = ({ organization, dispatch, loadin
 
   // TODO: fix type
   const submitUpdate = (values: any) => {
-    dispatch!(createUpdateAuth(jobId!, values.authValue, originUserId!))
+    if (jobId && originUserId && values.authValue) {
+      dispatch!(createUpdateAuth(jobId, values.authValue, originUserId))
+    }
     closeUpdateModal()
   }
   const openUpdateModal = (jobId: number, originUserId: number) => {
@@ -61,7 +63,7 @@ const OrganizationAuth: ConnectRC<PageProps> = ({ organization, dispatch, loadin
         <Skeleton loading={loading}>
           {organization.auths.map((group, index) =>
             <Member key={group.job.job_id} title={group.job.job_name}>
-              {group.TeamPersons.map(person => (
+              {group.TeamPersons?.map(person => (
                 <OrganizationPerson
                   key={person.id}
                   onClick={() => openUpdateModal(group.job.job_id, person.id)}
@@ -93,7 +95,7 @@ const OrganizationAuth: ConnectRC<PageProps> = ({ organization, dispatch, loadin
             label="请选择权限获取人"
           >
             <Radio.Group>
-              {organization.canAuthList.map(canAuth => (
+              {organization.canAuthList?.map(canAuth => (
                 <Radio style={radioStyle} value={canAuth.id} key={canAuth.id}>
                   {canAuth.name}
                 </Radio>
@@ -137,5 +139,5 @@ const OrganizationAuth: ConnectRC<PageProps> = ({ organization, dispatch, loadin
 
 export default connect(({ organization, loading }: { organization: OrganizationModelState, loading: Loading }) => ({
   organization,
-  loading: loading.models.organization,
+  loading: loading.effects['organization/fetchAuths']!,
 }))(OrganizationAuth)
