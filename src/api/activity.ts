@@ -31,7 +31,7 @@ export const getActivityHistoryGifts = (id: number): Promise<GiftInfos> => {
 export const getActivityGifts = (id: number): Promise<GiftInfos> => {
   return request(`/activity/gift/info`, {
     method: 'POST',
-    body: JSON.stringify({ id }),
+    body: JSON.stringify({ activity_id: id }),
   })
 }
 

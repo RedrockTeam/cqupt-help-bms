@@ -24,6 +24,7 @@ type Props = ConnectState & ConnectProps
 const Update = ({ activity, dispatch }: Props) => {
   const { title } = parse(useLocation().search)
   const { info } = useParams()
+  // TODO: 获取历史信息作为初始化
   const [location, setLocation] = useState<string>('')
   const [timeBegin, setTimeBegin] = useState<number>()
   const [timeEnd, setTimeEnd] = useState<number>()

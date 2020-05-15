@@ -14,9 +14,9 @@ export type Tickets = Ticket[]
 export interface AddTicketOption {
   name: string,
   image: string,
-  timePlay: number,
+  time_play: number,
   location: string,
-  timeOut: number,
+  time_out: number,
   num: number,
 }
 

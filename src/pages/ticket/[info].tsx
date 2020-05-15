@@ -105,9 +105,9 @@ const AddTicket = ({ dispatch, ticket }: Props) => {
                   id,
                   name,
                   image,
-                  timePlay,
+                  time_play: timePlay,
                   location,
-                  timeOut,
+                  time_out: timeOut,
                   num
                 }))
                 setIsUpdateMode(false)

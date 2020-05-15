@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Upload, message} from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { UploadProps } from 'antd/lib/upload'
-import axios from 'axios'
+import { request } from 'umi'
 
 type Props = {
   image: string,
@@ -59,14 +59,14 @@ const ImageUploader = ({
         formData.append('upload', file)
         formData.append('project_name', 'cqupt-help-bms')
 
-        axios
-          .post('http://api-234.redrock.team/GraphBed/GraphBed/upload', formData)
-          .then(({ data: response }) => {
-            // TODO: 完善接口，目前有跨域问题
-            console.log(response)
-            setImage(response['图片url'])
-          })
-          .catch(console.error)
+        fetch('http://localhost:8080/api/GraphBed/upload', {
+          method: 'POST',
+          body: formData,
+        }).then(res => res.text()).then((data) => {
+          // TODO: 完善接口，目前有跨域问题
+          console.log(data)
+          setImage(`http://${data.split('"')[3]}`)
+        }).catch(console.error)
       }}
       beforeUpload={beforeUpload}
       onChange={handleChange}

@@ -46,6 +46,7 @@ const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
         columns={columns}
         pagination={false}
         dataSource={activity.activityGifts.reduce((acc: Person[], cur) => {
+          // TODO: 改接口，少获奖用户名字，对应 interface: GiftInfo
           const res = cur.infos.map(info => ({
             name: cur.name,
             level: cur.level,

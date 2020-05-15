@@ -1,7 +1,7 @@
 import { ImmerReducer, Subscription, Effect } from 'umi'
 import { message } from 'antd'
 import { pathToRegexp } from 'path-to-regexp'
-import { Tickets, UpdateTicketOption } from '@/interfaces/ticket'
+import { Tickets, UpdateTicketOption, AddTicketOption } from '@/interfaces/ticket'
 import { getTickets, addTicket, updateTicket } from '@/api/ticket'
 import { redirectTo } from '@/utils'
 
@@ -29,16 +29,9 @@ export const createSetTickets = (tickets: Tickets) => ({
   type: 'setTickets',
   payload: tickets,
 })
-export const createAddTicket = (name: string, image: string, timePlay: number, location: string, timeOut: number, num: number) => ({
+export const createAddTicket = (addTicketOption: AddTicketOption) => ({
   type: 'ticket/addTicket',
-  payload: {
-    name,
-    image,
-    timePlay,
-    location,
-    timeOut,
-    num,
-  }
+  payload: addTicketOption,
 })
 export const createUpdateTicket = (updateTicketOption: UpdateTicketOption) => ({
   type: 'ticket/updateTicket',

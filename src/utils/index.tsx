@@ -1,4 +1,5 @@
 import { pathMap, PathMap, paramsSymbol, nameSymbol } from '@/configs'
+import { history } from 'umi'
 
 export const pathnameToPagename = (url: string[]) => {
   return url.reduce((acc: PathMap, cur: string): PathMap => {
@@ -17,5 +18,5 @@ export const createFetchError = (where: string, status: number, message: string)
 }
 
 export const redirectTo = (pathname: string, delay = 0) => {
-  setTimeout(() => window.location.pathname = pathname, delay)
+  setTimeout(() => history.push(pathname), delay)
 }

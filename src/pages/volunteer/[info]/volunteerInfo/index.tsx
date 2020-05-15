@@ -108,7 +108,7 @@ const VolunteerInfo: ConnectRC<PageProps> = ({ volunteer, dispatch, loading }) =
           <Form.Item
             name="down_date"
             label="下线时间"
-            rules={[{ required: true, message: '请填写志愿活动下线实现' }]}
+            rules={[{ required: true, message: '请填写志愿活动下线时间' }]}
           >
             <DatePicker showTime className={sharedStyles.inputBorder} />
           </Form.Item>

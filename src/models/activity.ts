@@ -106,13 +106,13 @@ export const createAddPushGiftInput = () => ({ type: 'activity/addPushGiftInput'
 export const createCommitPushGift = (
   id: number,
   location: string,
-  timeBegin: number,
-  timeEnd: number,
-  timeOut: number,
+  time_begin: number,
+  time_end: number,
+  time_out: number,
   gifts: PushGiftInputResults,
 ) => ({
   type: 'activity/commitPushGift',
-  payload: { activity_id: id, location, timeBegin, timeEnd, timeOut, gift_models: gifts },
+  payload: { activity_id: id, location, time_begin, time_end, time_out, gift_models: gifts },
 })
 
 const activityModel: ActivityModel = {

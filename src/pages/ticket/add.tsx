@@ -62,7 +62,14 @@ const AddTicket = ({ dispatch }: Props) => {
           className={sharedStyles.okButton}
           onClick={() => {
             if (timePlay && timeOut) {
-              dispatch!(createAddTicket(name, image, timePlay, location, timeOut, num))
+              dispatch!(createAddTicket({
+                name,
+                image,
+                time_play: timePlay,
+                location,
+                time_out: timeOut,
+                num,
+              }))
             } else {
               message.warn('请填写完整信息')
             }
