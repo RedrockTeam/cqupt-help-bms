@@ -7,9 +7,11 @@ import {
   IdcardOutlined,
   WalletOutlined,
   HeartOutlined,
+  FormOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
 
+import defaultAvatar from '../assets/avatar.png'
 import styles from './index.css'
 import { pathnameToPagename } from '@/utils'
 
@@ -65,7 +67,7 @@ function MyLayout({ children, location }: Props) {
         <Sider width={'17vw'} theme={'light'} className={styles.sider}>
           <Skeleton loading={loading} active avatar>
             <div className={styles.self}>
-              <Avatar className={styles.avatar} src={initialState?.avatar} />
+              <Avatar className={styles.avatar} src={initialState?.avatar || defaultAvatar} />
               <div className={styles.info}>
                 <div className={styles.name}>{initialState?.name}</div>
                 <div className={styles.subInfo}>
@@ -86,6 +88,17 @@ function MyLayout({ children, location }: Props) {
             <Nav canEnter={access.canEnterId} route="/id" routeName="身份有证管理中心" Icon={<IdcardOutlined />} />
             <Nav canEnter={access.canEnterTicket} route="/ticket" routeName="影票上线管理中心" Icon={<WalletOutlined />} />
             <Nav canEnter={access.canEnterVolunteer} route="/volunteer" routeName="志愿服务管理" Icon={<HeartOutlined />} />
+            <Menu.SubMenu key="青春邮约报名系统"
+              title={
+                <span style={{ color: '#636B81' }}>
+                  <FormOutlined style={{ fontSize: '0.9375vw' }} />
+                  <span className={styles.item} style={{ marginLeft: '0.52084vw' }}>青春邮约报名系统</span>
+                </span>
+              }
+            >
+              <Nav canEnter={true} route="/young-input" routeName="部门资料" />
+              <Nav canEnter={true} route="/young-push" routeName="推送信息" />
+            </Menu.SubMenu>
             <Menu.SubMenu key="组织管理"
               title={
                 <span style={{ color: '#636B81' }}>

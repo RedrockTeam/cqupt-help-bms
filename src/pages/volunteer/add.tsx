@@ -39,9 +39,9 @@ const AddVolunteerActivity = ({ dispatch }: Props) => {
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>活动日期</span>
           <DatePicker
-            showTime
             className={sharedStyles.inputBorder}
             onChange={(date) => {
+              console.log(date?.unix())
               setDate(date?.unix())
             }}
           />

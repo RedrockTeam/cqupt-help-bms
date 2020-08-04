@@ -59,6 +59,15 @@ export const pathMap: PathMap = {
       },
     },
   },
+  'young-input': {
+    [nameSymbol]: '青春邮约报名系统 > 部门资料',
+  },
+  'young-push': {
+    [nameSymbol]: '青春邮约报名系统 > 推送信息',
+    history: {
+      [nameSymbol]: '已推送信息名单',
+    },
+  },
   'organization-auth': {
     [nameSymbol]: '组织管理 < 权限管理',
   },
