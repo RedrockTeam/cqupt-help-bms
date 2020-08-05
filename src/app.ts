@@ -60,6 +60,7 @@ export const request: RequestConfig = {
       // { code: 10000 | 10010 | 10012, info: string, data: 不是 undefined，不是 null | Array }
       if (json.data === undefined) return null
       else if (json.data === null) return []
+      else if (json.step) return { data: json.data, step: json.step } // 处理 /team/apply/recent
       else return json.data
     },
   ],

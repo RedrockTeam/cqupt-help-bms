@@ -50,7 +50,7 @@ function MyLayout({ children, location }: Props) {
     )
   })
 
-  console.log(access)
+  // console.log(access)
 
   return (
     <Layout className={styles.layout}>

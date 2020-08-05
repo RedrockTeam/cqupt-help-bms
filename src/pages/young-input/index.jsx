@@ -5,12 +5,11 @@ import sharedStyles from '@/assets/styles.css'
 import styles from './index.css'
 import { Input, Button } from 'antd'
 import ImageUploader from '@/components/imageUploader'
+import { createSetTeamInfo, createUpdateTeamInfo } from '@/models/young'
 
-const YoungInput = () => {
-  const [title, setTitle] = useState('产品大经理部')
-  const [content, setContent] = useState('牛逼牛逼牛逼牛逼牛逼牛逼')
-  const [image, setImage] = useState('')
+const YoungInput = ({ young, dispatch }) => {
   const [isUpdateMode, setIsUpdateMode] = useState(false)
+  const handleChangeTeamInfo = (teamInfo) => dispatch(createSetTeamInfo(teamInfo))
 
   return (
     <div>
@@ -21,10 +20,15 @@ const YoungInput = () => {
           {isUpdateMode
             ? <Input
                 className={styles.input}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={young.teamInfo.name}
+                onChange={(e) => {
+                  handleChangeTeamInfo({
+                    ...young.teamInfo,
+                    name: e.target.value
+                  })
+                }}
               />
-            : <div className={styles.unUpdateInput}>{title}</div>}
+            : <div className={styles.unUpdateInput}>{young.teamInfo.name}</div>}
         </div>
         <div className={styles.detailsWrapper}>
           <div className={styles.title}>部门介绍</div>
@@ -32,20 +36,35 @@ const YoungInput = () => {
             ? (<>
                 <Input.TextArea
                   className={styles.text}
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
+                  value={young.teamInfo.detail}
+                  onChange={(e) => {
+                    handleChangeTeamInfo({
+                      ...young.teamInfo,
+                      detail: e.target.value
+                    })
+                  }}
                   rows={6}
                   maxLength={50}
                 />
-                <span className={styles.len}>{content.length} / 50</span>
+                <span className={styles.len}>{young.teamInfo.detail.length} / 50</span>
               </>)
             : (
-              <div className={styles.unUpdateText}>{content}</div>
+              <div className={styles.unUpdateText}>{young.teamInfo.detail}</div>
             )}
         </div>
         <div className={sharedStyles.inputWrapper}>
           <div className={styles.title}>宣传图片</div>
-          <ImageUploader image={image} disabled={!isUpdateMode} setImage={setImage} className={styles.upload} />
+          <ImageUploader
+            image={young.teamInfo.avatar}
+            disabled={!isUpdateMode}
+            setImage={(url) => {
+              handleChangeTeamInfo({
+                ...young.teamInfo,
+                avatar: url,
+              })
+            }}
+            className={styles.upload}
+          />
           <div className={styles.tips}>请上传16:9大小的部门宣传图</div>
         </div>
         <Button
@@ -54,7 +73,7 @@ const YoungInput = () => {
           className={sharedStyles.okButton}
           onClick={() => {
             if (isUpdateMode) {
-              // 
+              dispatch(createUpdateTeamInfo(young.teamInfo.detail, young.teamInfo.avatar))
               setIsUpdateMode(false)
             } else {
               setIsUpdateMode(true)
@@ -66,4 +85,7 @@ const YoungInput = () => {
   )
 }
 
-export default YoungInput
+export default connect(({ young, loading }) => ({
+  young,
+  loading: loading.effects['young/fetchTeamInfo'],
+}))(YoungInput)

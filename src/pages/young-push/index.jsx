@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, connect, Loading, ConnectRC } from 'umi'
-import { Table, Button, Checkbox } from 'antd'
+import { Table, Button, Checkbox, Modal, Steps } from 'antd'
 import PageHeader from '@/components/pageHeader'
 import PageHeaderBtn from '@/components/pageHeaderBtn'
 import sharedStyles from '@/assets/styles.css'
@@ -12,103 +12,20 @@ const columns = [
   { title: '手机号', dataIndex: 'phone', key: 'phone' },
 ]
 
-const list = [
-  {
-    id: 1,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 2,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 3,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 4,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 5,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 6,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 7,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 8,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 9,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 10,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id:11,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 12,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 13,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-  {
-    id: 14,
-    name: '刘静猪猪',
-    stu_num: '2018214139',
-    phone: '13060229931',
-  },
-]
-
-const YoungPush = () => {
+const YoungPush = ({ young, loading }) => {
   const [selectedIds, setSelectedIds] = useState([])
   const [isChecked, setIsChecked] = useState(false)
+  const [pushStep, setPushStep] = useState(0)
+  const list = young.current.data
+  const step = young.current.step
+
   useEffect(() => {
     if (selectedIds.length === list.length) {
       setIsChecked(true)
     } else {
       setIsChecked(false)
     }
-  }, [selectedIds.length])
+  }, [list.length, selectedIds.length])
   const selectAll = () => {
     if (isChecked) {
       setSelectedIds([])
@@ -116,9 +33,17 @@ const YoungPush = () => {
       setSelectedIds(list.map(e => e.id))
     }
   }
+
+  const handleOk = () => {
+
+  }
+  const handleCancel = () => {
+    setIsShow(false)
+  }
+
   return (
     <div>
-      <PageHeader title="推送信息TODO">
+      <PageHeader title={`第 ${step} 轮选拔推送名单`}>
         <PageHeaderBtn type="history">
           <Link to="/young-push/history" className={sharedStyles.pageHeaderBtn}>已推送名单</Link>
         </PageHeaderBtn>
@@ -135,7 +60,7 @@ const YoungPush = () => {
             className: styles.pagination
           }}
           columns={columns}
-          // loading={loading}
+          loading={loading}
           dataSource={list.map(i => ({ ...i, key: i.id }))}
         />
         <div
@@ -159,7 +84,33 @@ const YoungPush = () => {
             type="primary"
             onClick={() => {
               if (selectedIds.length) {
-                //
+                const modal = Modal.confirm({
+                  title: `第 ${step} 轮推送信息录入`,
+                  content: (
+                    <div>
+                      <div>
+                        <Steps current={pushStep} size="small">
+                          <Steps.Step title="推送形式" />
+                          <Steps.Step title="信息录入" />
+                          <Steps.Step title="信息核对" />
+                        </Steps>
+                      </div>
+
+                    </div>
+                  ),
+                  onOk(close) {
+                    if (pushStep < 3) {
+                      console.log(pushStep)
+                      setPushStep(pushStep + 1)
+                    } else {
+                      close()
+                    }
+                  },
+                  onCancel(close) {
+                    setPushStep(0)
+                    close()
+                  }
+                })
               }
             }}
             className={sharedStyles.okButton}
@@ -170,4 +121,7 @@ const YoungPush = () => {
   )
 }
 
-export default YoungPush
+export default connect(({ young, loading }) => ({
+  young,
+  loading: loading.effects['young/fetchCurrentInfo'],
+}))(YoungPush)
