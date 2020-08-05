@@ -1,7 +1,10 @@
 import { defineConfig } from 'umi';
-import pxtoviewport from 'postcss-px-to-viewport'
+import pxtoviewport from 'postcss-px-to-viewport';
 
 export default defineConfig({
+  outputPath: 'build',
+  publicPath:
+    process.env.NODE_ENV === 'production' ? '/game/cqupt-help-bms/' : '/',
   theme: {
     '@menu-item-height': '80px',
     '@menu-inline-toplevel-item-height': '80px',
@@ -37,4 +40,4 @@ export default defineConfig({
       }),
     ],
   },
-})
+});
