@@ -1,4 +1,5 @@
 {
+  "name": "cqupt-help-bms",
   "private": true,
   "scripts": {
     "start": "umi dev",
