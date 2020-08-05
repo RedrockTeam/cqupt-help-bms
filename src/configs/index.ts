@@ -1,11 +1,11 @@
-export const nameSymbol = Symbol('name')
-export const paramsSymbol = Symbol('params')
+export const nameSymbol = Symbol('name');
+export const paramsSymbol = Symbol('params');
 
 export type PathMap = {
-  [nameSymbol]?: string,
-  [paramsSymbol]?: PathMap,
-  [path: string]: PathMap,
-}
+  [nameSymbol]?: string;
+  [paramsSymbol]?: PathMap;
+  [path: string]: PathMap;
+};
 
 export const pathMap: PathMap = {
   user: {
@@ -20,7 +20,7 @@ export const pathMap: PathMap = {
       [nameSymbol]: '历史推送',
       [paramsSymbol]: {
         [nameSymbol]: '历史推送名单',
-      }
+      },
     },
     [paramsSymbol]: {
       [nameSymbol]: '推送名单',
@@ -77,6 +77,9 @@ export const pathMap: PathMap = {
   'organization-task': {
     [nameSymbol]: '组织管理 < 任务发布',
   },
-}
+};
 
-export const API = process.env.API
+export const API =
+  process.env.NODE_ENV === 'production'
+    ? 'https://cyxbsmobile.redrock.team/wxapi/cyb-permissioncenter'
+    : 'http://localhost:8080';
