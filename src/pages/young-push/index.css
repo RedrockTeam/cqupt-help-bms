@@ -6,3 +6,93 @@
   float: right;
   margin: 20px;
 }
+
+.checkAll {
+  position: absolute;
+  top: -50px;
+  left: 22px;
+}
+
+.con {
+  margin-left: 28px;
+}
+
+.pushTitle {
+  font-size:18px;
+  font-family:Microsoft YaHei;
+  font-weight:bold;
+  color:rgba(43,46,55,1);
+}
+
+.pushContent {
+  margin: 30px auto;
+  width: 552px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pushChoice {
+  width: 136px;
+  height: 136px;
+  background-size: cover;
+}
+
+.mianshi {
+  background-image: url(../../assets/mianshi.png);
+}
+.mianshi:hover, .mianshiActive {
+  background-image: url(../../assets/mianshi-active.png);
+}
+.bishi {
+  background-image: url(../../assets/bishi.png);
+}
+.bishi:hover, .bishiActive {
+  background-image: url(../../assets/bishi-active.png);
+}
+.luqu {
+  background-image: url(../../assets/luqu.png);
+}
+.luqu:hover, .luquActive {
+  background-image: url(../../assets/luqu-active.png);
+}
+
+.modal {
+  width: 980px !important;
+}
+
+.steps {
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.contentItem {
+  width: 410px;
+}
+
+.inputWrapper {
+  width: 410px;
+  margin: 20px 0;
+}
+
+.name {
+  display: block;
+}
+
+.pushTextTitle {
+  font-size:18px;
+  font-family:Microsoft YaHei;
+  font-weight:bold;
+  color:rgba(43,46,55,1);
+}
+.pushTextContent {
+  font-size:16px;
+  font-family:Microsoft YaHei;
+  font-weight:400;
+  color:rgba(73,77,89,1);
+}

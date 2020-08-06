@@ -17,12 +17,17 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  mock: false,
   dva: {
     immer: true,
   },
-  // routes: [
-  //   { path: '/', component: '@/pages/index' },
-  // ],
+  proxy: {
+    '/api': {
+      target: 'https://cyxbsmobile.redrock.team/wxapi/cyb-permissioncenter',
+      changeOrigin: true,
+      pathRewrite: { '^/api': '' },
+    },
+  },
   postcssLoader: {
     plugins: [
       pxtoviewport({

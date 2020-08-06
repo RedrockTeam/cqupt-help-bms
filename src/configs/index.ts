@@ -60,12 +60,15 @@ export const pathMap: PathMap = {
     },
   },
   'young-input': {
-    [nameSymbol]: '青春邮约报名系统 > 部门资料',
+    [nameSymbol]: '青春邮约报名系统 < 部门资料',
   },
   'young-push': {
-    [nameSymbol]: '青春邮约报名系统 > 推送信息',
+    [nameSymbol]: '青春邮约报名系统 < 推送信息',
     history: {
       [nameSymbol]: '已推送信息名单',
+      [paramsSymbol]: {
+        [nameSymbol]: '该轮选拔推送名单',
+      },
     },
   },
   'organization-auth': {
@@ -82,4 +85,4 @@ export const pathMap: PathMap = {
 export const API =
   process.env.NODE_ENV === 'production'
     ? 'https://cyxbsmobile.redrock.team/wxapi/cyb-permissioncenter'
-    : 'http://localhost:8080';
+    : 'http://localhost:8000/api';

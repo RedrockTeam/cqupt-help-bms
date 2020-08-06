@@ -1,42 +1,49 @@
-import { ImmerReducer, Subscription, Effect } from 'umi'
-import { message } from 'antd'
-import { pathToRegexp } from 'path-to-regexp'
-import { Tickets, UpdateTicketOption, AddTicketOption } from '@/interfaces/ticket'
-import { getTickets, addTicket, updateTicket } from '@/api/ticket'
-import { redirectTo } from '@/utils'
+import { ImmerReducer, Subscription, Effect } from 'umi';
+import { message } from 'antd';
+import { pathToRegexp } from 'path-to-regexp';
+import {
+  Tickets,
+  UpdateTicketOption,
+  AddTicketOption,
+} from '@/interfaces/ticket';
+import { getTickets, addTicket, updateTicket } from '@/api/ticket';
+import { redirectTo } from '@/utils';
 
 export interface TicketModelState {
-  tickets: Tickets,
+  tickets: Tickets;
 }
 
 export interface TicketModel {
-  state: TicketModelState,
+  state: TicketModelState;
   subscriptions: {
-    onTicketPage: Subscription,
-  },
+    onTicketPage: Subscription;
+  };
   effects: {
-    fetchTickets: Effect,
-    addTicket: Effect,
-    updateTicket: Effect,
-  },
+    fetchTickets: Effect;
+    addTicket: Effect;
+    updateTicket: Effect;
+  };
   reducers: {
-    setTickets: ImmerReducer<TicketModelState, ReturnType<typeof createSetTickets>>,
-  },
+    setTickets: ImmerReducer<
+      TicketModelState,
+      ReturnType<typeof createSetTickets>
+    >;
+  };
 }
 
-export const createFetchTickets = () => ({ type: 'fetchTickets' })
+export const createFetchTickets = () => ({ type: 'fetchTickets' });
 export const createSetTickets = (tickets: Tickets) => ({
   type: 'setTickets',
   payload: tickets,
-})
+});
 export const createAddTicket = (addTicketOption: AddTicketOption) => ({
   type: 'ticket/addTicket',
   payload: addTicketOption,
-})
+});
 export const createUpdateTicket = (updateTicketOption: UpdateTicketOption) => ({
   type: 'ticket/updateTicket',
   payload: updateTicketOption,
-})
+});
 
 const ticketModel: TicketModel = {
   state: {
@@ -45,33 +52,39 @@ const ticketModel: TicketModel = {
   subscriptions: {
     onTicketPage({ history, dispatch }) {
       history.listen(({ pathname }) => {
-        const match = pathToRegexp('/ticket').exec(pathname)
+        const match = pathToRegexp('/ticket').exec(pathname);
         if (match) {
-          dispatch(createFetchTickets())
+          dispatch(createFetchTickets());
         }
-      })
+      });
     },
   },
   effects: {
-    * fetchTickets(action, { call, put }) {
-      const data = yield call(getTickets)
-      yield put(createSetTickets(data))
+    *fetchTickets(action, { call, put }) {
+      const res = yield call(getTickets);
+      if (res.status === 10000) {
+        yield put(createSetTickets(res.data ?? []));
+      }
     },
-    * addTicket({ payload }, { call }) {
-      yield call(addTicket, payload)
-      message.success('添加成功')
-      redirectTo('/ticket', 2000)
+    *addTicket({ payload }, { call }) {
+      const res = yield call(addTicket, payload);
+      if (res.status === 10000) {
+        message.success('添加成功');
+        redirectTo('/ticket', 2000);
+      }
     },
-    * updateTicket({ payload }, { call }) {
-      yield call(updateTicket, payload)
-      message.success('修改成功')
-    }
+    *updateTicket({ payload }, { call }) {
+      const res = yield call(updateTicket, payload);
+      if (res.status === 10000) {
+        message.success('修改成功');
+      }
+    },
   },
   reducers: {
     setTickets(state, { payload }) {
-      state.tickets = payload
+      state.tickets = payload;
     },
   },
-}
+};
 
-export default ticketModel
+export default ticketModel;
