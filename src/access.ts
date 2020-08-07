@@ -1,14 +1,21 @@
 import { UserInfo, UserToolAuth } from './interfaces/user';
 
 export interface InitialState extends UserInfo {
-  toolAuth: UserToolAuth,
+  toolAuth: UserToolAuth;
 }
 
 export default function(initialState: InitialState) {
-  const { toolAuth } = initialState
+  const { toolAuth } = initialState;
   // const auths = toolAuth.map(t => t.route)
-  const auths = ['/user', '/activity', '/identity', '/cinema', '/volunteer', '/team']
-  console.log(auths)
+  const auths = [
+    '/user',
+    '/activity',
+    '/identity',
+    '/cinema',
+    '/volunteer',
+    '/team',
+  ];
+  console.log(auths);
 
   return {
     canEnterUser: true,
@@ -17,5 +24,5 @@ export default function(initialState: InitialState) {
     canEnterTicket: auths.includes('/cinema'),
     canEnterVolunteer: auths.includes('/volunteer'),
     canEnterOrganization: auths.includes('/team'),
-  }
+  };
 }

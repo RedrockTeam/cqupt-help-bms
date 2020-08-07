@@ -1,28 +1,30 @@
-import React from 'react'
-import { Link, connect, ConnectRC, Loading } from 'umi'
-import { Table } from 'antd'
-import styles from './user.css'
-import PageHeader from '@/components/pageHeader'
-import PageHeaderBtn from '@/components/pageHeaderBtn'
-import sharedStyles from '@/assets/styles.css'
-import { UserModelState } from '@/models/user'
+import React from 'react';
+import { Link, connect, ConnectRC, Loading } from 'umi';
+import { Table } from 'antd';
+import styles from './user.css';
+import PageHeader from '@/components/pageHeader';
+import PageHeaderBtn from '@/components/pageHeaderBtn';
+import sharedStyles from '@/assets/styles.css';
+import { UserModelState } from '@/models/user';
 
 const columns = [
   { title: '活动任务', dataIndex: 'title', key: 'title' },
   { title: '发布时间', dataIndex: 'updated_time', key: 'updated_time' },
-]
+];
 
 type PageProps = {
-  user: UserModelState,
-  loading: boolean,
-}
+  user: UserModelState;
+  loading: boolean;
+};
 
 const User: ConnectRC<PageProps> = ({ user, loading }) => {
   return (
     <div>
       <PageHeader title="我的任务">
         <PageHeaderBtn type="history">
-          <Link to="/user/history" className={sharedStyles.pageHeaderBtn}>历史任务</Link>
+          <Link to="/user/history" className={sharedStyles.pageHeaderBtn}>
+            历史任务
+          </Link>
         </PageHeaderBtn>
       </PageHeader>
       <Table
@@ -30,7 +32,7 @@ const User: ConnectRC<PageProps> = ({ user, loading }) => {
         pagination={false}
         expandable={{
           expandedRowRender(record) {
-            return <p className={styles.description}>{record.content}</p>
+            return <p className={styles.description}>{record.content}</p>;
           },
           expandIconColumnIndex: 2,
         }}
@@ -42,10 +44,12 @@ const User: ConnectRC<PageProps> = ({ user, loading }) => {
         expandRowByClick
       />
     </div>
-  )
-}
+  );
+};
 
-export default connect(({ user, loading }: { user: UserModelState, loading: Loading }) => ({
-  user,
-  loading: loading.effects['user/fetchUserTasks']!,
-}))(User)
+export default connect(
+  ({ user, loading }: { user: UserModelState; loading: Loading }) => ({
+    user,
+    loading: loading.effects['user/fetchUserTasks']!,
+  }),
+)(User);

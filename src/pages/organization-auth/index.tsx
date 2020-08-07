@@ -1,44 +1,52 @@
-import React, { useState } from 'react'
-import { connect, ConnectRC, Loading } from 'umi'
-import { OrganizationModelState, createUpdateAuth, createFetchCanAuthList } from '@/models/organization'
-import PageHeader from '@/components/pageHeader'
-import Member from '@/components/organizationMember'
-import OrganizationPerson from '@/components/organizationPerson'
-import sharedStyles from '@/assets/styles.css'
-import { Modal, Button, Form, Radio, Skeleton } from 'antd'
+import React, { useState } from 'react';
+import { connect, ConnectRC, Loading } from 'umi';
+import {
+  OrganizationModelState,
+  createUpdateAuth,
+  createFetchCanAuthList,
+} from '@/models/organization';
+import PageHeader from '@/components/pageHeader';
+import Member from '@/components/organizationMember';
+import OrganizationPerson from '@/components/organizationPerson';
+import sharedStyles from '@/assets/styles.css';
+import { Modal, Button, Form, Radio, Skeleton } from 'antd';
 
 const radioStyle = {
   display: 'block',
   height: '30px',
   lineHeight: '30px',
-}
+};
 
 type PageProps = {
-  organization: OrganizationModelState,
-  loading: boolean,
-}
+  organization: OrganizationModelState;
+  loading: boolean;
+};
 
 // 先把添加成员的逻辑注释了
-const OrganizationAuth: ConnectRC<PageProps> = ({ organization, dispatch, loading }) => {
+const OrganizationAuth: ConnectRC<PageProps> = ({
+  organization,
+  dispatch,
+  loading,
+}) => {
   // const [addModalVisible, setAddModalVisible] = useState<boolean>(false)
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false)
-  const [jobId, setJobId] = useState<number>()
-  const [originUserId, setOriginUserId] = useState<number>()
+  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
+  const [jobId, setJobId] = useState<number>();
+  const [originUserId, setOriginUserId] = useState<number>();
 
   // TODO: fix type
   const submitUpdate = (values: any) => {
     if (jobId && originUserId && values.authValue) {
-      dispatch!(createUpdateAuth(jobId, values.authValue, originUserId))
+      dispatch!(createUpdateAuth(jobId, values.authValue, originUserId));
     }
-    closeUpdateModal()
-  }
+    closeUpdateModal();
+  };
   const openUpdateModal = (jobId: number, originUserId: number) => {
-    dispatch!(createFetchCanAuthList(jobId))
-    setJobId(jobId)
-    setOriginUserId(originUserId)
-    setUpdateModalVisible(true)
-  }
-  const closeUpdateModal = () => setUpdateModalVisible(false)
+    dispatch!(createFetchCanAuthList(jobId));
+    setJobId(jobId);
+    setOriginUserId(originUserId);
+    setUpdateModalVisible(true);
+  };
+  const closeUpdateModal = () => setUpdateModalVisible(false);
 
   // const submit = (values: any) => {
   //   dispatch!({
@@ -61,7 +69,7 @@ const OrganizationAuth: ConnectRC<PageProps> = ({ organization, dispatch, loadin
       <PageHeader title="权限管理" />
       <div className={sharedStyles.wrapper}>
         <Skeleton loading={loading}>
-          {organization.auths.map((group, index) =>
+          {organization.auths.map((group, index) => (
             <Member key={group.job.job_id} title={group.job.job_name}>
               {group.TeamPersons?.map(person => (
                 <OrganizationPerson
@@ -76,7 +84,7 @@ const OrganizationAuth: ConnectRC<PageProps> = ({ organization, dispatch, loadin
                 key={'add'}
               />} */}
             </Member>
-          )}
+          ))}
         </Skeleton>
       </div>
 
@@ -90,10 +98,7 @@ const OrganizationAuth: ConnectRC<PageProps> = ({ organization, dispatch, loadin
         destroyOnClose
       >
         <Form name="modal-form" onFinish={submitUpdate} layout="vertical">
-          <Form.Item
-            name="authValue"
-            label="请选择权限获取人"
-          >
+          <Form.Item name="authValue" label="请选择权限获取人">
             <Radio.Group>
               {organization.canAuthList?.map(canAuth => (
                 <Radio style={radioStyle} value={canAuth.id} key={canAuth.id}>
@@ -134,10 +139,18 @@ const OrganizationAuth: ConnectRC<PageProps> = ({ organization, dispatch, loadin
         </Form>
       </Modal> */}
     </div>
-  )
-}
+  );
+};
 
-export default connect(({ organization, loading }: { organization: OrganizationModelState, loading: Loading }) => ({
-  organization,
-  loading: loading.effects['organization/fetchAuths']!,
-}))(OrganizationAuth)
+export default connect(
+  ({
+    organization,
+    loading,
+  }: {
+    organization: OrganizationModelState;
+    loading: Loading;
+  }) => ({
+    organization,
+    loading: loading.effects['organization/fetchAuths']!,
+  }),
+)(OrganizationAuth);

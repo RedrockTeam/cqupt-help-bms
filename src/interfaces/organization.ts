@@ -1,24 +1,24 @@
 export interface TeamPerson {
-  id: number,
-  name: string,
-  avatar: string,
+  id: number;
+  name: string;
+  avatar: string;
 }
 
-export type TeamPersons = TeamPerson[] | null
+export type TeamPersons = TeamPerson[] | null;
 
 export interface OrganizationMember {
   job: {
-    job_name: string,
-    job_id: number,
-  },
-  TeamPersons: TeamPersons,
+    job_name: string;
+    job_id: number;
+  };
+  TeamPersons: TeamPersons;
 }
 
-export type OrganizationMembers = OrganizationMember[]
+export type OrganizationMembers = OrganizationMember[];
 
 // auth
-export type OrganizationAuth = OrganizationMember
+export type OrganizationAuth = OrganizationMember;
 
-export type OrganizationAuths = OrganizationAuth[]
+export type OrganizationAuths = OrganizationAuth[];
 
-export type OrganizationCanAuthList = TeamPersons
+export type OrganizationCanAuthList = TeamPersons;

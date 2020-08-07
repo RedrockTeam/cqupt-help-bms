@@ -3,9 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: [
-    'plugin:react/recommended',
-  ],
+  extends: ['plugin:react/recommended'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -18,15 +16,11 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: [
-    'react',
-    'react-hooks',
-    '@typescript-eslint',
-  ],
+  plugins: ['react', 'react-hooks', '@typescript-eslint'],
   rules: {
-    'semi': 'off',
+    semi: 'off',
     'react/prop-types': 'off',
-    "react-hooks/rules-of-hooks": "error", // 检查 Hook 的规则
-    "react-hooks/exhaustive-deps": "warn" // 检查 effect 的依赖
+    'react-hooks/rules-of-hooks': 'error', // 检查 Hook 的规则
+    'react-hooks/exhaustive-deps': 'warn', // 检查 effect 的依赖
   },
 };

@@ -1,35 +1,35 @@
-import React from 'react'
-import { Table } from 'antd'
-import PageHeader from '@/components/pageHeader'
-import { useLocation, Link, connect, ConnectRC, Loading } from 'umi'
-import PageHeaderBtn from '@/components/pageHeaderBtn'
-import sharedStyles from '@/assets/styles.css'
-import { ActivityModelState } from '@/models/activity'
-import { parse } from 'query-string'
+import React from 'react';
+import { Table } from 'antd';
+import PageHeader from '@/components/pageHeader';
+import { useLocation, Link, connect, ConnectRC, Loading } from 'umi';
+import PageHeaderBtn from '@/components/pageHeaderBtn';
+import sharedStyles from '@/assets/styles.css';
+import { ActivityModelState } from '@/models/activity';
+import { parse } from 'query-string';
 
 const columns = [
   { title: '获奖人', dataIndex: 'username', key: 'username' },
   { title: '学号', dataIndex: 'stuNum', key: 'stuNum' },
   { title: '奖品', dataIndex: 'name', key: 'name' },
   { title: '奖项', dataIndex: 'level', key: 'level' },
-]
+];
 
 interface Person {
-  name: string,
-  level: number,
-  username: string,
-  stuNum: string,
-  key: string,
+  name: string;
+  level: number;
+  username: string;
+  stuNum: string;
+  key: string;
 }
 
 type PageProps = {
-  activity: ActivityModelState,
-  loading: boolean,
-}
+  activity: ActivityModelState;
+  loading: boolean;
+};
 
 const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
-  const location = useLocation()
-  const { title } = parse(location.search)
+  const location = useLocation();
+  const { title } = parse(location.search);
 
   return (
     <div>
@@ -39,7 +39,9 @@ const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
             to={`${location.pathname}/update?title=${title}`}
             className={sharedStyles.pageHeaderBtn}
             style={{ color: '#36CA94' }}
-          >修改</Link>
+          >
+            修改
+          </Link>
         </PageHeaderBtn>
       </PageHeader>
       <Table
@@ -52,8 +54,8 @@ const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
             username: cur.names[i],
             stuNum: num,
             key: num + cur.names[i],
-          }))
-          return [...acc, ...res]
+          }));
+          return [...acc, ...res];
         }, [])}
         loading={loading}
         scroll={{
@@ -61,10 +63,18 @@ const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
         }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default connect(({ activity, loading }: { activity: ActivityModelState, loading: Loading }) => ({
-  activity,
-  loading: loading.effects['activity/fetchActivityGifts']!,
-}))(Info)
+export default connect(
+  ({
+    activity,
+    loading,
+  }: {
+    activity: ActivityModelState;
+    loading: Loading;
+  }) => ({
+    activity,
+    loading: loading.effects['activity/fetchActivityGifts']!,
+  }),
+)(Info);

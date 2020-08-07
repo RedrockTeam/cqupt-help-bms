@@ -1,10 +1,10 @@
-import React from 'react'
-import { connect, ConnectRC, Loading } from 'umi'
-import { Table } from 'antd'
-import PageHeader from '@/components/pageHeader'
-import { IdInfo } from '@/interfaces/id'
-import styles from './id.css'
-import { IdModelState } from '@/models/id'
+import React from 'react';
+import { connect, ConnectRC, Loading } from 'umi';
+import { Table } from 'antd';
+import PageHeader from '@/components/pageHeader';
+import { IdInfo } from '@/interfaces/id';
+import styles from './id.css';
+import { IdModelState } from '@/models/id';
 
 const columns = [
   { title: '姓名', dataIndex: 'name', key: 'name' },
@@ -17,33 +17,34 @@ const columns = [
     key: 'team_name',
     sorter: (a: IdInfo, b: IdInfo) => a.team_name.length - b.team_name.length,
   },
-]
+];
 
 type PageProps = {
-  id: IdModelState,
-  loading: boolean,
-}
+  id: IdModelState;
+  loading: boolean;
+};
 
 const IdHistory: ConnectRC<PageProps> = ({ id, loading }) => {
   return (
     <div>
-      <PageHeader title="通过名单">
-      </PageHeader>
+      <PageHeader title="通过名单"></PageHeader>
       <div className={styles.wrapper}>
         <Table
           columns={columns}
           pagination={{
-            className: styles.pagination
+            className: styles.pagination,
           }}
           loading={loading}
           dataSource={id.passList.map(i => ({ ...i, key: i.id }))}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default connect(({ id, loading }: { id: IdModelState, loading: Loading }) => ({
-  id,
-  loading: loading.effects['id/fetchPassedIdInfos']!,
-}))(IdHistory)
+export default connect(
+  ({ id, loading }: { id: IdModelState; loading: Loading }) => ({
+    id,
+    loading: loading.effects['id/fetchPassedIdInfos']!,
+  }),
+)(IdHistory);

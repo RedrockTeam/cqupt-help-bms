@@ -1,22 +1,23 @@
-import React, { ReactNode } from 'react'
-import styles from './pageHeaderBtn.css'
-import {
-  ClockCircleOutlined,
-  PlusOutlined,
-} from '@ant-design/icons'
+import React, { ReactNode } from 'react';
+import styles from './pageHeaderBtn.css';
+import { ClockCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-const PageHeaderBtn = ({ children, type, onClick }: {
-  type?: 'add' | 'history',
-  onClick?: (e: React.MouseEvent) => void,
-  children?: ReactNode,
+const PageHeaderBtn = ({
+  children,
+  type,
+  onClick,
+}: {
+  type?: 'add' | 'history';
+  onClick?: (e: React.MouseEvent) => void;
+  children?: ReactNode;
 }) => {
   function Icon() {
     if (type === 'add') {
-      return <PlusOutlined />
+      return <PlusOutlined />;
     } else if (type === 'history') {
-      return <ClockCircleOutlined />
+      return <ClockCircleOutlined />;
     }
-    return null
+    return null;
   }
 
   return (
@@ -28,7 +29,7 @@ const PageHeaderBtn = ({ children, type, onClick }: {
       <Icon />
       <span>{children}</span>
     </div>
-  )
-}
+  );
+};
 
-export default PageHeaderBtn
+export default PageHeaderBtn;

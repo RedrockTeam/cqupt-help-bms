@@ -1,25 +1,30 @@
-import React, { useState } from 'react'
-import { Link, connect, useParams, ConnectRC, Loading } from 'umi'
-import { Table, Button, Modal, Form, Input, DatePicker } from 'antd'
-import PageHeader from '@/components/pageHeader'
-import PageHeaderBtn from '@/components/pageHeaderBtn'
-import sharedStyles from '@/assets/styles.css'
-import { VolunteerModelState, createPushVolunteerUsers } from '@/models/volunteer'
-import { VolunteerActivityUserInfo } from '@/interfaces/volunteer'
+import React, { useState } from 'react';
+import { Link, connect, useParams, ConnectRC, Loading } from 'umi';
+import { Table, Button, Modal, Form, Input, DatePicker } from 'antd';
+import PageHeader from '@/components/pageHeader';
+import PageHeaderBtn from '@/components/pageHeaderBtn';
+import sharedStyles from '@/assets/styles.css';
+import {
+  VolunteerModelState,
+  createPushVolunteerUsers,
+} from '@/models/volunteer';
+import { VolunteerActivityUserInfo } from '@/interfaces/volunteer';
 
 const columns = [
   {
     title: '姓名',
     dataIndex: 'name',
     key: 'name',
-    sorter: (a: VolunteerActivityUserInfo, b: VolunteerActivityUserInfo) => a.name.localeCompare(b.name),
+    sorter: (a: VolunteerActivityUserInfo, b: VolunteerActivityUserInfo) =>
+      a.name.localeCompare(b.name),
   },
   { title: '学号', dataIndex: 'stu_num', key: 'stu_num' },
   {
     title: '学院',
     dataIndex: 'college',
     key: 'college',
-    sorter: (a: VolunteerActivityUserInfo, b: VolunteerActivityUserInfo) => a.college.localeCompare(b.college),
+    sorter: (a: VolunteerActivityUserInfo, b: VolunteerActivityUserInfo) =>
+      a.college.localeCompare(b.college),
   },
   { title: '身份证号', dataIndex: 'person_num', key: 'person_num' },
   { title: '电话号码', dataIndex: 'phone', key: 'phone' },
@@ -27,26 +32,36 @@ const columns = [
     title: '志愿时段',
     dataIndex: 'time_part',
     key: 'time_part',
-    sorter: (a: VolunteerActivityUserInfo, b: VolunteerActivityUserInfo) => a.time_part.localeCompare(b.time_part),
+    sorter: (a: VolunteerActivityUserInfo, b: VolunteerActivityUserInfo) =>
+      a.time_part.localeCompare(b.time_part),
   },
-]
+];
 
 type PageProps = {
-  volunteer: VolunteerModelState,
-  loading: boolean,
-}
+  volunteer: VolunteerModelState;
+  loading: boolean;
+};
 
-const VolunteerInfo: ConnectRC<PageProps> = ({ volunteer, dispatch, loading }) => {
-  const { info } = useParams()
-  const id = parseInt(info!, 10)
-  const [selectedIds, setSelectedIds] = useState<number[]>([])
-  const [visible, setVisible] = useState<boolean>(false)
+const VolunteerInfo: ConnectRC<PageProps> = ({
+  volunteer,
+  dispatch,
+  loading,
+}) => {
+  const { info } = useParams();
+  const id = parseInt(info!, 10);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [visible, setVisible] = useState<boolean>(false);
 
   return (
     <div>
       <PageHeader title="护花使者">
         <PageHeaderBtn type="history">
-          <Link to={`/volunteer/${id}/volunteerInfo/history`} className={sharedStyles.pageHeaderBtn}>通过名单</Link>
+          <Link
+            to={`/volunteer/${id}/volunteerInfo/history`}
+            className={sharedStyles.pageHeaderBtn}
+          >
+            通过名单
+          </Link>
         </PageHeaderBtn>
       </PageHeader>
       <div style={{ backgroundColor: '#ffffff' }}>
@@ -54,7 +69,7 @@ const VolunteerInfo: ConnectRC<PageProps> = ({ volunteer, dispatch, loading }) =
           rowSelection={{
             selectedRowKeys: selectedIds,
             onChange(keys) {
-              setSelectedIds(keys as number[])
+              setSelectedIds(keys as number[]);
             },
           }}
           pagination={{
@@ -62,7 +77,10 @@ const VolunteerInfo: ConnectRC<PageProps> = ({ volunteer, dispatch, loading }) =
           }}
           loading={loading}
           columns={columns}
-          dataSource={volunteer.volunteerActivityUserInfos.map(i => ({ ...i, key: i.id }))}
+          dataSource={volunteer.volunteerActivityUserInfos.map(i => ({
+            ...i,
+            key: i.id,
+          }))}
         />
         <div
           style={{
@@ -75,11 +93,13 @@ const VolunteerInfo: ConnectRC<PageProps> = ({ volunteer, dispatch, loading }) =
             type="primary"
             onClick={() => {
               if (selectedIds.length) {
-                setVisible(true)
+                setVisible(true);
               }
             }}
             className={sharedStyles.okButton}
-          >发送推送</Button>
+          >
+            发送推送
+          </Button>
         </div>
       </div>
 
@@ -92,9 +112,16 @@ const VolunteerInfo: ConnectRC<PageProps> = ({ volunteer, dispatch, loading }) =
       >
         <Form
           name="modal-form"
-          onFinish={(values) => {
-            dispatch!(createPushVolunteerUsers(id, selectedIds, values.qq_num, values.down_date.unix()))
-            setVisible(false)
+          onFinish={values => {
+            dispatch!(
+              createPushVolunteerUsers(
+                id,
+                selectedIds,
+                values.qq_num,
+                values.down_date.unix(),
+              ),
+            );
+            setVisible(false);
           }}
           layout="vertical"
         >
@@ -113,17 +140,29 @@ const VolunteerInfo: ConnectRC<PageProps> = ({ volunteer, dispatch, loading }) =
             <DatePicker showTime className={sharedStyles.inputBorder} />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className={sharedStyles.okButton}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className={sharedStyles.okButton}
+            >
               完成
             </Button>
           </Form.Item>
         </Form>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default connect(({ volunteer, loading }: { volunteer: VolunteerModelState, loading: Loading }) => ({
-  volunteer,
-  loading: loading.effects['volunteer/fetchVolunteerActivityUserInfos']!,
-}))(VolunteerInfo)
+export default connect(
+  ({
+    volunteer,
+    loading,
+  }: {
+    volunteer: VolunteerModelState;
+    loading: Loading;
+  }) => ({
+    volunteer,
+    loading: loading.effects['volunteer/fetchVolunteerActivityUserInfos']!,
+  }),
+)(VolunteerInfo);
