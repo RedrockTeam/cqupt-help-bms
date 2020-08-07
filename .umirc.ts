@@ -27,6 +27,11 @@ export default defineConfig({
       changeOrigin: true,
       pathRewrite: { '^/api': '' },
     },
+    '/qny': {
+      target: 'https://cyxbsmobile.redrock.team/wxapi/red-qny',
+      changeOrigin: true,
+      pathRewrite: { '^/qny': '' },
+    },
   },
   postcssLoader: {
     plugins: [

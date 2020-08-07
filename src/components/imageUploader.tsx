@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Upload, message } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { UploadProps } from 'antd/lib/upload'
+import { QNY } from '@/configs'
 
 type Props = {
   image: string,
@@ -55,21 +56,21 @@ const ImageUploader = ({
       showUploadList={false}
       customRequest={({ file }) => {
         const formData = new FormData()
-        formData.append('upload', file)
-        formData.append('project_name', 'cqupt-help-bms')
-
-        fetch('http://api-234.redrock.team/GraphBed/GraphBed/upload', {
+        formData.append('file', file, file.name)
+        console.log(file)
+        fetch(`${QNY}/upload/redrockoss/cqupt-help-bms?key=${file.name.split('.')[0]}`, {
           method: 'POST',
           body: formData,
-        }).then(res => res.text()).then((data) => {
-          setImage(`http://${data.split('"')[3]}`)
+        }).then(res => res.json()).then(json => {
+          console.log(json)
+          setImage(json.data.name)
         }).catch(message.error)
       }}
       beforeUpload={beforeUpload}
       onChange={handleChange}
       disabled={disabled}
     >
-      {image ? <img src={image} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+      {image ? <img src={image} style={{ width: '100%' }} /> : uploadButton}
     </Upload>
   )
 }

@@ -23,7 +23,7 @@ const YoungPushHistoryInfo = () => {
         setList(res.data)
       }
     })
-  }, [])
+  }, [id])
   return (
     <div>
       <PageHeader title="通过名单">

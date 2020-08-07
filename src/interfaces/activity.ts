@@ -13,10 +13,8 @@ export type ActivityHistoryInfos = ActivityInfo[]
 export interface GiftInfo {
   level: number,
   name: string,
-  infos: {
-    stu_num: string,
-    name: string,
-  }[],
+  stu_nums: string[],
+  names: string[],
 }
 
 export type GiftInfos = GiftInfo[]

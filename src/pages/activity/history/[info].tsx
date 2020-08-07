@@ -35,12 +35,12 @@ const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
         columns={columns}
         pagination={false}
         dataSource={activity.activityHistoryGifts.reduce((acc: Person[], cur) => {
-          const res = cur.infos.map(info => ({
+          const res = cur.stu_nums.map((num, i) => ({
             name: cur.name,
             level: cur.level,
-            username: info.name,
-            stuNum: info.stu_num,
-            key: info.stu_num + cur.name
+            username: cur.names[i],
+            stuNum: num,
+            key: num + cur.names[i],
           }))
           return [...acc, ...res]
         }, [])}

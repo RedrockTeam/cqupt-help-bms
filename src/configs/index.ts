@@ -86,3 +86,8 @@ export const API =
   process.env.NODE_ENV === 'production'
     ? 'https://cyxbsmobile.redrock.team/wxapi/cyb-permissioncenter'
     : 'http://localhost:8000/api';
+
+export const QNY =
+  process.env.NODE_ENV === 'production'
+    ? 'https://cyxbsmobile.redrock.team/wxapi/red-qny'
+    : 'http://localhost:8000/qny';
