@@ -8,6 +8,9 @@ export type PathMap = {
 };
 
 export const pathMap: PathMap = {
+  bind: {
+    [nameSymbol]: '微信绑定',
+  },
   user: {
     [nameSymbol]: '个人中心',
     history: {
@@ -91,3 +94,8 @@ export const QNY =
   process.env.NODE_ENV === 'production'
     ? 'https://cyxbsmobile.redrock.team/wxapi/red-qny'
     : 'http://localhost:8000/qny';
+
+export const LOGIN =
+  process.env.NODE_ENV === 'production'
+    ? 'https://wx.redrock.team'
+    : 'http://localhost:8000/login';

@@ -50,8 +50,6 @@ const Nav = ({
 };
 
 function MyLayout({ children, location }: Props) {
-  // if (location.pathname === '/') return <>{children}</>
-
   const { initialState, loading } = useModel('@@initialState');
   const access = useAccess();
 
@@ -70,6 +68,7 @@ function MyLayout({ children, location }: Props) {
 
   // console.log(access)
 
+  if (location.pathname === '/') return <>{children}</>;
   return (
     <Layout className={styles.layout}>
       <Header className={styles.header}>

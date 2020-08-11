@@ -1,25 +1,36 @@
 import { RequestConfig } from 'umi';
 import { message } from 'antd';
-import { API } from '@/configs';
+import { API, LOGIN } from '@/configs';
 import { redirectTo } from './utils';
-import { getUserInfo, getUserToolAuth } from './api/user';
+import { getUserInfo, getUserToolAuth, relogin } from './api/user';
 
 export async function getInitialState() {
   // TODO: 登录逻辑，无 token 请求并跳转，有 token 继续，之后获取权限，用户信息
   // const data = await fetchXXX();
   // return data;
-  // if (!localStorage.getItem('cqupt-help-bms-token')) {
-  //   const { data } = await fetch(`https://wx.redrock.team/magicloop/rushb?b=${encodeURIComponent(/* 后端入口 */API!)}%2f&scope=student&pattern=qr`)
-  //     .then(r => r.json())
-  //     .catch(e => message.error('网络错误'))
-  //   redirectTo(data.url)
-  // }
-  if (window.location.pathname === '/') {
-    redirectTo('/user');
+  if (!localStorage.getItem('cqupt-help-bms-token')) {
+    const token = location.search.split('?token=')[1];
+    if (token) {
+      localStorage.setItem('cqupt-help-bms-token', token.replace(/%20/g, '+'));
+    } else {
+      const { data } = await fetch(
+        `${LOGIN}/magicloop/rushb?b=${encodeURIComponent(
+          /* 后端入口 */ API!,
+        )}%2f&scope=student&pattern=qr`,
+      )
+        .then(r => r.json())
+        .catch(e => message.error('网络错误'));
+      redirectTo(data.url);
+    }
   }
+  // if (window.location.pathname === '/') {
+  //   redirectTo('/user');
+  // }
+  const reloginRes = await relogin();
   const userInfo = await getUserInfo();
   const userToolAuth = await getUserToolAuth();
   return {
+    orgs: reloginRes.data,
     ...userInfo.data,
     toolAuth: userToolAuth.data,
   };
@@ -41,7 +52,7 @@ export const request: RequestConfig = {
   requestInterceptors: [
     function injectToken(url, options: any) {
       options.headers.Authorization =
-        'Bearer eyJjbGFzcyI6IjEzMDAxODA3IiwiY29sbGVnZSI6Iui9r+S7tuW3peeoi+WtpumZoiIsImV4cCI6IjEwMjQzNzk0MTE5IiwiaGVhZEltZ1VybCI6Imh0dHA6Ly90aGlyZHd4LnFsb2dvLmNuL21tb3Blbi92aV8zMi9ScDRyTklJWWRtU05IRTFOSHZBR215UEUzRDRQd3l4aWFubG9jZ3lwcFhQR1BoMnJ3ZG5DN1p3NklkNUxZN1k4TjVyYWIzbmNUcHFlenQ3a3hUZUJVVmcvMTMyIiwiaWF0IjoiMTU4OTA3NzIzOSIsIm1ham9yIjoiIiwibmlja25hbWUiOiJhaGFiaGdr8J+NsCIsInJlYWxOYW1lIjoi5L2V5bqa5Z2kIiwicmVkSWQiOiIyYzEyMmMwOTAyMzVjMzFkODI2NWQ2MWQzZjE4MGIzYTY2NWJhYmRlIiwic3R1TnVtIjoiMjAxODIxNDEzOSIsInN1YiI6InhicyJ9.g++rv4igrRn71/MtY/bXU++PHFQJ4/rxNZXoI9cG/lVd/9vs8UnGKCW/veUPY3iY5/mGfBIh3gFqOarHU6QmkMNvqe4gWxZIP7f52CmmLB3c/a9Hdhm3F+Y4pSDqHHH2PNLKvXkgco8K2+4W83ofzCMKgGUjxXSQSmE2BTghwt4oiEx423tfMjmCUtPMEHCHXGr5eiq0Ko1oJEefpzb32xwvR5hCXSXDqkQIoo1eQZEJ0tBb4v6d8+19bzBHP8kLC7QFz9HwlhDAPn614m45iyGZMo04pRNThGfd4Q5EQLQ1tCXD2W8p8Jxw3h9VTUgvuLP/PF4yozgQO1RhWVmxWA==';
+        'Bearer ' + localStorage.getItem('cqupt-help-bms-token');
       return {
         url,
         options: { ...options, interceptors: true },

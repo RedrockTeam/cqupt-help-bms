@@ -24,5 +24,9 @@ export const createFetchError = (
 };
 
 export const redirectTo = (pathname: string, delay = 0) => {
-  setTimeout(() => history.push(pathname), delay);
+  if (/^https?:\/\//.test(pathname)) {
+    window.location.href = pathname;
+  } else {
+    setTimeout(() => history.replace(pathname), delay);
+  }
 };

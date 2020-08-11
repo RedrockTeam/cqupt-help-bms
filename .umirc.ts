@@ -32,6 +32,11 @@ export default defineConfig({
       changeOrigin: true,
       pathRewrite: { '^/qny': '' },
     },
+    '/login': {
+      target: 'https://wx.redrock.team',
+      changeOrigin: true,
+      pathRewrite: { '^/login': '' },
+    },
   },
   postcssLoader: {
     plugins: [
