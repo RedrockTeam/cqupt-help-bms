@@ -15,7 +15,7 @@ export async function getInitialState() {
     } else {
       const { data } = await fetch(
         `${LOGIN}/magicloop/rushb?b=${encodeURIComponent(
-          /* 后端入口 */ API!,
+          /* 后端入口 */ `${API}/login`,
         )}%2f&scope=student&pattern=qr`,
       )
         .then(r => r.json())

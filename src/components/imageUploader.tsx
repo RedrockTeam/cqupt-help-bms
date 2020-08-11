@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { UploadProps } from 'antd/lib/upload';
-import { QNY } from '@/configs';
+import { QNY, API } from '@/configs';
+import { request } from 'umi';
 
 type Props = {
   image: string;
@@ -52,19 +53,19 @@ const ImageUploader = ({ image, setImage, className, disabled }: Props) => {
       customRequest={({ file }) => {
         const formData = new FormData();
         formData.append('file', file, file.name);
-        console.log(file);
-        fetch(
-          `${QNY}/upload/redrockoss/cqupt-help-bms?key=${
-            file.name.split('.')[0]
-          }`,
-          {
-            method: 'POST',
-            body: formData,
-          },
-        )
+        const header = new Headers();
+        header.append(
+          'Authorization',
+          'Bearer ' + localStorage.getItem('cqupt-help-bms-token'),
+        );
+
+        fetch(`${API}/upload/file`, {
+          method: 'POST',
+          headers: header,
+          body: formData,
+        })
           .then(res => res.json())
           .then(json => {
-            console.log(json);
             setImage(json.data.name);
           })
           .catch(message.error);
