@@ -14,9 +14,12 @@ export async function getInitialState() {
       localStorage.setItem('cqupt-help-bms-token', token.replace(/%20/g, '+'));
     } else {
       const { data } = await fetch(
-        `${LOGIN}/magicloop/rushb?b=${encodeURIComponent(
-          /* 后端入口 */ `${API}/login`,
-        )}%2f&scope=student&pattern=qr`,
+        // `${LOGIN}/magicloop/rushb?b=${encodeURIComponent(
+        //   /* 后端入口 */ `${API}/login`,
+        // )}%2f&scope=student&pattern=qr`,
+        `https://wx.redrock.team/magicloop/rushb?b=${decodeURIComponent(
+          'https://cyxbsmobile.redrock.team/wxapi/cyb-permissioncenter/login',
+        )}&scope=student&pattern=qr`,
       )
         .then(r => r.json())
         .catch(e => message.error('网络错误'));

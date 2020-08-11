@@ -2,6 +2,7 @@ import { defineConfig } from 'umi';
 import pxtoviewport from 'postcss-px-to-viewport';
 
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' ? '/game/cqupt-help-bms/' : '/',
   outputPath: 'build',
   publicPath:
     process.env.NODE_ENV === 'production' ? '/game/cqupt-help-bms/' : '/',
