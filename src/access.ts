@@ -5,7 +5,7 @@ export interface InitialState extends UserInfo {
 }
 
 export default function(initialState: InitialState) {
-  const { toolAuth } = initialState;
+  // const { toolAuth } = initialState;
   // const auths = toolAuth.map(t => t.route)
   const auths = [
     '/user',
