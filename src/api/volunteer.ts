@@ -40,13 +40,14 @@ export const getVolunteerActivityUserInfos = (id: number) => {
 };
 
 export const pushVolunteerUsers = (info: {
+  activity_id: number;
   ids: number[];
   qq: string;
-  date: number;
+  time_out: number;
 }) => {
   return request(`/volunteer/user/update`, {
     method: 'POST',
-    body: JSON.stringify({ ...info }),
+    body: JSON.stringify(info),
   });
 };
 

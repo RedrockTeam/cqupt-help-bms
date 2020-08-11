@@ -174,9 +174,10 @@ const volunteerModel: VolunteerModel = {
     },
     *pushVolunteerUsers({ payload }, { call, put }) {
       const res = yield call(pushVolunteerUsers, {
+        activity_id: payload.activityId,
         ids: payload.ids,
         qq: payload.qq_num,
-        date: payload.down_date,
+        time_out: payload.down_date,
       });
       if (res.status === 10000) {
         yield put(createFetchVolunteerActivityUserInfos(payload.activityId));

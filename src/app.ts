@@ -5,9 +5,6 @@ import { redirectTo } from './utils';
 import { getUserInfo, getUserToolAuth, relogin } from './api/user';
 
 export async function getInitialState() {
-  // TODO: 登录逻辑，无 token 请求并跳转，有 token 继续，之后获取权限，用户信息
-  // const data = await fetchXXX();
-  // return data;
   if (!localStorage.getItem('cqupt-help-bms-token')) {
     const token = location.search.split('?token=')[1];
     if (token) {

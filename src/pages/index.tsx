@@ -13,7 +13,7 @@ import { chooseOrg } from '@/api/user';
 import { redirectTo } from '@/utils';
 
 const WxLoginRedirecter = () => {
-  const { initialState } = useModel('@@initialState');
+  const { initialState, refresh } = useModel('@@initialState');
   const [selectedKeys, setSelectedKeys] = useState<number[]>();
   return (
     <div>
@@ -26,6 +26,7 @@ const WxLoginRedirecter = () => {
               const res = await chooseOrg(selectedKeys[0]);
               if (res.info === 'success') {
                 redirectTo('/user');
+                refresh();
               } else {
                 message.info(res.info || 'error');
               }
