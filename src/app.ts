@@ -57,7 +57,11 @@ export const request: RequestConfig = {
         'Bearer ' + localStorage.getItem('cqupt-help-bms-token');
       return {
         url,
-        options: { ...options, credential: 'include', interceptors: true },
+        options: {
+          ...options,
+          credentials: 'include',
+          interceptors: true,
+        },
       };
     },
   ],

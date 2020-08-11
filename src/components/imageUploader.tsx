@@ -63,6 +63,7 @@ const ImageUploader = ({ image, setImage, className, disabled }: Props) => {
           method: 'POST',
           headers: header,
           body: formData,
+          credentials: 'include',
         })
           .then(res => res.json())
           .then(json => {
