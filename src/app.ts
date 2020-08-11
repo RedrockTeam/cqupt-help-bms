@@ -29,11 +29,13 @@ export async function getInitialState() {
   const reloginRes = await relogin();
   const userInfo = await getUserInfo();
   const userToolAuth = await getUserToolAuth();
-  return {
+  const init = {
     orgs: reloginRes.data,
     ...userInfo.data,
     toolAuth: userToolAuth.data,
   };
+  console.log(init);
+  return init;
 }
 
 const SUCCESS = 10000;
