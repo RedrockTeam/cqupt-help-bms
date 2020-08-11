@@ -15,6 +15,7 @@ export default defineConfig({
     '@select-background': '#F8FAFB',
     '@select-selection-item-bg': '#E5E9FF',
   },
+  history: { type: 'hash' },
   nodeModulesTransform: {
     type: 'none',
   },
