@@ -61,8 +61,8 @@ const OrganizationMenber: ConnectRC<PageProps> = ({
                   person={person}
                 />
               ))}
-              {/* 添加，index === 0 是部长，没有添加，其他的有添加 */}
-              {index !== 0 && (
+              {/* 添加，不带主席的都可以添加 */}
+              {!group.job.job_name.includes('主席') && (
                 <OrganizationPerson
                   onClick={() => setVisible(true)}
                   key={'add'}

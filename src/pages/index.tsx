@@ -33,13 +33,12 @@ const WxLoginRedirecter = () => {
             }
           }}
         >
-          Primary Button
+          确定
         </Button>
       </div>
       <div>
         <Tree
           showIcon
-          defaultExpandAll
           switcherIcon={<DownOutlined />}
           selectedKeys={selectedKeys}
           onSelect={(s, e) => {

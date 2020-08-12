@@ -10,7 +10,7 @@ const Member = ({
 }) => {
   return (
     <div>
-      <div className={styles.organizationJobTitle}>{title}</div>
+      <div className={styles.organizationJobTitle}>{title.split('：')[1]}</div>
       <div className={styles.organizationPersons}>{children}</div>
     </div>
   );

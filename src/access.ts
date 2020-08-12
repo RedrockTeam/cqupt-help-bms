@@ -5,17 +5,17 @@ export interface InitialState extends UserInfo {
 }
 
 export default function(initialState: InitialState) {
-  // const { toolAuth } = initialState;
-  // const auths = toolAuth.map(t => t.route)
-  const auths = [
-    '/user',
-    '/activity',
-    '/identity',
-    '/cinema',
-    '/volunteer',
-    '/team',
-  ];
-  console.log(auths);
+  const { toolAuth } = initialState;
+  const auths = toolAuth.map(t => t.route);
+  // const auths = [
+  //   '/user',
+  //   '/activity',
+  //   '/identity',
+  //   '/cinema',
+  //   '/volunteer',
+  //   '/team',
+  // ];
+  // console.log(auths);
 
   return {
     canEnterUser: true,
@@ -23,6 +23,7 @@ export default function(initialState: InitialState) {
     canEnterId: auths.includes('/identity'),
     canEnterTicket: auths.includes('/cinema'),
     canEnterVolunteer: auths.includes('/volunteer'),
+    canEnterYoung: auths.includes('/team/apply'),
     canEnterOrganization: auths.includes('/team'),
   };
 }

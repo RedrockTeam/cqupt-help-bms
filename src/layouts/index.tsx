@@ -67,6 +67,7 @@ function MyLayout({ children, location }: Props) {
   });
 
   // console.log(access)
+  const [team, part] = (initialState?.team_name ?? '').split('—');
 
   if (location.pathname === '/') return <>{children}</>;
   return (
@@ -96,10 +97,14 @@ function MyLayout({ children, location }: Props) {
                 </div>
                 <div className={styles.subInfo}>
                   组织：
-                  <span className={styles.infoContent}>
-                    {initialState?.team_name}
-                  </span>
+                  <span className={styles.infoContent}>{team}</span>
                 </div>
+                {part ? (
+                  <div className={styles.subInfo}>
+                    部门：
+                    <span className={styles.infoContent}>{part}</span>
+                  </div>
+                ) : null}
               </div>
             </div>
           </Skeleton>
@@ -148,8 +153,16 @@ function MyLayout({ children, location }: Props) {
                 </span>
               }
             >
-              <Nav canEnter={true} route="/young-input" routeName="部门资料" />
-              <Nav canEnter={true} route="/young-push" routeName="推送信息" />
+              <Nav
+                canEnter={access.canEnterYoung}
+                route="/young-input"
+                routeName="部门资料"
+              />
+              <Nav
+                canEnter={access.canEnterYoung}
+                route="/young-push"
+                routeName="推送信息"
+              />
             </Menu.SubMenu>
             <Menu.SubMenu
               key="组织管理"

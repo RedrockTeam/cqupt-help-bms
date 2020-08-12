@@ -39,6 +39,7 @@
 }
 
 .info {
+  width: 170px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -60,7 +61,7 @@
 }
 
 .infoContent {
-  /* width: 92px; */
+  width: 113px;
 }
 
 .item {

@@ -72,7 +72,7 @@ const YoungModel = {
     *fetchCurrentInfo(action, { call, put }) {
       const res = yield call(getCurrentInfo);
       console.log(res);
-      yield put(createSetCurrentInfo({ step: res.step, data: res.data }));
+      yield put(createSetCurrentInfo({ step: res.step, data: res.data || [] }));
     },
     *sendPassApply({ payload }, { call, put }) {
       console.log(payload);
@@ -84,7 +84,7 @@ const YoungModel = {
     *fetchStepHistory(action, { call, put }) {
       const res = yield call(getStepHistory);
       if (res.status === 10000) {
-        yield put(createSetStepHistory(res.data));
+        yield put(createSetStepHistory(res.data || []));
       }
     },
   },
