@@ -21,6 +21,7 @@ const WxLoginRedirecter = () => {
         <h1 className={styles.title}>选择组织</h1>
         <Button
           type="primary"
+          className={styles.btn}
           onClick={async () => {
             if (selectedKeys && selectedKeys[0]) {
               const res = await chooseOrg(selectedKeys[0]);
@@ -36,7 +37,7 @@ const WxLoginRedirecter = () => {
           确定
         </Button>
       </div>
-      <div>
+      <div className={styles.treeWrapper}>
         <Tree
           showIcon
           switcherIcon={<DownOutlined />}

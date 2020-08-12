@@ -14,7 +14,7 @@ const YoungPushHistory = ({ history }) => {
   useEffect(() => {
     request('/team/apply/step').then(res => {
       if (res.status === 10000) {
-        setList(res.data);
+        setList(res.data || []);
       }
     });
   }, []);

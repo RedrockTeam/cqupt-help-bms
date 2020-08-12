@@ -70,6 +70,7 @@ function MyLayout({ children, location }: Props) {
   const [team, part] = (initialState?.team_name ?? '').split('—');
 
   if (location.pathname === '/') return <>{children}</>;
+  if (location.pathname === '/bind') return <>{children}</>;
   return (
     <Layout className={styles.layout}>
       <Header className={styles.header}>
@@ -90,18 +91,18 @@ function MyLayout({ children, location }: Props) {
               <div className={styles.info}>
                 <div className={styles.name}>{initialState?.name}</div>
                 <div className={styles.subInfo}>
-                  学院：
+                  <span>学院：</span>
                   <span className={styles.infoContent}>
                     {initialState?.college}
                   </span>
                 </div>
                 <div className={styles.subInfo}>
-                  组织：
+                  <span>组织：</span>
                   <span className={styles.infoContent}>{team}</span>
                 </div>
                 {part ? (
                   <div className={styles.subInfo}>
-                    部门：
+                    <span>部门：</span>
                     <span className={styles.infoContent}>{part}</span>
                   </div>
                 ) : null}
