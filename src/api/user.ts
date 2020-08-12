@@ -30,7 +30,7 @@ export const chooseOrg = (id: number) => {
   return request('/choose', {
     method: 'POST',
     body: JSON.stringify({
-      id,
+      team_id: id,
     }),
   });
 };
