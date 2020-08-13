@@ -15,7 +15,7 @@ const Bind = () => {
   const handlePasswordInput = e => setPassword(e.target.value);
 
   const handleBind = async () => {
-    await fetch('https://wx.redrock.team/game/magicloop/bind', {
+    await fetch('https://wx.redrock.team/magicloop/bind', {
       method: 'POST',
       body: JSON.stringify({
         openid: query.openid,
