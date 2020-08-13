@@ -324,6 +324,7 @@ const activityModel: ActivityModel = {
       state.time_begin = payload.time_begin;
       state.time_end = payload.time_end;
       state.time_out = payload.time_out;
+      state.location = payload.location;
     },
     setPushGiftInputLevel(state, { payload }) {
       state.pushGiftInputs[payload.index].level = payload.level;
@@ -340,6 +341,12 @@ const activityModel: ActivityModel = {
         level: 0,
         stu_nums: [],
       });
+    },
+    setLocationAndTime(state, { payload }) {
+      state.location = payload.location;
+      state.time_begin = payload.time_begin;
+      state.time_end = payload.time_end;
+      state.time_out = payload.time_out;
     },
   },
 };

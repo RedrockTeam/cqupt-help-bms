@@ -14,6 +14,7 @@ const AddVolunteerActivity = ({ dispatch }: Props) => {
   const [role, setRole] = useState<string>('');
   const [hour, setHour] = useState<string>('');
   const [date, setDate] = useState<number>();
+  const [lastDate, setLastDate] = useState<number>();
   const [num, setNum] = useState<number>(0);
 
   return (
@@ -74,6 +75,16 @@ const AddVolunteerActivity = ({ dispatch }: Props) => {
             onChange={e => setNum(parseInt(e.target.value, 10))}
           />
         </div>
+        <div className={sharedStyles.inputWrapper}>
+          <span className={sharedStyles.name}>报名截止时间</span>
+          <DatePicker
+            className={sharedStyles.inputBorder}
+            onChange={date => {
+              console.log(date?.unix());
+              setLastDate(date?.unix());
+            }}
+          />
+        </div>
         <Button
           type="primary"
           style={{ margin: '20px 0' }}
@@ -81,6 +92,7 @@ const AddVolunteerActivity = ({ dispatch }: Props) => {
           onClick={() => {
             if (
               date &&
+              lastDate &&
               name.length &&
               introduction.length &&
               role.length &&
@@ -94,6 +106,7 @@ const AddVolunteerActivity = ({ dispatch }: Props) => {
                   role,
                   hour,
                   date,
+                  lastDate,
                   num,
                 }),
               );

@@ -32,9 +32,9 @@ const OrganizationMenber: ConnectRC<PageProps> = ({
   const close = () => setVisible(false);
 
   // 用于获取部门成员的 jobId，用于后端接口
-  useEffect(() => {
-    setJobId(organization.members[1]?.job.job_id);
-  }, [organization.members]);
+  // useEffect(() => {
+  //   setJobId(organization.members[1]?.job.job_id);
+  // }, [organization.members]);
 
   return (
     <div>
@@ -64,7 +64,10 @@ const OrganizationMenber: ConnectRC<PageProps> = ({
               {/* 添加，不带主席的都可以添加 */}
               {!group.job.job_name.includes('主席') && (
                 <OrganizationPerson
-                  onClick={() => setVisible(true)}
+                  onClick={() => {
+                    setVisible(true);
+                    setJobId(group.job.job_id);
+                  }}
                   key={'add'}
                 />
               )}

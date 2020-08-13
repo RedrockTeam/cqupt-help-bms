@@ -31,6 +31,7 @@ export interface OrganizationModel {
   effects: {
     fetchAuths: Effect;
     fetchCanAuthList: Effect;
+    addAuth: Effect;
     updateAuth: Effect;
     fetchMembers: Effect;
     deleteMember: Effect;
@@ -55,6 +56,13 @@ export interface OrganizationModel {
 
 export const createFetchAuths = () => ({ type: 'fetchAuths' });
 export const createFetchMembers = () => ({ type: 'fetchMembers' });
+export const createAddAuth = (stuNum: string, jobId: number) => ({
+  type: 'organization/addAuth',
+  payload: {
+    stuNum,
+    job_id: jobId,
+  },
+});
 export const createSetAuths = (auths: OrganizationAuths) => ({
   type: 'setAuths',
   payload: auths || [],
@@ -142,6 +150,17 @@ const organizationModel: OrganizationModel = {
       const res = yield call(getOrganizationCanAuthList, payload.job_id);
       if (res.status === 10000) {
         yield put(createSetCanAuthList(res.data ?? []));
+      }
+    },
+    *addAuth({ payload }, { call, put }) {
+      const res = yield call(
+        updateOrganizationAuth,
+        'add',
+        payload.stuNum,
+        payload.job_id,
+      );
+      if (res.status === 10000) {
+        yield put(createFetchAuths());
       }
     },
     *updateAuth({ payload }, { call, put }) {

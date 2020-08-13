@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Input, DatePicker, Button, message } from 'antd';
 import PageHeader from '@/components/pageHeader';
 import { useLocation, connect, ConnectProps, useParams } from 'umi';
+import moment from 'moment'
 import sharedStyles from '@/assets/styles.css';
 import {
   ActivityModelState,
@@ -25,10 +26,53 @@ const Update = ({ activity, dispatch }: Props) => {
   const { title } = parse(useLocation().search);
   const { info } = useParams();
   // TODO: 获取历史信息作为初始化
-  const [location, setLocation] = useState<string>(activity.location);
-  const [timeBegin, setTimeBegin] = useState<number | undefined>(activity.time_begin);
-  const [timeEnd, setTimeEnd] = useState<number | undefined>(activity.time_end);
-  const [timeOut, setTimeOut] = useState<number | undefined>(activity.time_out);
+  // const [location, setLocation] = useState<string>(() => activity.location);
+
+  const location = activity.location
+  const setLocation = (l) => dispatch({
+    type: 'activity/setLocationAndTime',
+    payload: {
+      location: l,
+      time_begin: activity.time_begin,
+      time_end: activity.time_end,
+      time_out: activity.time_out,
+    },
+  })
+  // const [timeBegin, setTimeBegin] = useState<number | undefined>(() => activity.time_begin);
+  const timeBegin = activity.time_begin
+  const setTimeBegin = (t) => dispatch({
+    type: 'activity/setLocationAndTime',
+    payload: {
+      location: activity.location,
+      time_begin: t,
+      time_end: activity.time_end,
+      time_out: activity.time_out,
+    },
+  })
+  // const [timeEnd, setTimeEnd] = useState<number | undefined>(() => activity.time_end);
+  const timeEnd = activity.time_end
+  const setTimeEnd = (t) => dispatch({
+    type: 'activity/setLocationAndTime',
+    payload: {
+      location: activity.location,
+      time_begin: activity.time_begin,
+      time_end: t,
+      time_out: activity.time_out,
+    },
+  })
+  // const [timeOut, setTimeOut] = useState<number | undefined>(() => activity.time_out);
+  const timeOut = activity.time_end
+  const setTimeOut = (t) => dispatch({
+    type: 'activity/setLocationAndTime',
+    payload: {
+      location: activity.location,
+      time_begin: activity.time_begin,
+      time_end: activity.time_end,
+      time_out: t,
+    },
+  })
+
+  console.log(activity, timeEnd)
 
   return (
     <div>
@@ -41,6 +85,7 @@ const Update = ({ activity, dispatch }: Props) => {
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>领奖地点</span>
           <Input
+            value={location}
             className={sharedStyles.inputBorder}
             onChange={e => setLocation(e.target.value)}
           />
@@ -49,6 +94,7 @@ const Update = ({ activity, dispatch }: Props) => {
           <span className={sharedStyles.name}>领奖时间</span>
           <DatePicker.RangePicker
             showTime
+            value={[timeBegin !== 0 ? moment.unix(timeBegin) : null, timeEnd !== 0 ? moment.unix(timeEnd) : null]}
             className={sharedStyles.inputBorder}
             onCalendarChange={dates => {
               if (dates) {
@@ -65,6 +111,7 @@ const Update = ({ activity, dispatch }: Props) => {
           <span className={sharedStyles.name}>推送时间</span>
           <DatePicker
             showTime
+            value={timeOut !== 0 ? moment.unix(timeOut) : null}
             className={sharedStyles.inputBorder}
             onChange={date => {
               setTimeOut(date?.unix());
@@ -74,6 +121,7 @@ const Update = ({ activity, dispatch }: Props) => {
         {activity.pushGiftInputs.map((info, index) => (
           <GiftInfoInput
             key={index}
+            pushGiftInput={info}
             onChangeGiftInputLevel={(level: number) => {
               dispatch!(createSetPushGiftInputLevel(index, level));
             }}

@@ -18,6 +18,7 @@ export interface AddVolunteerActivityInfo {
   role: string;
   hour: string;
   date: number;
+  lastDate: number;
   num: number;
 }
 

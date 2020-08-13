@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, ConnectRC, Loading } from 'umi';
 import {
   OrganizationModelState,
@@ -9,7 +9,7 @@ import PageHeader from '@/components/pageHeader';
 import Member from '@/components/organizationMember';
 import OrganizationPerson from '@/components/organizationPerson';
 import sharedStyles from '@/assets/styles.css';
-import { Modal, Button, Form, Radio, Skeleton } from 'antd';
+import { Modal, Button, Form, Radio, Skeleton, Input } from 'antd';
 
 const radioStyle = {
   display: 'block',
@@ -22,13 +22,13 @@ type PageProps = {
   loading: boolean;
 };
 
-// 先把添加成员的逻辑注释了
+// 先把添加成员的逻辑注释了（不注释了，产品真的加了）
 const OrganizationAuth: ConnectRC<PageProps> = ({
   organization,
   dispatch,
   loading,
 }) => {
-  // const [addModalVisible, setAddModalVisible] = useState<boolean>(false)
+  const [addModalVisible, setAddModalVisible] = useState<boolean>(false); // 添加成员
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
   const [jobId, setJobId] = useState<number>();
   const [originUserId, setOriginUserId] = useState<number>();
@@ -48,21 +48,21 @@ const OrganizationAuth: ConnectRC<PageProps> = ({
   };
   const closeUpdateModal = () => setUpdateModalVisible(false);
 
-  // const submit = (values: any) => {
-  //   dispatch!({
-  //     type: 'organization/addMember',
-  //     payload: {
-  //       stuNum: values.stu_num,
-  //       job_id: jobId,
-  //     }
-  //   })
-  //   close()
-  // }
-  // const close = () => setAddModalVisible(false)
-
-  // useEffect(() => {
-  //   setJobId(organization.members[1]?.job.job_id)
-  // }, [organization.members])
+  // 添加成员
+  const submit = (values: any) => {
+    console.log(values);
+    // dispatch!({
+    //   type: 'organization/addAuth',
+    //   payload: {
+    //     job_id: jobId,
+    //     user_id: ,
+    //     origin_user_id: ,
+    //   }
+    // })
+    close();
+  };
+  const close = () => setAddModalVisible(false);
+  // 添加成员
 
   return (
     <div>
@@ -71,22 +71,24 @@ const OrganizationAuth: ConnectRC<PageProps> = ({
         <Skeleton loading={loading}>
           {organization.auths.map((group, index) => (
             <Member key={group.job.job_id} title={group.job.job_name}>
-              {group.TeamPersons == null ? (
-                <div>暂无</div>
-              ) : (
-                group.TeamPersons.map(person => (
+              {group.TeamPersons?.map(person => (
+                <OrganizationPerson
+                  key={person.id}
+                  onClick={() => openUpdateModal(group.job.job_id, person.id)}
+                  person={person}
+                />
+              ))}
+              {/* 添加 */}
+              {!group.job.job_name.includes('主席') &&
+                !group.job.job_name.includes('指导老师') && (
                   <OrganizationPerson
-                    key={person.id}
-                    onClick={() => openUpdateModal(group.job.job_id, person.id)}
-                    person={person}
+                    onClick={() => {
+                      setAddModalVisible(true);
+                      setJobId(group.job.job_id);
+                    }}
+                    key={'add'}
                   />
-                ))
-              )}
-              {/* 添加，index === 0 是部长，没有添加，其他的当人数小于 2 时有添加 */}
-              {/* {(index !== 0 && group.TeamPersons.length < 2) && <OrganizationPerson
-                onClick={() => setAddModalVisible(true)}
-                key={'add'}
-              />} */}
+                )}
             </Member>
           ))}
         </Skeleton>
@@ -120,7 +122,7 @@ const OrganizationAuth: ConnectRC<PageProps> = ({
       </Modal>
 
       {/* 添加的对话 Modal */}
-      {/* <Modal
+      <Modal
         title="添加成员"
         visible={addModalVisible}
         centered
@@ -141,7 +143,7 @@ const OrganizationAuth: ConnectRC<PageProps> = ({
             </Button>
           </Form.Item>
         </Form>
-      </Modal> */}
+      </Modal>
     </div>
   );
 };

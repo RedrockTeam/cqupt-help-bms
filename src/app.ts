@@ -4,6 +4,7 @@ import { API, LOGIN } from '@/configs';
 import { redirectTo } from './utils';
 import { getUserInfo, getUserToolAuth, relogin } from './api/user';
 
+// 有没有绑定，没就去bind，有就正常
 export async function getInitialState() {
   if (window.location.hash.slice(0, 6) === '#/bind') return;
   if (!localStorage.getItem('cqupt-help-bms-token')) {
