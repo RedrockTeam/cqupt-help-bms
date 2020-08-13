@@ -5,8 +5,7 @@ import { redirectTo } from './utils';
 import { getUserInfo, getUserToolAuth, relogin } from './api/user';
 
 export async function getInitialState() {
-  console.log(window.location);
-  if (window.location.hash === '#/bind') return;
+  if (window.location.hash.slice(0, 6) === '#/bind') return;
   if (!localStorage.getItem('cqupt-help-bms-token')) {
     const token = location.search.split('?token=')[1];
     if (token) {
