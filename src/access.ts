@@ -5,6 +5,8 @@ export interface InitialState extends UserInfo {
 }
 
 export default function(initialState: InitialState) {
+  if (window.location.hash.slice(0, 6) === '#/bind') return;
+
   const { toolAuth } = initialState;
   const auths = toolAuth.map(t => t.route);
   // const auths = [
