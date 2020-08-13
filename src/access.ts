@@ -5,7 +5,16 @@ export interface InitialState extends UserInfo {
 }
 
 export default function(initialState: InitialState) {
-  if (window.location.hash.slice(0, 6) === '#/bind') return;
+  if (window.location.hash.slice(0, 6) === '#/bind')
+    return {
+      canEnterUser: false,
+      canEnterActivity: false,
+      canEnterId: false,
+      canEnterTicket: false,
+      canEnterVolunteer: false,
+      canEnterYoung: false,
+      canEnterOrganization: false,
+    };
 
   const { toolAuth } = initialState;
   const auths = toolAuth.map(t => t.route);
