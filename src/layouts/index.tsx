@@ -80,7 +80,15 @@ function MyLayout({ children, location }: Props) {
         <div className={styles.routeName}>
           <Breadcrumb separator="<">{extraBreadcrumbItems}</Breadcrumb>
         </div>
-        <div>退出</div>
+        <div
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            window.localStorage.removeItem('cqupt-help-bms-token');
+            window.close();
+          }}
+        >
+          退出
+        </div>
       </Header>
       <Layout>
         <Sider width={'17vw'} theme={'light'} className={styles.sider}>

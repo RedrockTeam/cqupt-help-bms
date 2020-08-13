@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, connect, Loading, ConnectRC } from 'umi';
+import { Link, connect, Loading, ConnectRC, useHistory } from 'umi';
 import {
   Table,
   Button,
@@ -172,6 +172,7 @@ const columns = [
 ];
 
 const YoungPush = ({ young, loading, dispatch }) => {
+  const history = useHistory();
   const [selectedIds, setSelectedIds] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [pushStep, setPushStep] = useState(0);
@@ -302,7 +303,9 @@ const YoungPush = ({ young, loading, dispatch }) => {
                 setGroupNumber('');
                 setPhone('');
                 setPushForm();
+                setSelectedIds([]);
                 dispatch(createFetchCurrentInfo());
+                history.replace('/young-push');
               }}
             >
               关闭
@@ -365,7 +368,6 @@ const YoungPush = ({ young, loading, dispatch }) => {
                           ids: selectedIds,
                         };
                       }
-                      console.log(data);
                       dispatch(createSendPassApply(data));
                     }
                     setPushStep(pushStep + 1);

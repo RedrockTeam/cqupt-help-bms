@@ -1,10 +1,11 @@
 .wrapper {
   height: 100vh;
-  background-color: #ffffff;
+  background-color: #eff2f5;
   padding: 0 66px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-image: url(../../assets/bg.svg);
 }
   .title {
     color: #1C184C;
@@ -57,6 +58,7 @@
           outline: none;
           border: none;
           font-size: 32px;
+          background-color: #eff2f5;
         }
         .placeholder {
           color: #A4A3B7;

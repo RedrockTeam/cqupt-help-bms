@@ -4,6 +4,7 @@ import { Table } from 'antd';
 import PageHeader from '@/components/pageHeader';
 import PageHeaderBtn from '@/components/pageHeaderBtn';
 import sharedStyles from '@/assets/styles.css';
+import styles from './ticket.css';
 import { TicketModelState } from '@/models/ticket';
 
 const columns = [
@@ -36,6 +37,7 @@ const Ticket: ConnectRC<PageProps> = ({ ticket, history, loading }) => {
         scroll={{
           y: '76vh',
         }}
+        rowClassName={styles.tableRow}
         loading={loading}
         onRow={record => ({
           onClick: () => history.push(`/ticket/${record.id}`),

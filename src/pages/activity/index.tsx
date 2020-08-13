@@ -71,7 +71,7 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
         })}
       >
         <Table.Column title="活动名称" dataIndex="name" key="name" />
-        <Table.Column title="活动形式" dataIndex="form" key="form" />
+        {/* <Table.Column title="活动形式" dataIndex="form" key="form" /> */}
         <Table.Column title="创建人" dataIndex="username" key="username" />
         <Table.Column
           title="创建时间"

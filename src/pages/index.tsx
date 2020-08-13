@@ -16,7 +16,7 @@ const WxLoginRedirecter = () => {
   const { initialState, refresh } = useModel('@@initialState');
   const [selectedKeys, setSelectedKeys] = useState<number[]>();
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div>
         <h1 className={styles.title}>选择组织</h1>
         <Button
@@ -45,6 +45,8 @@ const WxLoginRedirecter = () => {
           onSelect={(s, e) => {
             setSelectedKeys(s);
           }}
+          style={{ background: 'transparent' }}
+          height={400}
           treeData={initialState.orgs.teams.map(p => ({
             title: p.name,
             key: p.id,
