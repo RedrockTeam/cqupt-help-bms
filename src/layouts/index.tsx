@@ -73,7 +73,7 @@ function MyLayout({ children, location }: Props) {
 
   if (location.pathname === '/') return <>{children}</>;
   console.log(location);
-  if (location.pathname.slice(0) === '/bind') return <>{children}</>;
+  if (location.pathname.slice(0, 5) === '/bind') return <>{children}</>;
   return (
     <Layout className={styles.layout}>
       <Header className={styles.header}>
