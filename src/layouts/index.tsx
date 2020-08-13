@@ -59,13 +59,12 @@ function MyLayout({ children, location }: Props) {
       location.search
     }`; // 防止 search 丢失
     // TODO: 先这样写，之后优化把 pathnameToPagename 的逻辑放到 layout model 的 subscription 里面
-    return (
+    const title = pathnameToPagename(pathSnippets.slice(0, index + 1)); // 适配 activity/change/19 这种
+    return title ? (
       <Breadcrumb.Item key={url}>
-        <Link to={url}>
-          {pathnameToPagename(pathSnippets.slice(0, index + 1))}
-        </Link>
+        <Link to={url}>{title}</Link>
       </Breadcrumb.Item>
-    );
+    ) : null;
   });
 
   // console.log(access)

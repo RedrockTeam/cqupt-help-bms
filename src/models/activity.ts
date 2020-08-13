@@ -85,6 +85,7 @@ export interface ActivityModel {
       ReturnType<typeof createSetPushGiftInputStuNum>
     >;
     addPushGiftInput: ImmerReducer<ActivityModelState>;
+    setLocationAndTime: ImmerReducer;
   };
 }
 

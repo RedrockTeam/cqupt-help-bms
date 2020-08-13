@@ -29,7 +29,7 @@ const Update = ({ activity, dispatch }: Props) => {
   // const [location, setLocation] = useState<string>(() => activity.location);
 
   const location = activity.location
-  const setLocation = (l) => dispatch({
+  const setLocation = (l: any) => dispatch!({
     type: 'activity/setLocationAndTime',
     payload: {
       location: l,
@@ -40,7 +40,7 @@ const Update = ({ activity, dispatch }: Props) => {
   })
   // const [timeBegin, setTimeBegin] = useState<number | undefined>(() => activity.time_begin);
   const timeBegin = activity.time_begin
-  const setTimeBegin = (t) => dispatch({
+  const setTimeBegin = (t: any) => dispatch!({
     type: 'activity/setLocationAndTime',
     payload: {
       location: activity.location,
@@ -51,7 +51,7 @@ const Update = ({ activity, dispatch }: Props) => {
   })
   // const [timeEnd, setTimeEnd] = useState<number | undefined>(() => activity.time_end);
   const timeEnd = activity.time_end
-  const setTimeEnd = (t) => dispatch({
+  const setTimeEnd = (t: any) => dispatch!({
     type: 'activity/setLocationAndTime',
     payload: {
       location: activity.location,
@@ -62,7 +62,7 @@ const Update = ({ activity, dispatch }: Props) => {
   })
   // const [timeOut, setTimeOut] = useState<number | undefined>(() => activity.time_out);
   const timeOut = activity.time_end
-  const setTimeOut = (t) => dispatch({
+  const setTimeOut = (t: any) => dispatch!({
     type: 'activity/setLocationAndTime',
     payload: {
       location: activity.location,
@@ -94,7 +94,7 @@ const Update = ({ activity, dispatch }: Props) => {
           <span className={sharedStyles.name}>领奖时间</span>
           <DatePicker.RangePicker
             showTime
-            value={[timeBegin !== 0 ? moment.unix(timeBegin) : null, timeEnd !== 0 ? moment.unix(timeEnd) : null]}
+            value={[timeBegin !== 0 && timeBegin != null ? moment.unix(timeBegin) : null, timeEnd !== 0 && timeEnd != null ? moment.unix(timeEnd) : null]}
             className={sharedStyles.inputBorder}
             onCalendarChange={dates => {
               if (dates) {
@@ -111,7 +111,7 @@ const Update = ({ activity, dispatch }: Props) => {
           <span className={sharedStyles.name}>推送时间</span>
           <DatePicker
             showTime
-            value={timeOut !== 0 ? moment.unix(timeOut) : null}
+            value={timeOut !== 0 && timeOut != null ? moment.unix(timeOut) : null}
             className={sharedStyles.inputBorder}
             onChange={date => {
               setTimeOut(date?.unix());

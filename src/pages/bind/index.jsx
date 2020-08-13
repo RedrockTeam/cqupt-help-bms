@@ -14,7 +14,10 @@ const Bind = () => {
   const [password, setPassword] = useState('');
   const handlePasswordInput = e => setPassword(e.target.value);
 
+  const [disabled, setDisabled] = useState(false);
+
   const handleBind = async () => {
+    setDisabled(true);
     await fetch('https://wx.redrock.team/magicloop/bind', {
       method: 'POST',
       body: JSON.stringify({
@@ -25,7 +28,7 @@ const Bind = () => {
         code: query.code,
         state: query.state,
       }),
-    });
+    }).then(() => setDisabled(false));
   };
 
   return (
@@ -64,7 +67,7 @@ const Bind = () => {
             />
           </div>
         </div>
-        <button className={styles.btn} onClick={handleBind}>
+        <button className={styles.btn} onClick={handleBind} disabled={disabled}>
           登录
         </button>
       </div>

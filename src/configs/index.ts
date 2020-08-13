@@ -25,6 +25,12 @@ export const pathMap: PathMap = {
         [nameSymbol]: '历史推送名单',
       },
     },
+    change: {
+      [nameSymbol]: '',
+      [paramsSymbol]: {
+        [nameSymbol]: '修改活动信息',
+      },
+    },
     [paramsSymbol]: {
       [nameSymbol]: '推送名单',
       update: {
