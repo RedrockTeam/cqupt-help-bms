@@ -26,7 +26,7 @@ export const updateOrganizationMember = (
           })
         : JSON.stringify({
             operation,
-            user_id: stuNum,
+            user_id: `${stuNum}`,
             job_id: jobId,
           }),
   });
