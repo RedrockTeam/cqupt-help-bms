@@ -16,7 +16,7 @@
 
 .title {
   font-size: 22px;
-  width: 320px;
+  width: 408px;
 }
 
 .routeName {
@@ -28,7 +28,7 @@
 }
 
 .self {
-  padding: 30px;
+  padding: 30px 20px;
   display: flex;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .info {
-  width: 170px;
+  /* width: 170px; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -61,7 +61,7 @@
 }
 
 .infoContent {
-  width: 113px;
+  /* width: 113px; */
 }
 
 .item {

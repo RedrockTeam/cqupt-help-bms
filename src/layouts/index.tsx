@@ -91,7 +91,7 @@ function MyLayout({ children, location }: Props) {
         </div>
       </Header>
       <Layout>
-        <Sider width={'17vw'} theme={'light'} className={styles.sider}>
+        <Sider width={'21.5vw'} theme={'light'} className={styles.sider}>
           <Skeleton loading={loading} active avatar>
             <div className={styles.self}>
               <Avatar
