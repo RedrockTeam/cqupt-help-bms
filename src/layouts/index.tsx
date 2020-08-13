@@ -72,7 +72,7 @@ function MyLayout({ children, location }: Props) {
   const [team, part] = (initialState?.team_name ?? '').split('—');
 
   if (location.pathname === '/') return <>{children}</>;
-  if (location.pathname === '/bind') return <>{children}</>;
+  if (location.hash.slice(0, 6) === '#/bind') return <>{children}</>;
   return (
     <Layout className={styles.layout}>
       <Header className={styles.header}>
