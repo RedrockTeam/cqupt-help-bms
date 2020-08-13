@@ -89,10 +89,20 @@
   font-family:Microsoft YaHei;
   font-weight:bold;
   color:rgba(43,46,55,1);
+  margin-bottom: 20px;
 }
 .pushTextContent {
   font-size:16px;
   font-family:Microsoft YaHei;
   font-weight:400;
   color:rgba(73,77,89,1);
+}
+.pushTextContent > span {
+  color: #6B83FF;
+}
+
+.tips {
+  color: #FF3B3B;
+  font-size: 16px;
+  margin-top: 70px;
 }

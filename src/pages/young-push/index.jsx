@@ -142,18 +142,21 @@ const PushCheck = ({ young, pushForm, time, name, location, phone }) => {
     );
   }
   const form = pushForm === 1 ? '面' : '笔';
+  console.log(time);
   return (
     <div>
       <div className={styles.pushTextTitle}>
         推送信息将会以短信的方式，发送至用户的手机、重邮小帮手、青春邮约-录取结果处，请确定信息的真实性！
       </div>
-      <div className={styles.pyshTextContent}>
-        亲爱的同学，欢迎您报名{young.teamInfo.name}，请您准时于
-        {time.format('MMMM Do YYYY, h:mm:ss a')}，至{location}参与{form}
-        试，若由于时间原因无法参与本场{form}试，请在面试最终截止时间之前，联系
-        {name}，联系人电话号码为{phone}。预祝您{form}试顺利～
+      <div className={styles.pushTextContent}>
+        亲爱的同学，欢迎您报名<span>{young.teamInfo.name}</span>，请您准时于
+        <span>{time._d.toLocaleString()}</span>，至<span>{location}</span>参与
+        <span>{form}试</span>，若由于时间原因无法参与本场{form}
+        试，请在面试最终截止时间之前，联系
+        <span>{name}</span>，联系人电话号码为<span>{phone}</span>。预祝您{form}
+        试顺利～
       </div>
-      <div>
+      <div className={styles.tips}>
         请在报名时间截止后，一次性推送完信息，发送推送后将不能再次发送本场{form}
         试的推送
       </div>

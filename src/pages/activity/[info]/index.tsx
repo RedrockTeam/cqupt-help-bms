@@ -30,6 +30,7 @@ type PageProps = {
 const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
   const location = useLocation();
   const { title } = parse(location.search);
+  console.log(location)
 
   return (
     <div>
@@ -53,6 +54,7 @@ const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
             level: cur.level,
             username: cur.names[i],
             stuNum: num,
+            // key: num,
             key: num + cur.names[i],
           }));
           return [...acc, ...res];

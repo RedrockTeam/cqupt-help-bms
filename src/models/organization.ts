@@ -93,7 +93,7 @@ export const createAddMember = (stuNum: string, jobId: number) => ({
 export const createDeleteMember = (id: number, jobId: number) => ({
   type: 'organization/deleteMember',
   payload: {
-    stu_num: `${id}`, // 后端接口，删除时由于没有获得 stu_num 直接在这里使用 id 替代，类型兼容 stu_num 所以转换成 string
+    id, // 后端接口，删除时由于没有获得 stu_num 直接在这里使用 id 替代
     job_id: jobId,
   },
 });
@@ -190,10 +190,18 @@ const organizationModel: OrganizationModel = {
   },
   reducers: {
     setMembers(state, { payload }) {
-      state.members = payload;
+      state.members = payload.sort(
+        (a, b) =>
+          parseInt(b.job.job_name.split('_')[1][0], 0) -
+          parseInt(a.job.job_name.split('_')[1][0], 0),
+      );
     },
     setAuths(state, { payload }) {
-      state.auths = payload;
+      state.auths = payload.sort(
+        (a, b) =>
+          parseInt(b.job.job_name.split('_')[1][0], 0) -
+          parseInt(a.job.job_name.split('_')[1][0], 0),
+      );
     },
     setCanAuthList(state, { payload }) {
       state.canAuthList = payload;

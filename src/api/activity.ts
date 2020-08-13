@@ -12,6 +12,15 @@ export const getActivityInfos = () => {
   return request(`/activity/activity/info`);
 };
 
+export const getActivitySingle = (id: number) => {
+  return request('/activity/activity/single', {
+    method: 'POST',
+    body: JSON.stringify({
+      activity_id: id,
+    }),
+  });
+};
+
 export const getActivityHistoryInfos = () => {
   return request(`/activity/activity/history`, {
     method: 'POST',
@@ -51,6 +60,7 @@ export function addActivity(
   time_done: number,
   time: string,
   type: '线上活动',
+  image: string,
   link: string,
 );
 export function addActivity(
@@ -58,6 +68,7 @@ export function addActivity(
   time_done: number,
   time: string,
   type: '线下活动',
+  image: string,
   location: string,
   introduction: string,
   role: string,
@@ -67,6 +78,7 @@ export function addActivity(
   time_done: number,
   time: string,
   type: '线上活动' | '线下活动',
+  image: string,
   linkOrlocation: string,
   introduction?: string,
   role?: string,
@@ -80,6 +92,7 @@ export function addActivity(
       time,
       type: 1,
       link: linkOrlocation,
+      image,
     };
   }
   if (type === '线下活动') {
@@ -92,6 +105,7 @@ export function addActivity(
       location: linkOrlocation,
       introduction,
       role,
+      image,
     };
   }
   return request(`/activity/activity/update`, {
@@ -137,6 +151,7 @@ export function updateActivity(
 }
 
 export const commitPushGift = (opts: PushGiftInfoOptions) => {
+  console.log(opts);
   return request(`/activity/gift/update`, {
     method: 'POST',
     body: JSON.stringify({ ...opts, operation: 'update' }),

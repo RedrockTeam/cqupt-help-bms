@@ -16,6 +16,7 @@ import {
   deleteActivity,
   addActivity,
   commitPushGift,
+  getActivitySingle,
 } from '@/api/activity';
 import { redirectTo } from '@/utils';
 
@@ -25,6 +26,10 @@ export interface ActivityModelState {
   activityHistoryGifts: GiftInfos;
   activityGifts: GiftInfos;
   pushGiftInputs: PushGiftInputResults;
+  location: string;
+  time_begin: number | undefined;
+  time_end: number | undefined;
+  time_out: number | undefined;
 }
 
 export interface ActivityModel {
@@ -34,12 +39,14 @@ export interface ActivityModel {
     onActivityHistoryPage: Subscription;
     onActivityHistoryGiftPage: Subscription;
     onActivityGiftPage: Subscription;
+    onActivitySinglePage: Subscription;
   };
   effects: {
     fetchActivityInfos: Effect;
     fetchActivityHistoryInfos: Effect;
     fetchActivityHistoryGifts: Effect;
     fetchActivityGifts: Effect;
+    fetchActivitySingle: Effect;
     deleteActivity: Effect;
     addActivity: Effect;
     commitPushGift: Effect;
@@ -61,6 +68,10 @@ export interface ActivityModel {
       ActivityModelState,
       ReturnType<typeof createSetActivityGifts>
     >;
+    setActivitySingle: ImmerReducer<
+      ActivityModelState,
+      ReturnType<typeof createSetActivitySingle>
+    >;
     setPushGiftInputLevel: ImmerReducer<
       ActivityModelState,
       ReturnType<typeof createSetPushGiftInputLevel>
@@ -81,6 +92,14 @@ export const createFetchActivityInfos = () => ({ type: 'fetchActivityInfos' });
 export const createSetActivityInfos = (activityInfos: ActivityInfos) => ({
   type: 'setActivityInfos',
   payload: activityInfos,
+});
+export const createFetchActivitySingle = (id: number) => ({
+  type: 'fetchActivitySingle',
+  payload: { id },
+});
+export const createSetActivitySingle = (data: any) => ({
+  type: 'setActivitySingle',
+  payload: data,
 });
 export const createFetchActivityHistoryInfos = () => ({
   type: 'fetchActivityHistoryInfos',
@@ -159,6 +178,10 @@ const activityModel: ActivityModel = {
     activityHistoryGifts: [],
     activityGifts: [],
     pushGiftInputs: [],
+    location: '',
+    time_begin: undefined,
+    time_end: undefined,
+    time_out: undefined,
   },
   subscriptions: {
     onActivityPage({ dispatch, history }) {
@@ -197,6 +220,15 @@ const activityModel: ActivityModel = {
         }
       });
     },
+    onActivitySinglePage({ dispatch, history }) {
+      history.listen(({ pathname }) => {
+        const match = pathToRegexp('/activity/:info/update').exec(pathname);
+        if (match && match[1] !== 'history') {
+          console.log('on page: /activity/:info');
+          dispatch(createFetchActivitySingle(parseInt(match[1], 10)));
+        }
+      });
+    },
   },
   effects: {
     *fetchActivityInfos(action, { call, put }) {
@@ -223,6 +255,12 @@ const activityModel: ActivityModel = {
         yield put(createSetActivityGifts(res.data ?? []));
       }
     },
+    *fetchActivitySingle({ payload }, { call, put }) {
+      const res = yield call(getActivitySingle, payload.id);
+      if (res.status === 10000 && res.data != null) {
+        yield put(createSetActivitySingle(res.data));
+      }
+    },
     *deleteActivity({ payload }, { call, put }) {
       const res = yield call(deleteActivity, payload.id);
       if (res.status === 10000) {
@@ -239,6 +277,7 @@ const activityModel: ActivityModel = {
           payload.time_done,
           payload.time,
           payload.type,
+          payload.image,
           payload.link,
         );
       } else {
@@ -248,6 +287,7 @@ const activityModel: ActivityModel = {
           payload.time_done,
           payload.time,
           payload.type,
+          payload.image,
           payload.location,
           payload.introduction,
           payload.role,
@@ -279,6 +319,12 @@ const activityModel: ActivityModel = {
     setActivityGifts(state, { payload }) {
       state.activityGifts = payload;
     },
+    setActivitySingle(state, { payload }) {
+      state.pushGiftInputs = payload.gift_models;
+      state.time_begin = payload.time_begin;
+      state.time_end = payload.time_end;
+      state.time_out = payload.time_out;
+    },
     setPushGiftInputLevel(state, { payload }) {
       state.pushGiftInputs[payload.index].level = payload.level;
     },
@@ -286,7 +332,7 @@ const activityModel: ActivityModel = {
       state.pushGiftInputs[payload.index].name = payload.name;
     },
     setPushGiftInputStuNum(state, { payload }) {
-      state.pushGiftInputs[payload.index].stu_nums.push(payload.stuNum);
+      state.pushGiftInputs[payload.index].stu_nums = payload.stuNum.split(',');
     },
     addPushGiftInput(state) {
       state.pushGiftInputs.push({

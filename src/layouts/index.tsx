@@ -55,7 +55,9 @@ function MyLayout({ children, location }: Props) {
 
   const pathSnippets = location.pathname.split('/').filter(i => i);
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
-    const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+    const url = `/${pathSnippets.slice(0, index + 1).join('/')}${
+      location.search
+    }`; // 防止 search 丢失
     // TODO: 先这样写，之后优化把 pathnameToPagename 的逻辑放到 layout model 的 subscription 里面
     return (
       <Breadcrumb.Item key={url}>
@@ -90,12 +92,6 @@ function MyLayout({ children, location }: Props) {
               />
               <div className={styles.info}>
                 <div className={styles.name}>{initialState?.name}</div>
-                <div className={styles.subInfo}>
-                  <span>学院：</span>
-                  <span className={styles.infoContent}>
-                    {initialState?.college}
-                  </span>
-                </div>
                 <div className={styles.subInfo}>
                   <span>组织：</span>
                   <span className={styles.infoContent}>{team}</span>

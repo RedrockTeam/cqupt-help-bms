@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Select } from 'antd';
+import { Input, Select, Tag } from 'antd';
 import styles from './giftInfoInput.css';
 import sharedStyles from '@/assets/styles.css';
 import { PushGiftInputResult } from '@/interfaces/activity';
@@ -40,7 +40,7 @@ const Member = ({
             mode="tags"
             className={styles.stuNum}
             placeholder="输入学号"
-            onSelect={stuNum => onChangeGiftInputStuNum(`${stuNum}`)}
+            onChange={stuNum => onChangeGiftInputStuNum(`${stuNum}`)}
           />
         </div>
       </div>

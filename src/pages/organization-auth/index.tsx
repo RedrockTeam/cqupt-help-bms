@@ -71,13 +71,17 @@ const OrganizationAuth: ConnectRC<PageProps> = ({
         <Skeleton loading={loading}>
           {organization.auths.map((group, index) => (
             <Member key={group.job.job_id} title={group.job.job_name}>
-              {group.TeamPersons?.map(person => (
-                <OrganizationPerson
-                  key={person.id}
-                  onClick={() => openUpdateModal(group.job.job_id, person.id)}
-                  person={person}
-                />
-              ))}
+              {group.TeamPersons == null ? (
+                <div>暂无</div>
+              ) : (
+                group.TeamPersons.map(person => (
+                  <OrganizationPerson
+                    key={person.id}
+                    onClick={() => openUpdateModal(group.job.job_id, person.id)}
+                    person={person}
+                  />
+                ))
+              )}
               {/* 添加，index === 0 是部长，没有添加，其他的当人数小于 2 时有添加 */}
               {/* {(index !== 0 && group.TeamPersons.length < 2) && <OrganizationPerson
                 onClick={() => setAddModalVisible(true)}

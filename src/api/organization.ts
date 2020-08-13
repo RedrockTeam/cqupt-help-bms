@@ -11,16 +11,24 @@ export const getOrganizationMembers = () => {
 
 export const updateOrganizationMember = (
   operation: 'delete' | 'add',
-  stuNum: string,
+  stuNum: string | number,
   jobId: number,
 ) => {
+  console.log(stuNum);
   return request(`/team/person/update`, {
     method: 'POST',
-    body: JSON.stringify({
-      operation,
-      stuNum,
-      job_id: jobId,
-    }),
+    body:
+      operation === 'add'
+        ? JSON.stringify({
+            operation,
+            stu_num: stuNum,
+            job_id: jobId,
+          })
+        : JSON.stringify({
+            operation,
+            user_id: stuNum,
+            job_id: jobId,
+          }),
   });
 };
 

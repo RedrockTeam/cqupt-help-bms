@@ -25,10 +25,10 @@ const Update = ({ activity, dispatch }: Props) => {
   const { title } = parse(useLocation().search);
   const { info } = useParams();
   // TODO: 获取历史信息作为初始化
-  const [location, setLocation] = useState<string>('');
-  const [timeBegin, setTimeBegin] = useState<number>();
-  const [timeEnd, setTimeEnd] = useState<number>();
-  const [timeOut, setTimeOut] = useState<number>();
+  const [location, setLocation] = useState<string>(activity.location);
+  const [timeBegin, setTimeBegin] = useState<number | undefined>(activity.time_begin);
+  const [timeEnd, setTimeEnd] = useState<number | undefined>(activity.time_end);
+  const [timeOut, setTimeOut] = useState<number | undefined>(activity.time_out);
 
   return (
     <div>

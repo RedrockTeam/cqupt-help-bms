@@ -11,6 +11,7 @@ import {
   createDeleteActivity,
   createAddActivity,
 } from '@/models/activity';
+import ImageUploader from '@/components/imageUploader';
 
 type PageProps = {
   activity: ActivityModelState;
@@ -21,11 +22,16 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
   const history = useHistory();
   const [visible, setVisible] = useState<boolean>(false);
   const [isOnlineForm, setIsOnlineForm] = useState<boolean>();
+  const [image, setImage] = useState('');
 
   const closeModal = useCallback(() => setVisible(false), []);
   const submit = (values: any) => {
     dispatch!(
-      createAddActivity({ ...values, time_done: values.time_done.unix() }),
+      createAddActivity({
+        ...values,
+        time_done: values.time_done.unix(),
+        image,
+      }),
     );
     closeModal();
   };
@@ -150,14 +156,14 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                 <Form.Item
                   name="introduction"
                   label="活动介绍"
-                  rules={[{ required: true, message: '请选择时间' }]}
+                  rules={[{ required: true, message: '请输入活动介绍' }]}
                 >
                   <Input.TextArea placeholder="请输入本次活动的介绍（不超过 200 字）" />
                 </Form.Item>
                 <Form.Item
                   name="role"
                   label="活动规则"
-                  rules={[{ required: true, message: '请选择时间' }]}
+                  rules={[{ required: true, message: '请输入活动规则' }]}
                 >
                   <Input.TextArea
                     placeholder="请输入本次活动的规则（不超过 200 字）"
@@ -167,12 +173,16 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                 <Form.Item
                   name="location"
                   label="活动地点"
-                  rules={[{ required: true, message: '请选择时间' }]}
+                  rules={[{ required: true, message: '请输入地点' }]}
                 >
                   <Input.TextArea placeholder="请输入本次活动的地点" />
                 </Form.Item>
               </>
             ))}
+          <Form.Item name="image" label="活动宣传图">
+            <ImageUploader image={image} setImage={setImage} />
+            <div>请上传 16:9 大小图片</div>
+          </Form.Item>
           <Form.Item
             name="time"
             label="活动时间"

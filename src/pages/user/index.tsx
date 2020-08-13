@@ -10,6 +10,7 @@ import { UserModelState } from '@/models/user';
 const columns = [
   { title: '活动任务', dataIndex: 'title', key: 'title' },
   { title: '发布时间', dataIndex: 'updated_time', key: 'updated_time' },
+  { title: '发布人', dataIndex: 'name', key: 'name' },
 ];
 
 type PageProps = {
@@ -34,7 +35,7 @@ const User: ConnectRC<PageProps> = ({ user, loading }) => {
           expandedRowRender(record) {
             return <p className={styles.description}>{record.content}</p>;
           },
-          expandIconColumnIndex: 2,
+          expandIconColumnIndex: 3,
         }}
         dataSource={user.tasks.map(task => ({ ...task, key: task.id }))}
         scroll={{
