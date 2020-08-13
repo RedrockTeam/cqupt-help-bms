@@ -16,7 +16,7 @@ export async function getInitialState() {
         // `${LOGIN}/magicloop/rushb?b=${encodeURIComponent(
         //   /* 后端入口 */ `${API}/login`,
         // )}%2f&scope=student&pattern=qr`,
-        `https://wx.redrock.team/magicloop/rushb?b=${decodeURIComponent(
+        `https://wx.redrock.team/magicloop/rushb?b=${encodeURIComponent(
           'https://cyxbsmobile.redrock.team/wxapi/cyb-permissioncenter/login',
         )}&scope=student&pattern=qr`,
       )
