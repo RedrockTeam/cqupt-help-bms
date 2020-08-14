@@ -319,6 +319,7 @@ const YoungPush = ({ young, loading, dispatch }) => {
                   background: '#fff',
                   color: '#6B83FF',
                 }}
+                disabled={!(pushStep > 0)}
                 className={sharedStyles.okButton}
                 onClick={() => {
                   if (pushStep > 0) {

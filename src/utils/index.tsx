@@ -1,5 +1,6 @@
 import { pathMap, PathMap, paramsSymbol, nameSymbol } from '@/configs';
 import { history } from 'umi';
+import { useRef, useEffect } from 'react';
 
 export const pathnameToPagename = (url: string[]) => {
   return url.reduce((acc: PathMap, cur: string): PathMap => {
@@ -29,4 +30,14 @@ export const redirectTo = (pathname: string, delay = 0) => {
   } else {
     setTimeout(() => history.replace(pathname), delay);
   }
+};
+
+export const usePrev = (value: unknown) => {
+  const ref = useRef<unknown>();
+  useEffect(() => {
+    return () => {
+      ref.current = value;
+    };
+  });
+  return ref.current;
 };

@@ -5,7 +5,7 @@ import sharedStyles from '@/assets/styles.css';
 import { PushGiftInputResult } from '@/interfaces/activity';
 
 type Props = {
-  onChangeGiftInputLevel: (level: number) => void;
+  onChangeGiftInputLevel: (level: string) => void;
   onChangeGiftInputName: (name: string) => void;
   onChangeGiftInputStuNum: (stuNum: string) => void;
   pushGiftInput: any;
@@ -25,7 +25,7 @@ const Member = ({
           <Input
             value={pushGiftInput.level}
             className={sharedStyles.inputBorder}
-            onChange={e => onChangeGiftInputLevel(parseInt(e.target.value, 10))}
+            onChange={e => onChangeGiftInputLevel(e.target.value)}
           />
         </div>
         <div className={sharedStyles.inputWrapper}>

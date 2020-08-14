@@ -11,7 +11,7 @@ export type ActivityInfos = ActivityInfo[];
 export type ActivityHistoryInfos = ActivityInfo[];
 
 export interface GiftInfo {
-  level: number;
+  level: string;
   name: string;
   stu_nums: string[];
   names: string[];
@@ -34,7 +34,7 @@ export interface UpdateActivityOptions {
 
 export interface PushGiftInputResult {
   name: string;
-  level: number;
+  level: string;
   stu_nums: string[];
 }
 

@@ -122,7 +122,7 @@ const Update = ({ activity, dispatch }: Props) => {
           <GiftInfoInput
             key={index}
             pushGiftInput={info}
-            onChangeGiftInputLevel={(level: number) => {
+            onChangeGiftInputLevel={(level: string) => {
               dispatch!(createSetPushGiftInputLevel(index, level));
             }}
             onChangeGiftInputName={(name: string) => {

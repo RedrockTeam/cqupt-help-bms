@@ -46,14 +46,7 @@ const OrganizationAuth: ConnectRC<PageProps> = ({
   const [originUserId, setOriginUserId] = useState<number>();
 
   // 能否修改
-  const [isBoss, setIsBoss] = useState(false);
-  useEffect(() => {
-    request('/team/person/update').then(res => {
-      if (res.status === 10000) {
-        setIsBoss(true);
-      }
-    });
-  }, []);
+  const isBoss = organization.isBoss;
 
   // TODO: fix type
   const submitUpdate = (values: any) => {
@@ -117,7 +110,7 @@ const OrganizationAuth: ConnectRC<PageProps> = ({
 
       {/* 修改权限的对话 Modal */}
       <Modal
-        title="添加成员"
+        title="管理权限"
         visible={updateModalVisible}
         centered
         onCancel={closeUpdateModal}

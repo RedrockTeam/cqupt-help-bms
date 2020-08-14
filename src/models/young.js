@@ -77,15 +77,8 @@ const YoungModel = {
     *sendPassApply({ payload }, { call, put }) {
       console.log(payload);
       const res = yield call(sendPassApply, payload);
-      if (res.status === 10000) {
-        message.success('ok');
-      }
-    },
-    *fetchStepHistory(action, { call, put }) {
-      const res = yield call(getStepHistory);
-      if (res.status === 10000) {
-        console.log(res.data || [], 'caocao');
-        yield put(createSetStepHistory(res.data || []));
+      if (res.status === 10000 && res.info === 'success') {
+        message.success('推送成功');
       }
     },
   },

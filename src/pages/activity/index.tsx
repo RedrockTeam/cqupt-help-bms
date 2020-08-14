@@ -158,7 +158,10 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                   label="活动介绍"
                   rules={[{ required: true, message: '请输入活动介绍' }]}
                 >
-                  <Input.TextArea placeholder="请输入本次活动的介绍（不超过 200 字）" />
+                  <Input.TextArea
+                    placeholder="请输入本次活动的介绍（不超过 200 字）"
+                    maxLength={200}
+                  />
                 </Form.Item>
                 <Form.Item
                   name="role"
@@ -175,7 +178,10 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                   label="活动地点"
                   rules={[{ required: true, message: '请输入地点' }]}
                 >
-                  <Input.TextArea placeholder="请输入本次活动的地点" />
+                  <Input.TextArea
+                    placeholder="请输入本次活动的地点（不超过 16 字）"
+                    maxLength={16}
+                  />
                 </Form.Item>
               </>
             ))}
@@ -188,7 +194,10 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
             label="活动时间"
             rules={[{ required: true, message: '请写明活动时间' }]}
           >
-            <Input.TextArea placeholder="请输入本次活动时间，例：3 月 12 日 - 3 月 15 日，每天 18 - 20 点" />
+            <Input.TextArea
+              placeholder="请输入本次活动时间，例：3.12-3.15 18-20点（不超过 16 字）"
+              maxLength={16}
+            />
           </Form.Item>
           <Form.Item>
             <Button

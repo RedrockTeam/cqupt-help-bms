@@ -13,6 +13,7 @@ import {
   getOrganizationCanAuthList,
   updateOrganizationAuth,
   publishTask,
+  checkIsBoss,
 } from '@/api/organization';
 import { createFetchError } from '@/utils';
 
@@ -20,6 +21,7 @@ export interface OrganizationModelState {
   members: OrganizationMembers;
   auths: OrganizationAuths;
   canAuthList: TeamPersons;
+  isBoss: boolean;
 }
 
 export interface OrganizationModel {
@@ -29,6 +31,7 @@ export interface OrganizationModel {
     onMember: Subscription;
   };
   effects: {
+    checkIsBoss: Effect;
     fetchAuths: Effect;
     fetchCanAuthList: Effect;
     addAuth: Effect;
@@ -39,6 +42,7 @@ export interface OrganizationModel {
     publishTask: Effect;
   };
   reducers: {
+    setIsBoss: ImmerReducer;
     setMembers: ImmerReducer<
       OrganizationModelState,
       ReturnType<typeof createSetMembers>
@@ -54,6 +58,7 @@ export interface OrganizationModel {
   };
 }
 
+export const createCheckIsBoss = () => ({ type: 'checkIsBoss' });
 export const createFetchAuths = () => ({ type: 'fetchAuths' });
 export const createFetchMembers = () => ({ type: 'fetchMembers' });
 export const createAddAuth = (stuNum: string, jobId: number) => ({
@@ -118,6 +123,7 @@ const organizationModel: OrganizationModel = {
     members: [],
     auths: [],
     canAuthList: [],
+    isBoss: false,
   },
   subscriptions: {
     onAuth({ dispatch, history }) {
@@ -140,8 +146,18 @@ const organizationModel: OrganizationModel = {
     },
   },
   effects: {
-    *fetchAuths(action, { call, put }) {
-      const res = yield call(getOrganizationAuths);
+    *checkIsBoss(action, { call, put }) {
+      const res = yield call(checkIsBoss);
+      yield put({
+        type: 'setIsBoss',
+        payload: { isBoss: res.status === 10000 },
+      });
+    },
+    *fetchAuths(action, { call, put, all }) {
+      const [res] = yield all([
+        call(getOrganizationAuths),
+        put(createCheckIsBoss()),
+      ]);
       if (res.status === 10000) {
         yield put(createSetAuths(res.data ?? []));
       }
@@ -164,16 +180,21 @@ const organizationModel: OrganizationModel = {
       }
     },
     *updateAuth({ payload }, { call, put }) {
-      yield call(
+      const res = yield call(
         updateOrganizationAuth,
         payload.job_id,
         payload.origin_user_id,
         payload.user_id,
       );
-      yield put(createFetchAuths());
+      if (res.status === 10000) {
+        yield put(createFetchAuths());
+      }
     },
-    *fetchMembers(action, { call, put }) {
-      const res = yield call(getOrganizationMembers);
+    *fetchMembers(action, { call, put, all }) {
+      const [res] = yield all([
+        call(getOrganizationMembers),
+        put(createCheckIsBoss()),
+      ]);
       if (res.status === 10000) {
         yield put(createSetMembers(res.data ?? []));
       }
@@ -208,6 +229,9 @@ const organizationModel: OrganizationModel = {
     },
   },
   reducers: {
+    setIsBoss(state, { paylaod }) {
+      state.isBoss = paylaod.isBoss;
+    },
     setMembers(state, { payload }) {
       state.members = payload.sort(
         (a, b) =>

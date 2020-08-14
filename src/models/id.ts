@@ -87,7 +87,7 @@ const idModel: IdModel = {
         yield put(createSetPassedIdInfos(res.data ?? []));
       }
     },
-    *passIdApply({ payload }, { call, put, all }) {
+    *passIdApply({ payload }, { call, put }) {
       const res = yield call(passIdApply, payload.ids);
       if (res.status === 10000) {
         yield put(createFetchApplyingIdInfos());

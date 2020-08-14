@@ -69,3 +69,5 @@ export const publishTask = (title: string, content: string) => {
     }),
   });
 };
+
+export const checkIsBoss = () => request('/team/person/update');

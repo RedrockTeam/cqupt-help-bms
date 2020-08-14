@@ -22,7 +22,7 @@
   background:rgba(107,131,255,1);
   border-radius:6px;
   font-size:18px;
-  border: none;
+  /* border: none; */
 }
 
 .inputBorder {

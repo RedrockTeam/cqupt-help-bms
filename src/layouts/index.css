@@ -25,6 +25,7 @@
 
 .sider {
   width: 330px;
+  height: calc(100vh - 70px);
 }
 
 .self {
@@ -91,6 +92,10 @@
   color: #ffffff;
 }
 
+.fixNav {
+  padding-left: 50px;
+}
+
 .activeNav {
   background: #6B83FF;
   color: #ffffff;
@@ -98,3 +103,8 @@
 /* .activeNav:hover {
   color: #ffffff;
 } */
+
+.menu {
+  max-height: calc(100vh - 140px - 70px);
+  overflow: auto;
+}

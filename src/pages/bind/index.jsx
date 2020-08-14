@@ -4,6 +4,7 @@ import styles from './index.css';
 import passwordIcon from '@/assets/password-icon.png';
 import passwordTitleIcon from '@/assets/password-title-icon.png';
 import accountIcon from '@/assets/account-icon.png';
+import { redirectTo } from '@/utils';
 
 const Bind = () => {
   const { query } = useLocation();
@@ -18,7 +19,7 @@ const Bind = () => {
 
   const handleBind = async () => {
     setDisabled(true);
-    await fetch('https://wx.redrock.team/magicloop/bind', {
+    const res = await fetch('https://wx.redrock.team/magicloop/bind', {
       method: 'POST',
       body: JSON.stringify({
         openid: query.openid,
@@ -28,7 +29,13 @@ const Bind = () => {
         code: query.code,
         state: query.state,
       }),
-    }).then(() => setDisabled(false));
+    })
+      .then(res => res.json())
+      .then(() => setDisabled(false));
+    if (res.status === '10000') {
+      localStorage.setItem('cqupt-help-bms-token', res.data.token);
+      redirectTo('/');
+    }
   };
 
   return (

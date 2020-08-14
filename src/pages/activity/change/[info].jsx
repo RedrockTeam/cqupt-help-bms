@@ -135,6 +135,7 @@ const Change = () => {
                 className={styles.text}
                 onChange={e => setIntro(e.target.value)}
                 disabled={!isUpdateMode}
+                maxLength={200}
               />
             </div>
             <div className={sharedStyles.inputWrapper}>
@@ -145,15 +146,17 @@ const Change = () => {
                 className={styles.text}
                 onChange={e => setRule(e.target.value)}
                 disabled={!isUpdateMode}
+                maxLength={200}
               />
             </div>
             <div className={sharedStyles.inputWrapper}>
               <span className={sharedStyles.name}>活动地点</span>
-              <Input.TextArea placeholder="请输入本次活动的地点"
+              <Input.TextArea placeholder="请输入本次活动的地点（不超过 16 字）"
                 value={location}
                 className={styles.text}
                 onChange={e => setLocation(e.target.value)}
                 disabled={!isUpdateMode}
+                maxLength={16}
               />
             </div>
           </>
@@ -161,11 +164,12 @@ const Change = () => {
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>活动时间</span>
           <Input.TextArea
-            placeholder="请输入本次活动时间，例：3 月 12 日 - 3 月 15 日，每天 18 - 20 点"
+            placeholder="请输入本次活动时间，例：3.12-3.15 18-20点（不超过 16 字）"
             value={time}
             className={styles.text}
             onChange={e => setTime(e.target.value)}
             disabled={!isUpdateMode}
+            maxLength={16}
           />
         </div>
         <div className={sharedStyles.inputWrapper}>

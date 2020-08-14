@@ -25,24 +25,29 @@ const Nav = ({
   canEnter,
   route,
   routeName,
+  className,
   Icon,
 }: {
   canEnter: boolean;
   route: string;
   routeName: string;
+  className?: string;
   Icon?: ReactNode;
 }) => {
   return canEnter ? (
     <NavLink
       to={route}
-      className={styles.nav}
+      className={`${styles.nav} ${className}`}
       activeClassName={styles.activeNav}
     >
       {Icon}
       <span className={styles.item}>{routeName}</span>
     </NavLink>
   ) : (
-    <div onClick={() => message.warn('没有权限')} className={styles.nav}>
+    <div
+      onClick={() => message.warn('没有权限')}
+      className={`${styles.nav} ${className}`}
+    >
       {Icon}
       <span className={styles.item}>{routeName}</span>
     </div>
@@ -114,7 +119,7 @@ function MyLayout({ children, location }: Props) {
               </div>
             </Skeleton>
           </div>
-          <Menu mode="inline" theme="light">
+          <Menu mode="inline" theme="light" className={styles.menu}>
             <Nav
               canEnter={access.canEnterUser}
               route="/user"
@@ -163,11 +168,13 @@ function MyLayout({ children, location }: Props) {
                 canEnter={access.canEnterYoung}
                 route="/young-input"
                 routeName="部门资料"
+                className={styles.fixNav}
               />
               <Nav
                 canEnter={access.canEnterYoung}
                 route="/young-push"
                 routeName="推送信息"
+                className={styles.fixNav}
               />
             </Menu.SubMenu>
             <Menu.SubMenu
@@ -188,16 +195,19 @@ function MyLayout({ children, location }: Props) {
                 canEnter={access.canEnterOrganization}
                 route="/organization-auth"
                 routeName="权限管理"
+                className={styles.fixNav}
               />
               <Nav
                 canEnter={access.canEnterOrganization}
                 route="/organization-member"
                 routeName="部门成员"
+                className={styles.fixNav}
               />
               <Nav
                 canEnter={access.canEnterOrganization}
                 route="/organization-task"
                 routeName="任务发布"
+                className={styles.fixNav}
               />
             </Menu.SubMenu>
           </Menu>

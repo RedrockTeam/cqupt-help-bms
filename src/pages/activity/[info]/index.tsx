@@ -16,7 +16,7 @@ const columns = [
 
 interface Person {
   name: string;
-  level: number;
+  level: string;
   username: string;
   stuNum: string;
   key: string;

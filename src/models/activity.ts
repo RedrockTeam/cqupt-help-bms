@@ -135,7 +135,7 @@ export const createAddActivity = (opts: UpdateActivityOptions) => ({
   type: 'activity/addActivity',
   payload: opts,
 });
-export const createSetPushGiftInputLevel = (index: number, level: number) => ({
+export const createSetPushGiftInputLevel = (index: number, level: string) => ({
   type: 'activity/setPushGiftInputLevel',
   payload: { index, level },
 });
@@ -342,7 +342,7 @@ const activityModel: ActivityModel = {
     addPushGiftInput(state) {
       state.pushGiftInputs.push({
         name: '',
-        level: 0,
+        level: '',
         stu_nums: [],
       });
     },

@@ -31,14 +31,7 @@ const OrganizationMenber: ConnectRC<PageProps> = ({
   };
   const close = () => setVisible(false);
 
-  const [isBoss, setIsBoss] = useState(false);
-  useEffect(() => {
-    request('/team/person/update').then(res => {
-      if (res.status === 10000) {
-        setIsBoss(true);
-      }
-    });
-  }, []);
+  const isBoss = organization.isBoss;
 
   // 用于获取部门成员的 jobId，用于后端接口
   // useEffect(() => {

@@ -7,6 +7,7 @@ import PageHeader from '@/components/pageHeader';
 const columns = [
   { title: '活动任务', dataIndex: 'detail', key: 'detail' },
   { title: '发布时间', dataIndex: 'created_at', key: 'created_at' },
+  { title: '发布人', dataIndex: 'name', key: 'name' },
 ];
 
 type PageProps = {

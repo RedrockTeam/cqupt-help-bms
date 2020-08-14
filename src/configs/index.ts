@@ -12,7 +12,7 @@ export const pathMap: PathMap = {
     [nameSymbol]: '微信绑定',
   },
   user: {
-    [nameSymbol]: '个人中心',
+    [nameSymbol]: '部门公告',
     history: {
       [nameSymbol]: '历史任务',
     },
