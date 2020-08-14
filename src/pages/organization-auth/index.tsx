@@ -25,7 +25,10 @@ type PageProps = {
 
 // 判断权限人数是否已满
 const isFullAtJob = (job: string, num: number) => {
-  if (job === '青春邮约报名系统推送者' || job === '影票上线推送者') {
+  if (
+    job.includes('青春邮约报名系统推送者') ||
+    job.includes('影票上线推送者')
+  ) {
     if (num >= 1) return true;
     return false;
   }

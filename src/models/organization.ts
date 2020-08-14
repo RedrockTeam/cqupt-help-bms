@@ -148,8 +148,9 @@ const organizationModel: OrganizationModel = {
   effects: {
     *checkIsBoss(action, { call, put }) {
       const res = yield call(checkIsBoss);
+      console.log('??');
       yield put({
-        type: 'setIsBoss',
+        type: 'organization/setIsBoss',
         payload: { isBoss: res.status === 10000 },
       });
     },
@@ -229,8 +230,8 @@ const organizationModel: OrganizationModel = {
     },
   },
   reducers: {
-    setIsBoss(state, { paylaod }) {
-      state.isBoss = paylaod.isBoss;
+    setIsBoss(state, { payload }) {
+      state.isBoss = payload.isBoss;
     },
     setMembers(state, { payload }) {
       state.members = payload.sort(

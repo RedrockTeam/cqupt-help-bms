@@ -120,7 +120,11 @@ const PushInfo = ({
         <Input
           value={phone}
           className={`${sharedStyles.inputBorder} ${styles.contentItem}`}
-          onChange={e => setPhone(e.target.value)}
+          onChange={e => {
+            if (/^1(3|4|5|7|8)\d*$/.test(e.target.value)) {
+              setPhone(e.target.value);
+            }
+          }}
         />
       </div>
     </div>
@@ -276,6 +280,7 @@ const YoungPush = ({ young, loading, dispatch }) => {
           </Checkbox>
           <Button
             type="primary"
+            disabled={!selectedIds.length}
             onClick={() => setIsShow(true)}
             className={sharedStyles.okButton}
           >

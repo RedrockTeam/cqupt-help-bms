@@ -106,5 +106,6 @@
 
 .menu {
   max-height: calc(100vh - 140px - 70px);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
