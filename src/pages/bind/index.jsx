@@ -33,7 +33,7 @@ const Bind = () => {
     })
       .then(res => res.json())
       .then(({ token }) => {
-        localStorage.setItem('cqupt-help-bms-token', res.data.token);
+        localStorage.setItem('cqupt-help-bms-token', token);
         redirectTo('/');
       })
       .then(() => setDisabled(false));

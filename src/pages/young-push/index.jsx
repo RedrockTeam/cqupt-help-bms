@@ -121,7 +121,7 @@ const PushInfo = ({
           value={phone}
           className={`${sharedStyles.inputBorder} ${styles.contentItem}`}
           onChange={e => {
-            if (/^1(3|4|5|7|8)\d*$/.test(e.target.value)) {
+            if (/^\d{0,11}$/.test(e.target.value)) {
               setPhone(e.target.value);
             }
           }}
@@ -146,7 +146,7 @@ const PushCheck = ({ young, pushForm, time, name, location, phone }) => {
     );
   }
   const form = pushForm === 1 ? '面' : '笔';
-  console.log(time);
+
   return (
     <div>
       <div className={styles.pushTextTitle}>
