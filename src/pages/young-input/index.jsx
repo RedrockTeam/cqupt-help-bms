@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { connect, ConnectProps } from 'umi';
+import { connect, ConnectProps, request } from 'umi';
 import PageHeader from '@/components/pageHeader';
 import sharedStyles from '@/assets/styles.css';
 import styles from './index.css';
@@ -24,6 +24,16 @@ const YoungInput = ({ young, dispatch, loading }) => {
         setIsFirst(true);
     }
   }, [loading, preLoading, young.teamInfo.avatar, young.teamInfo.detail]);
+
+  // 看能不能修改
+  const [canUpdate, setCanUpdate] = useState(false);
+  useEffect(() => {
+    request('/team/apply/update').then(res => {
+      if (res.status === 10000) {
+        setCanUpdate(true);
+      }
+    });
+  }, []);
 
   if (loading)
     return (
@@ -84,6 +94,7 @@ const YoungInput = ({ young, dispatch, loading }) => {
         <Button
           type="primary"
           style={{ margin: '20px 0' }}
+          disabled={!canUpdate}
           className={sharedStyles.okButton}
           onClick={() => {
             if (isUpdateMode) {

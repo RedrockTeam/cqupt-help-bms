@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, connect, Loading, ConnectRC, useHistory } from 'umi';
+import { Link, connect, Loading, ConnectRC, useHistory, request } from 'umi';
 import {
   Table,
   Button,
@@ -21,6 +21,7 @@ import mianshiImg from '@/assets/mianshi.png';
 import mianshiActiveImg from '@/assets/mianshi-active.png';
 import luquImg from '@/assets/luqu.png';
 import luquActiveImg from '@/assets/luqu-active.png';
+import { redirectTo } from '@/utils';
 
 const PushFormChoice = ({ pushForm, setPushForm }) => (
   <div>
@@ -191,6 +192,25 @@ const YoungPush = ({ young, loading, dispatch }) => {
   const [phone, setPhone] = useState('');
   const [groupNumber, setGroupNumber] = useState('');
 
+  const [isEnd, setIsEnd] = useState(false);
+  useEffect(() => {
+    request('/team/apply/done').then(res => {
+      if (res.status === 10000) {
+        setIsEnd(res.data);
+      }
+    });
+  }, []);
+
+  // 看能不能修改
+  const [canUpdate, setCanUpdate] = useState(false);
+  useEffect(() => {
+    request('/team/apply/update').then(res => {
+      if (res.status === 10000) {
+        setCanUpdate(true);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     if (selectedIds.length === list.length) {
       if (selectedIds.length === 0) return setIsChecked(false);
@@ -239,6 +259,9 @@ const YoungPush = ({ young, loading, dispatch }) => {
     if (pushStep === 3) return <PushOk />;
   };
 
+  if (isEnd) {
+    redirectTo('/young-push/history');
+  }
   return (
     <div>
       <PageHeader title={`第 ${step} 轮选拔推送名单`}>
@@ -280,7 +303,7 @@ const YoungPush = ({ young, loading, dispatch }) => {
           </Checkbox>
           <Button
             type="primary"
-            disabled={!selectedIds.length}
+            disabled={!selectedIds.length || !canUpdate}
             onClick={() => setIsShow(true)}
             className={sharedStyles.okButton}
           >
