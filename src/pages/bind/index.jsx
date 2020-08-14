@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'umi';
+import { message } from 'antd';
 import styles from './index.css';
 import passwordIcon from '@/assets/password-icon.png';
 import passwordTitleIcon from '@/assets/password-title-icon.png';
@@ -19,7 +20,7 @@ const Bind = () => {
 
   const handleBind = async () => {
     setDisabled(true);
-    const res = await fetch('https://wx.redrock.team/magicloop/bind', {
+    fetch('https://wx.redrock.team/magicloop/bind', {
       method: 'POST',
       body: JSON.stringify({
         openid: query.openid,
@@ -31,11 +32,11 @@ const Bind = () => {
       }),
     })
       .then(res => res.json())
+      .then(({ token }) => {
+        localStorage.setItem('cqupt-help-bms-token', res.data.token);
+        redirectTo('/');
+      })
       .then(() => setDisabled(false));
-    if (res.status === '10000') {
-      localStorage.setItem('cqupt-help-bms-token', res.data.token);
-      redirectTo('/');
-    }
   };
 
   return (
