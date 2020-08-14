@@ -93,6 +93,9 @@
     border: none;
     outline: none;
   }
+  .disabled {
+    background: #8882f7;
+  }
   .copyright {
     margin-top: auto;
     margin-bottom: 56px;

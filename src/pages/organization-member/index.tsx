@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect, ConnectRC, Loading } from 'umi';
+import { connect, ConnectRC, Loading, request } from 'umi';
 import {
   OrganizationModelState,
   createAddMember,
@@ -31,6 +31,15 @@ const OrganizationMenber: ConnectRC<PageProps> = ({
   };
   const close = () => setVisible(false);
 
+  const [isBoss, setIsBoss] = useState(false);
+  useEffect(() => {
+    request('/team/person/update').then(res => {
+      if (res.status === 10000) {
+        setIsBoss(true);
+      }
+    });
+  }, []);
+
   // 用于获取部门成员的 jobId，用于后端接口
   // useEffect(() => {
   //   setJobId(organization.members[1]?.job.job_id);
@@ -41,28 +50,30 @@ const OrganizationMenber: ConnectRC<PageProps> = ({
       <PageHeader title="部门成员" />
       <div className={sharedStyles.wrapper}>
         <Skeleton loading={loading}>
-          {organization.members.map((group, index) => (
+          {organization.members.map(group => (
             <Member key={group.job.job_id} title={group.job.job_name}>
-              {group.TeamPersons?.map(person => (
+              {group.TeamPersons?.map((person, index) => (
                 <OrganizationPerson
-                  onClick={() =>
-                    Modal.confirm({
-                      // 移除的对话 Modal
-                      title: '请确认',
-                      icon: <ExclamationCircleOutlined />,
-                      content: '确认将该成员移出部门？',
-                      onOk: () =>
-                        dispatch!(
-                          createDeleteMember(person.id, group.job.job_id),
-                        ),
-                    })
-                  }
-                  key={person.id}
+                  onClick={() => {
+                    if (isBoss) {
+                      Modal.confirm({
+                        // 移除的对话 Modal
+                        title: '请确认',
+                        icon: <ExclamationCircleOutlined />,
+                        content: '确认将该成员移出部门？',
+                        onOk: () =>
+                          dispatch!(
+                            createDeleteMember(person.id, group.job.job_id),
+                          ),
+                      });
+                    }
+                  }}
+                  key={`${person.id}-${index}`}
                   person={person}
                 />
               ))}
               {/* 添加，不带主席的都可以添加 */}
-              {!group.job.job_name.includes('主席') && (
+              {!group.job.job_name.includes('主席') && isBoss && (
                 <OrganizationPerson
                   onClick={() => {
                     setVisible(true);

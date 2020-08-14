@@ -84,7 +84,7 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
           render={record => (
             <div>
               <Link
-                to={`/activity/${record.id}/update?title=${record.name}`}
+                to={`/activity/change/${record.id}`}
                 onClick={e => e.stopPropagation()}
               >
                 <span className={styles.update}>修改</span>

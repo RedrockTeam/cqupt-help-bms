@@ -9,7 +9,7 @@
 }
 
 .wrapper {
-  width: 1470px;
+  /* width: 1470px; */
   padding: 39px 48px 18px 39px;
   max-height: 850px;
   overflow-y: auto;
@@ -22,6 +22,7 @@
   background:rgba(107,131,255,1);
   border-radius:6px;
   font-size:18px;
+  border: none;
 }
 
 .inputBorder {

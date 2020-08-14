@@ -67,8 +67,12 @@ const Bind = () => {
             />
           </div>
         </div>
-        <button className={styles.btn} onClick={handleBind} disabled={disabled}>
-          登录
+        <button
+          className={`${styles.btn} ${disabled ? styles.disabled : ''}`}
+          onClick={handleBind}
+          disabled={disabled}
+        >
+          {disabled ? 'Loading...' : '登录'}
         </button>
       </div>
       <span className={styles.copyright}>COPYRICHT@红岩网校工作站</span>

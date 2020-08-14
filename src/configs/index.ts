@@ -28,7 +28,7 @@ export const pathMap: PathMap = {
     change: {
       [nameSymbol]: '',
       [paramsSymbol]: {
-        [nameSymbol]: '修改活动信息',
+        [nameSymbol]: '活动信息',
       },
     },
     [paramsSymbol]: {

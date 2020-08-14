@@ -84,7 +84,8 @@ function MyLayout({ children, location }: Props) {
           style={{ cursor: 'pointer' }}
           onClick={() => {
             window.localStorage.removeItem('cqupt-help-bms-token');
-            window.close();
+            window.location.href =
+              'https://wx.redrock.team/game/cqupt-help-bms/';
           }}
         >
           退出
@@ -92,8 +93,8 @@ function MyLayout({ children, location }: Props) {
       </Header>
       <Layout>
         <Sider width={'21.5vw'} theme={'light'} className={styles.sider}>
-          <Skeleton loading={loading} active avatar>
-            <div className={styles.self}>
+          <div className={styles.self}>
+            <Skeleton loading={loading} active avatar>
               <Avatar
                 className={styles.avatar}
                 src={initialState?.avatar || defaultAvatar}
@@ -111,8 +112,8 @@ function MyLayout({ children, location }: Props) {
                   </div>
                 ) : null}
               </div>
-            </div>
-          </Skeleton>
+            </Skeleton>
+          </div>
           <Menu mode="inline" theme="light">
             <Nav
               canEnter={access.canEnterUser}

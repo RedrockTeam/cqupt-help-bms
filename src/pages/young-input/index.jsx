@@ -18,7 +18,7 @@ const YoungInput = ({ young, dispatch }) => {
       <div className={sharedStyles.wrapper}>
         <div className={styles.titleWrapper}>
           <div className={styles.title}>部门名称</div>
-          <div className={styles.unUpdateInput}>{young.teamInfo.name}</div>
+          <div className={styles.unUpdateText}>{young.teamInfo.name}</div>
         </div>
         <div className={styles.detailsWrapper}>
           <div className={styles.title}>部门介绍</div>

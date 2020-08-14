@@ -41,7 +41,7 @@ const Member = ({
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>领奖用户</span>
           <Select
-            value={pushGiftInput.stu_nums.map(s => s.stu_num)}
+            value={pushGiftInput.stu_nums}
             mode="tags"
             className={styles.stuNum}
             placeholder="输入学号"

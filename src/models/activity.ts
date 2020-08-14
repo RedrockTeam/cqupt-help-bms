@@ -302,7 +302,7 @@ const activityModel: ActivityModel = {
     *commitPushGift({ payload }, { call }) {
       const res = yield call(commitPushGift, payload);
       if (res.status === 10000) {
-        message.success('推送成功');
+        message.success('修改推送信息成功');
         redirectTo('/activity', 2000);
       }
     },
@@ -321,7 +321,10 @@ const activityModel: ActivityModel = {
       state.activityGifts = payload;
     },
     setActivitySingle(state, { payload }) {
-      state.pushGiftInputs = payload.gift_models;
+      state.pushGiftInputs = payload.gift_models.map((g: any) => {
+        g.stu_nums = g.stu_nums.map((s: any) => s.stu_num);
+        return g;
+      });
       state.time_begin = payload.time_begin;
       state.time_end = payload.time_end;
       state.time_out = payload.time_out;
