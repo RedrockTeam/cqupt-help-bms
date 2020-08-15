@@ -113,8 +113,9 @@ const volunteerModel: VolunteerModel = {
   subscriptions: {
     onVolunteerPage({ history, dispatch }) {
       history.listen(({ pathname }) => {
-        const match = pathToRegexp('/volunteer').exec(pathname);
-        if (match) {
+        const match1 = pathToRegexp('/volunteer').exec(pathname);
+        // const match2 = pathToRegexp('/volunteer/:info').exec(pathname);
+        if (match1) {
           dispatch(createFetchVolunteerActivities());
         }
       });
@@ -150,6 +151,7 @@ const volunteerModel: VolunteerModel = {
     *fetchVolunteerActivities(action, { call, put }) {
       const res = yield call(getVolunteerActivities);
       if (res.status === 10000) {
+        console.log(res);
         yield put(createSetVolunteerActivities(res.data ?? []));
       }
     },

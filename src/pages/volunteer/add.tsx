@@ -84,6 +84,9 @@ const AddVolunteerActivity = ({ dispatch }: Props) => {
               setLastDate(date?.unix());
             }}
           />
+          <div style={{ marginLeft: '1vw', color: '#FF3B3B' }}>
+            该时间应该在志愿日期之前
+          </div>
         </div>
         <Button
           type="primary"
@@ -106,7 +109,7 @@ const AddVolunteerActivity = ({ dispatch }: Props) => {
                   role,
                   hour,
                   date,
-                  lastDate,
+                  last_date: lastDate,
                   num,
                 }),
               );

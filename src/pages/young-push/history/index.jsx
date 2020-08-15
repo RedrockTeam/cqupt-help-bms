@@ -12,10 +12,12 @@ const columns = [
 const YoungPushHistory = ({ history }) => {
   const { query } = useLocation();
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     request('/team/apply/step').then(res => {
       if (res.status === 10000) {
         setList(res.data || []);
+        setLoading(false);
       }
     });
   }, []);
@@ -28,7 +30,7 @@ const YoungPushHistory = ({ history }) => {
           pagination={{
             className: styles.pagination,
           }}
-          // loading={loading}
+          loading={loading}
           onRow={record => ({
             onClick: () =>
               history.push(`/young-push/history/${record.step.slice(1, 2)}`),

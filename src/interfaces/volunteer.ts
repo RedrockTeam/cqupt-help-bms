@@ -8,6 +8,7 @@ export interface VolunteerActivity {
   hour: string;
   date: number;
   num: number;
+  last_date: number;
   created_at: number;
 }
 
@@ -19,7 +20,7 @@ export interface AddVolunteerActivityInfo {
   role: string;
   hour: string;
   date: number;
-  lastDate: number;
+  last_date: number;
   num: number;
 }
 

@@ -25,23 +25,26 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
   const [introNum, setIntroNum] = useState(0);
   const [roleNum, setRoleNUm] = useState(0);
   const [placeNum, setPlaceNUm] = useState(0);
-  const [timeNum, setTimeNUm] = useState(0);
+  const [timeNum, setTimeNUm] = useState([]);
   const [image, setImage] = useState('');
 
   const closeModal = useCallback(() => setVisible(false), []);
   const submit = (values: any) => {
-    dispatch!(
-      createAddActivity({
-        ...values,
-        time: values.time.length > 16 ? values.time.slice(0, 16) : values.time,
-        location:
-          values.location.length > 16
-            ? values.location.slice(0, 16)
-            : values.location,
-        time_done: values.time_done.unix(),
-        image,
-      }),
-    );
+    const action = {
+      ...values,
+      time: `${values.time[0].format(
+        'YYYY-MM-DD hh:mm:ss',
+      )} - ${values.time[1].format('YYYY-MM-DD hh:mm:ss')}`,
+      time_done: values.time_done.unix(),
+      image,
+    };
+    if (values.location) {
+      action.location =
+        values.location.length > 16
+          ? values.location.slice(0, 16)
+          : values.location;
+    }
+    dispatch!(createAddActivity(action));
     closeModal();
   };
   const deleteActivity = (record: any) => {
@@ -174,7 +177,7 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                       setIntroNum(e.target.value.length);
                     }}
                   />
-                  <div className={styles.numTip}>{roleNum}/200</div>
+                  <div className={styles.numTip}>{introNum}/200</div>
                 </Form.Item>
                 <Form.Item
                   name="role"
@@ -188,7 +191,7 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                       setRoleNUm(e.target.value.length);
                     }}
                   />
-                  <div className={styles.numTip}>{introNum}/200</div>
+                  <div className={styles.numTip}>{roleNum}/200</div>
                 </Form.Item>
                 <Form.Item
                   name="location"
@@ -215,14 +218,7 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
             label="活动时间"
             rules={[{ required: true, message: '请写明活动时间' }]}
           >
-            <Input.TextArea
-              placeholder="请输入本次活动时间，例：3.12-3.15 18-20点（不超过 16 字）"
-              maxLength={16}
-              onChange={e => {
-                setTimeNUm(e.target.value.length);
-              }}
-            />
-            <div className={styles.numTip}>{timeNum}/16</div>
+            <DatePicker.RangePicker />
           </Form.Item>
           <Form.Item>
             <Button

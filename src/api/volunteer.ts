@@ -23,7 +23,7 @@ export const addVolunteerActivity = (info: AddVolunteerActivityInfo) => {
 };
 
 export const updateVolunteerActivity = (info: UpdateVolunteerActivityInfo) => {
-  return request(`/cinema/update`, {
+  return request(`/volunteer/activity/update`, {
     method: 'POST',
     body: JSON.stringify({
       ...info,

@@ -8,6 +8,7 @@ import sharedStyles from '@/assets/styles.css';
 import styles from '../activity.css'
 import ImageUploader from '@/components/imageUploader';
 import { useEffect } from 'react';
+import moment from 'moment'
 
 const Change = () => {
   const id = parseInt(useParams().info, 10)
@@ -17,7 +18,7 @@ const Change = () => {
   const [image, setImage] = useState('');
   const [timeDone, setTimeDone] = useState('')
   const [link, setLink] = useState('')
-  const [time, setTime] = useState('')
+  const [time, setTime] = useState([])
   const [location, setLocation] = useState('')
   const [rule, setRule] = useState('')
   const [intro, setIntro] = useState('')
@@ -48,6 +49,7 @@ const Change = () => {
 
   const submit = async () => {
     let res
+    let timeStr = `${time[0].format('YYYY-MM-DD hh:mm:ss')} - ${time[1].format('YYYY-MM-DD hh:mm:ss')}`
     if (form === 1) {
       res = await request('/activity/activity/update', {
         method: 'POST',
@@ -56,7 +58,7 @@ const Change = () => {
           operation: 'update',
           image,
           link,
-          time,
+          time: timeStr,
         })
       })
     } else {
@@ -69,7 +71,7 @@ const Change = () => {
           introduction: intro,
           role: rule,
           location,
-          time,
+          time: timeStr,
         })
       })
     }
@@ -109,7 +111,7 @@ const Change = () => {
         </div>
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>下线时间</span>
-          {timeDone}
+          {moment.unix(timeDone).format('YYYY-MM-DD hh:mm:ss')}
         </div>
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>活动形式</span>
@@ -167,16 +169,14 @@ const Change = () => {
         )}
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>活动时间</span>
-          <Input.TextArea
-            placeholder="请输入本次活动时间，例：3.12-3.15 18-20点（不超过 16 字）"
-            value={time}
-            className={styles.text}
-            onChange={e => setTime(e.target.value)}
-            onCompositionEnd={e => setTime(e.target.value.length > 16 ? e.target.value.slice(0, 16) : e.target.value)}
+          <DatePicker.RangePicker
+            className={sharedStyles.inputBorder}
             disabled={!isUpdateMode}
-            maxLength={16}
-          />
-          <div className={styles.numTip}>{time.length}/16</div>
+            onCalendarChange={dates => {
+              if (dates) {
+                setTime(dates)
+              }
+            }} />
         </div>
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>活动宣传图</span>

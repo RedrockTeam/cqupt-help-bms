@@ -9,6 +9,7 @@ import {
   Input,
   DatePicker,
   Result,
+  Skeleton,
 } from 'antd';
 import PageHeader from '@/components/pageHeader';
 import PageHeaderBtn from '@/components/pageHeaderBtn';
@@ -81,7 +82,11 @@ const PushInfo = ({
           <span className={styles.name}>联系人电话</span>
           <Input
             className={`${sharedStyles.inputBorder} ${styles.contentItem}`}
-            onChange={e => setPhone(e.target.value)}
+            onChange={e => {
+              if (/^\d{0,11}$/.test(e.target.value)) {
+                setPhone(e.target.value);
+              }
+            }}
           />
         </div>
       </div>
@@ -193,10 +198,12 @@ const YoungPush = ({ young, loading, dispatch }) => {
   const [groupNumber, setGroupNumber] = useState('');
 
   const [isEnd, setIsEnd] = useState(false);
+  const [isEndLoading, setIsEndLoading] = useState(true);
   useEffect(() => {
     request('/team/apply/done').then(res => {
       if (res.status === 10000) {
         setIsEnd(res.data);
+        setIsEndLoading(false);
       }
     });
   }, []);
@@ -262,6 +269,16 @@ const YoungPush = ({ young, loading, dispatch }) => {
   if (isEnd) {
     redirectTo('/young-push/history?end=true');
   }
+
+  if (loading || isEndLoading)
+    return (
+      <div>
+        <PageHeader title={''}></PageHeader>
+        <div className={sharedStyles.wrapper}>
+          <Skeleton />
+        </div>
+      </div>
+    );
   return (
     <div>
       <PageHeader title={`第 ${step} 轮选拔推送名单`}>
@@ -283,7 +300,6 @@ const YoungPush = ({ young, loading, dispatch }) => {
             className: styles.pagination,
           }}
           columns={columns}
-          loading={loading}
           dataSource={list.map(i => ({ ...i, key: i.id }))}
         />
         <div

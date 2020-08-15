@@ -31,7 +31,11 @@ const AddTicket = ({ dispatch, ticket }: Props) => {
       <PageHeader title="影票信息">
         <PageHeaderBtn type="add">
           <span
-            onClick={() => setIsUpdateMode(true)}
+            onClick={() => {
+              if (Math.floor(Date.now() / 1000) - timeOut < -(2 * 60 * 60)) {
+                setIsUpdateMode(true)
+              }
+            }}
             className={sharedStyles.pageHeaderBtn}
           >
             修改

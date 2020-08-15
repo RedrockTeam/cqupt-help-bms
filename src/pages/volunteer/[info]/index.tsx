@@ -29,13 +29,18 @@ const AddVolunteerActivity = ({ volunteer, dispatch }: Props) => {
   const [hour, setHour] = useState<string>(thisOne.hour);
   const [date, setDate] = useState<number>(thisOne.date);
   const [num, setNum] = useState<number>(thisOne.num);
+  const [lastDate, setLastDate] = useState<number>(thisOne.last_date)
 
   return (
     <div>
       <PageHeader title="新建活动">
         <PageHeaderBtn type="add">
           <span
-            onClick={() => setIsUpdateMode(true)}
+            onClick={() => {
+              if (Math.floor(Date.now() / 1000) - lastDate < 0) {
+                setIsUpdateMode(true)
+              }
+            }}
             className={sharedStyles.pageHeaderBtn}
           >
             修改
@@ -119,27 +124,32 @@ const AddVolunteerActivity = ({ volunteer, dispatch }: Props) => {
             disabled={!isUpdateMode}
           />
         </div>
+        <div className={sharedStyles.inputWrapper}>
+          <span className={sharedStyles.name}>报名截止时间</span>
+          <DatePicker
+            className={sharedStyles.inputBorder}
+            value={moment.unix(lastDate)}
+            onChange={date => {
+              setLastDate(date?.unix()!);
+            }}
+            disabled={!isUpdateMode}
+          />
+          <div style={{ marginLeft: '1vw', color: '#FF3B3B' }}>该时间应该在志愿日期之前</div>
+        </div>
         {isUpdateMode ? (
           <Button
             type="primary"
             style={{ margin: '20px 0' }}
             className={sharedStyles.okButton}
             onClick={() => {
-              console.log(
-                date,
-                name.length,
-                introduction.length,
-                role.length,
-                hour.length,
-                num,
-              );
               if (
                 date &&
                 name.length &&
                 introduction.length &&
                 role.length &&
                 hour.length &&
-                num
+                num &&
+                lastDate
               ) {
                 dispatch!(
                   createUpdateVolunteerActivity({
@@ -150,8 +160,10 @@ const AddVolunteerActivity = ({ volunteer, dispatch }: Props) => {
                     hour,
                     date,
                     num,
+                    last_date: lastDate,
                   }),
                 );
+                setIsUpdateMode(false)
               } else {
                 message.warn('请填写完整信息');
               }
