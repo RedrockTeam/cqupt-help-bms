@@ -28,7 +28,7 @@ const AddTicket = ({ dispatch, ticket }: Props) => {
 
   return (
     <div>
-      <PageHeader title="新建影票">
+      <PageHeader title="影票信息">
         <PageHeaderBtn type="add">
           <span
             onClick={() => setIsUpdateMode(true)}

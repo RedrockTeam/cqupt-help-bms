@@ -7,6 +7,7 @@ export interface Ticket {
   location: string;
   time_out: number;
   num: number;
+  created_at: number;
 }
 
 export type Tickets = Ticket[];

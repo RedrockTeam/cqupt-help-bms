@@ -21,10 +21,10 @@ type PageProps = {
 const User: ConnectRC<PageProps> = ({ user, loading }) => {
   return (
     <div>
-      <PageHeader title="我的任务">
+      <PageHeader title="部门公告">
         <PageHeaderBtn type="history">
           <Link to="/user/history" className={sharedStyles.pageHeaderBtn}>
-            历史任务
+            操作记录
           </Link>
         </PageHeaderBtn>
       </PageHeader>

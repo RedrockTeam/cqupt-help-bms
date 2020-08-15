@@ -6,10 +6,12 @@ import PageHeaderBtn from '@/components/pageHeaderBtn';
 import sharedStyles from '@/assets/styles.css';
 import styles from './ticket.css';
 import { TicketModelState } from '@/models/ticket';
+import moment from 'moment';
 
 const columns = [
   { title: '电影名称', dataIndex: 'name', key: 'name' },
   { title: '创建人', dataIndex: 'username', key: 'username' },
+  { title: '创建时间', dataIndex: 'created_at', key: 'created_at' },
 ];
 
 type PageProps = {
@@ -32,6 +34,9 @@ const Ticket: ConnectRC<PageProps> = ({ ticket, history, loading }) => {
         pagination={false}
         dataSource={ticket.tickets.map(ticket => ({
           ...ticket,
+          created_at: moment
+            .unix(ticket.created_at)
+            .format('YYYY-MM-DD hh:mm:ss'),
           key: ticket.id,
         }))}
         scroll={{

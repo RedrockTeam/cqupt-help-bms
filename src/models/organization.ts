@@ -151,7 +151,7 @@ const organizationModel: OrganizationModel = {
       console.log('??');
       yield put({
         type: 'organization/setIsBoss',
-        payload: { isBoss: res.status === 10000 },
+        payload: { isBoss: res.status === 10000 && res.info === 'success' },
       });
     },
     *fetchAuths(action, { call, put, all }) {

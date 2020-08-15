@@ -18,7 +18,7 @@ type PageProps = {
 const UserHistory: ConnectRC<PageProps> = ({ user, loading }) => {
   return (
     <div>
-      <PageHeader title="历史任务" />
+      <PageHeader title="操作记录" />
       <Table
         columns={columns}
         pagination={false}

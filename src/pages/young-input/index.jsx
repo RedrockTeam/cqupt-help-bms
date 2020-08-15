@@ -29,7 +29,7 @@ const YoungInput = ({ young, dispatch, loading }) => {
   const [canUpdate, setCanUpdate] = useState(false);
   useEffect(() => {
     request('/team/apply/update').then(res => {
-      if (res.status === 10000) {
+      if (res.status === 10000 && res.info === 'success') {
         setCanUpdate(true);
       }
     });
@@ -63,6 +63,13 @@ const YoungInput = ({ young, dispatch, loading }) => {
                   handleChangeTeamInfo({
                     ...young.teamInfo,
                     detail: e.target.value,
+                  });
+                }}
+                onCompositionEnd={e => {
+                  const val = e.target.value;
+                  handleChangeTeamInfo({
+                    ...young.teamInfo,
+                    detail: val.length > 50 ? val.slice(0, 50) : val,
                   });
                 }}
                 rows={6}

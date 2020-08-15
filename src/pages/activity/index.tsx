@@ -22,6 +22,10 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
   const history = useHistory();
   const [visible, setVisible] = useState<boolean>(false);
   const [isOnlineForm, setIsOnlineForm] = useState<boolean>();
+  const [introNum, setIntroNum] = useState(0);
+  const [roleNum, setRoleNUm] = useState(0);
+  const [placeNum, setPlaceNUm] = useState(0);
+  const [timeNum, setTimeNUm] = useState(0);
   const [image, setImage] = useState('');
 
   const closeModal = useCallback(() => setVisible(false), []);
@@ -29,6 +33,11 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
     dispatch!(
       createAddActivity({
         ...values,
+        time: values.time.length > 16 ? values.time.slice(0, 16) : values.time,
+        location:
+          values.location.length > 16
+            ? values.location.slice(0, 16)
+            : values.location,
         time_done: values.time_done.unix(),
         image,
       }),
@@ -54,7 +63,7 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
         </PageHeaderBtn>
         <PageHeaderBtn type="history">
           <Link to="/activity/history" className={sharedStyles.pageHeaderBtn}>
-            历史记录
+            历史活动
           </Link>
         </PageHeaderBtn>
       </PageHeader>
@@ -115,7 +124,7 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
             label="活动名称"
             rules={[{ required: true, message: '请填写活动名称' }]}
           >
-            <Input />
+            <Input maxLength={10} placeholder="不超过10字" />
           </Form.Item>
           <Form.Item
             name="time_done"
@@ -161,7 +170,11 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                   <Input.TextArea
                     placeholder="请输入本次活动的介绍（不超过 200 字）"
                     maxLength={200}
+                    onChange={e => {
+                      setIntroNum(e.target.value.length);
+                    }}
                   />
+                  <div className={styles.numTip}>{roleNum}/200</div>
                 </Form.Item>
                 <Form.Item
                   name="role"
@@ -171,7 +184,11 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                   <Input.TextArea
                     placeholder="请输入本次活动的规则（不超过 200 字）"
                     maxLength={200}
+                    onChange={e => {
+                      setRoleNUm(e.target.value.length);
+                    }}
                   />
+                  <div className={styles.numTip}>{introNum}/200</div>
                 </Form.Item>
                 <Form.Item
                   name="location"
@@ -181,7 +198,11 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                   <Input.TextArea
                     placeholder="请输入本次活动的地点（不超过 16 字）"
                     maxLength={16}
+                    onChange={e => {
+                      setPlaceNUm(e.target.value.length);
+                    }}
                   />
+                  <div className={styles.numTip}>{placeNum}/16</div>
                 </Form.Item>
               </>
             ))}
@@ -197,13 +218,18 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
             <Input.TextArea
               placeholder="请输入本次活动时间，例：3.12-3.15 18-20点（不超过 16 字）"
               maxLength={16}
+              onChange={e => {
+                setTimeNUm(e.target.value.length);
+              }}
             />
+            <div className={styles.numTip}>{timeNum}/16</div>
           </Form.Item>
           <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
               className={sharedStyles.okButton}
+              disabled={image ? false : true}
             >
               完成
             </Button>

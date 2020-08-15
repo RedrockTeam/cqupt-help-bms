@@ -8,6 +8,7 @@ export interface VolunteerActivity {
   hour: string;
   date: number;
   num: number;
+  created_at: number;
 }
 
 export type VolunteerActivities = VolunteerActivity[];

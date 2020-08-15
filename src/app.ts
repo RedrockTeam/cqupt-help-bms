@@ -4,6 +4,16 @@ import { API, LOGIN } from '@/configs';
 import { redirectTo } from './utils';
 import { getUserInfo, getUserToolAuth, relogin } from './api/user';
 
+// cookie 是同域共享的，所以开多个 tab 进不同的组织，会导致前一个 tab 页的组织有后一个 tab 页的权限
+// 防止这种情况，检测是否有新的 tab 页打开，打开了就直接推出之前的 tab 页的组织权限
+const multiTabCloser = new BroadcastChannel('multiTabCloser');
+multiTabCloser.addEventListener('message', e => {
+  if (e.data === 'close') {
+    redirectTo('/');
+  }
+});
+multiTabCloser.postMessage('close');
+
 // 有没有绑定，没就去bind，有就正常
 export async function getInitialState() {
   if (window.location.hash.slice(0, 6) === '#/bind') return;

@@ -137,7 +137,8 @@ const Change = () => {
                 disabled={!isUpdateMode}
                 maxLength={200}
               />
-            </div>
+                <div className={styles.numTip}>{intro.length}/200</div>
+            </div> 
             <div className={sharedStyles.inputWrapper}>
               <span className={sharedStyles.name}>活动规则</span>
               <Input.TextArea
@@ -147,17 +148,20 @@ const Change = () => {
                 onChange={e => setRule(e.target.value)}
                 disabled={!isUpdateMode}
                 maxLength={200}
-              />
-            </div>
-            <div className={sharedStyles.inputWrapper}>
+                />
+                <div className={styles.numTip}>{rule.length}/200</div>
+            </div>    
+                <div className={sharedStyles.inputWrapper}>
               <span className={sharedStyles.name}>活动地点</span>
               <Input.TextArea placeholder="请输入本次活动的地点（不超过 16 字）"
                 value={location}
                 className={styles.text}
                 onChange={e => setLocation(e.target.value)}
+                onCompositionEnd={e => setLocation(e.target.value.length > 16 ? e.target.value.slice(0, 16) : e.target.value)}
                 disabled={!isUpdateMode}
                 maxLength={16}
-              />
+                />
+                <div className={styles.numTip}>{location.length}/16</div>
             </div>
           </>
         )}
@@ -168,9 +172,11 @@ const Change = () => {
             value={time}
             className={styles.text}
             onChange={e => setTime(e.target.value)}
+            onCompositionEnd={e => setTime(e.target.value.length > 16 ? e.target.value.slice(0, 16) : e.target.value)}
             disabled={!isUpdateMode}
             maxLength={16}
           />
+          <div className={styles.numTip}>{time.length}/16</div>
         </div>
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>活动宣传图</span>

@@ -14,13 +14,13 @@ export const pathMap: PathMap = {
   user: {
     [nameSymbol]: '部门公告',
     history: {
-      [nameSymbol]: '历史任务',
+      [nameSymbol]: '操作记录',
     },
   },
   activity: {
     [nameSymbol]: '活动奖品推送中心',
     history: {
-      [nameSymbol]: '历史推送',
+      [nameSymbol]: '历史活动',
       [paramsSymbol]: {
         [nameSymbol]: '历史推送名单',
       },

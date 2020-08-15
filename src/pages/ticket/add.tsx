@@ -48,6 +48,13 @@ const AddTicket = ({ dispatch }: Props) => {
           <Input
             className={sharedStyles.inputBorder}
             onChange={e => setLocation(e.target.value)}
+            onCompositionEnd={e =>
+              setLocation(
+                e.target.value.length > 12
+                  ? e.target.value.slice(0, 12)
+                  : e.target.value,
+              )
+            }
           />
         </div>
         <div className={sharedStyles.inputWrapper}>

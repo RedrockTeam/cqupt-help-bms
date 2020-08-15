@@ -52,3 +52,9 @@
   font-weight:400;
   color:rgba(43,46,55,1);
 }
+
+.numTip{
+  margin-top:10px;
+  text-align: right;
+  margin-left: 10px;
+}

@@ -205,7 +205,7 @@ const YoungPush = ({ young, loading, dispatch }) => {
   const [canUpdate, setCanUpdate] = useState(false);
   useEffect(() => {
     request('/team/apply/update').then(res => {
-      if (res.status === 10000) {
+      if (res.status === 10000 && res.info === 'success') {
         setCanUpdate(true);
       }
     });
@@ -260,7 +260,7 @@ const YoungPush = ({ young, loading, dispatch }) => {
   };
 
   if (isEnd) {
-    redirectTo('/young-push/history');
+    redirectTo('/young-push/history?end=true');
   }
   return (
     <div>

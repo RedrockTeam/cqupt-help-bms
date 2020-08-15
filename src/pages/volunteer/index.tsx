@@ -5,10 +5,12 @@ import PageHeader from '@/components/pageHeader';
 import PageHeaderBtn from '@/components/pageHeaderBtn';
 import sharedStyles from '@/assets/styles.css';
 import { VolunteerModelState } from '@/models/volunteer';
+import moment from 'moment';
 
 const columns = [
   { title: '活动名称', dataIndex: 'name', key: 'name' },
   { title: '创建人', dataIndex: 'username', key: 'username' },
+  { title: '创建时间', dataIndex: 'created_at', key: 'created_at' },
 ];
 
 type PageProps = {
@@ -31,6 +33,7 @@ const Volunteer: ConnectRC<PageProps> = ({ volunteer, history, loading }) => {
         pagination={false}
         dataSource={volunteer.volunteerActivities.map(ac => ({
           ...ac,
+          created_at: moment.unix(ac.created_at).format('YYYY-MM-DD hh:mm:ss'),
           key: ac.id,
         }))}
         scroll={{
