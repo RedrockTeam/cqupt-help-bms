@@ -33,7 +33,7 @@ const AddTicket = ({ dispatch, ticket }: Props) => {
           <span
             onClick={() => {
               if (Math.floor(Date.now() / 1000) - timeOut < -(2 * 60 * 60)) {
-                setIsUpdateMode(true)
+                setIsUpdateMode(true);
               }
             }}
             className={sharedStyles.pageHeaderBtn}

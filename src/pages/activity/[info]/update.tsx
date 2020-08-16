@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Input, DatePicker, Button, message } from 'antd';
 import PageHeader from '@/components/pageHeader';
 import { useLocation, connect, ConnectProps, useParams } from 'umi';
-import moment from 'moment'
+import moment from 'moment';
 import sharedStyles from '@/assets/styles.css';
 import {
   ActivityModelState,
@@ -28,51 +28,55 @@ const Update = ({ activity, dispatch }: Props) => {
   // TODO: 获取历史信息作为初始化
   // const [location, setLocation] = useState<string>(() => activity.location);
 
-  const location = activity.location
-  const setLocation = (l: any) => dispatch!({
-    type: 'activity/setLocationAndTime',
-    payload: {
-      location: l,
-      time_begin: activity.time_begin,
-      time_end: activity.time_end,
-      time_out: activity.time_out,
-    },
-  })
+  const location = activity.location;
+  const setLocation = (l: any) =>
+    dispatch!({
+      type: 'activity/setLocationAndTime',
+      payload: {
+        location: l,
+        time_begin: activity.time_begin,
+        time_end: activity.time_end,
+        time_out: activity.time_out,
+      },
+    });
   // const [timeBegin, setTimeBegin] = useState<number | undefined>(() => activity.time_begin);
-  const timeBegin = activity.time_begin
-  const setTimeBegin = (t: any) => dispatch!({
-    type: 'activity/setLocationAndTime',
-    payload: {
-      location: activity.location,
-      time_begin: t,
-      time_end: activity.time_end,
-      time_out: activity.time_out,
-    },
-  })
+  const timeBegin = activity.time_begin;
+  const setTimeBegin = (t: any) =>
+    dispatch!({
+      type: 'activity/setLocationAndTime',
+      payload: {
+        location: activity.location,
+        time_begin: t,
+        time_end: activity.time_end,
+        time_out: activity.time_out,
+      },
+    });
   // const [timeEnd, setTimeEnd] = useState<number | undefined>(() => activity.time_end);
-  const timeEnd = activity.time_end
-  const setTimeEnd = (t: any) => dispatch!({
-    type: 'activity/setLocationAndTime',
-    payload: {
-      location: activity.location,
-      time_begin: activity.time_begin,
-      time_end: t,
-      time_out: activity.time_out,
-    },
-  })
+  const timeEnd = activity.time_end;
+  const setTimeEnd = (t: any) =>
+    dispatch!({
+      type: 'activity/setLocationAndTime',
+      payload: {
+        location: activity.location,
+        time_begin: activity.time_begin,
+        time_end: t,
+        time_out: activity.time_out,
+      },
+    });
   // const [timeOut, setTimeOut] = useState<number | undefined>(() => activity.time_out);
-  const timeOut = activity.time_end
-  const setTimeOut = (t: any) => dispatch!({
-    type: 'activity/setLocationAndTime',
-    payload: {
-      location: activity.location,
-      time_begin: activity.time_begin,
-      time_end: activity.time_end,
-      time_out: t,
-    },
-  })
+  const timeOut = activity.time_end;
+  const setTimeOut = (t: any) =>
+    dispatch!({
+      type: 'activity/setLocationAndTime',
+      payload: {
+        location: activity.location,
+        time_begin: activity.time_begin,
+        time_end: activity.time_end,
+        time_out: t,
+      },
+    });
 
-  console.log(activity, timeEnd)
+  console.log(activity, timeEnd);
 
   return (
     <div>
@@ -94,7 +98,12 @@ const Update = ({ activity, dispatch }: Props) => {
           <span className={sharedStyles.name}>领奖时间</span>
           <DatePicker.RangePicker
             showTime
-            value={[timeBegin !== 0 && timeBegin != null ? moment.unix(timeBegin) : null, timeEnd !== 0 && timeEnd != null ? moment.unix(timeEnd) : null]}
+            value={[
+              timeBegin !== 0 && timeBegin != null
+                ? moment.unix(timeBegin)
+                : null,
+              timeEnd !== 0 && timeEnd != null ? moment.unix(timeEnd) : null,
+            ]}
             className={sharedStyles.inputBorder}
             onCalendarChange={dates => {
               if (dates) {
@@ -111,7 +120,9 @@ const Update = ({ activity, dispatch }: Props) => {
           <span className={sharedStyles.name}>推送时间</span>
           <DatePicker
             showTime
-            value={timeOut !== 0 && timeOut != null ? moment.unix(timeOut) : null}
+            value={
+              timeOut !== 0 && timeOut != null ? moment.unix(timeOut) : null
+            }
             className={sharedStyles.inputBorder}
             onChange={date => {
               setTimeOut(date?.unix());

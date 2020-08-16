@@ -29,7 +29,7 @@ const AddVolunteerActivity = ({ volunteer, dispatch }: Props) => {
   const [hour, setHour] = useState<string>(thisOne.hour);
   const [date, setDate] = useState<number>(thisOne.date);
   const [num, setNum] = useState<number>(thisOne.num);
-  const [lastDate, setLastDate] = useState<number>(thisOne.last_date)
+  const [lastDate, setLastDate] = useState<number>(thisOne.last_date);
 
   return (
     <div>
@@ -38,7 +38,7 @@ const AddVolunteerActivity = ({ volunteer, dispatch }: Props) => {
           <span
             onClick={() => {
               if (Math.floor(Date.now() / 1000) - lastDate < 0) {
-                setIsUpdateMode(true)
+                setIsUpdateMode(true);
               }
             }}
             className={sharedStyles.pageHeaderBtn}
@@ -134,7 +134,9 @@ const AddVolunteerActivity = ({ volunteer, dispatch }: Props) => {
             }}
             disabled={!isUpdateMode}
           />
-          <div style={{ marginLeft: '1vw', color: '#FF3B3B' }}>该时间应该在志愿日期之前</div>
+          <div style={{ marginLeft: '1vw', color: '#FF3B3B' }}>
+            该时间应该在志愿日期之前
+          </div>
         </div>
         {isUpdateMode ? (
           <Button
@@ -163,7 +165,7 @@ const AddVolunteerActivity = ({ volunteer, dispatch }: Props) => {
                     last_date: lastDate,
                   }),
                 );
-                setIsUpdateMode(false)
+                setIsUpdateMode(false);
               } else {
                 message.warn('请填写完整信息');
               }

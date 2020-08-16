@@ -30,7 +30,7 @@ type PageProps = {
 const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
   const location = useLocation();
   const { title } = parse(location.search);
-  console.log(location)
+  console.log(location);
 
   return (
     <div>

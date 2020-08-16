@@ -1,31 +1,40 @@
-import React, { useState } from 'react'
-import { connect, Link, useLocation, request, useParams } from 'umi'
-import { Button, DatePicker, Input, Form, Select, message, Result, Skeleton } from 'antd'
+import React, { useState } from 'react';
+import { connect, Link, useLocation, request, useParams } from 'umi';
+import {
+  Button,
+  DatePicker,
+  Input,
+  Form,
+  Select,
+  message,
+  Result,
+  Skeleton,
+} from 'antd';
 import { parse } from 'query-string';
 import PageHeader from '@/components/pageHeader';
 import PageHeaderBtn from '@/components/pageHeaderBtn';
 import sharedStyles from '@/assets/styles.css';
-import styles from '../activity.css'
+import styles from '../activity.css';
 import ImageUploader from '@/components/imageUploader';
 import { useEffect } from 'react';
-import moment from 'moment'
+import moment from 'moment';
 
 const Change = () => {
-  const id = parseInt(useParams().info, 10)
+  const id = parseInt(useParams().info, 10);
 
-  const [title, setTitle] = useState('')
-  const [form, setForm] = useState()
+  const [title, setTitle] = useState('');
+  const [form, setForm] = useState();
   const [image, setImage] = useState('');
-  const [timeDone, setTimeDone] = useState('')
-  const [link, setLink] = useState('')
-  const [time, setTime] = useState([])
-  const [location, setLocation] = useState('')
-  const [rule, setRule] = useState('')
-  const [intro, setIntro] = useState('')
+  const [timeDone, setTimeDone] = useState('');
+  const [link, setLink] = useState('');
+  const [time, setTime] = useState([]);
+  const [location, setLocation] = useState('');
+  const [rule, setRule] = useState('');
+  const [intro, setIntro] = useState('');
 
-  const [isUpdateMode, setIsUpdateMode] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     request('/activity/activity/detail', {
@@ -33,23 +42,29 @@ const Change = () => {
       body: JSON.stringify({
         activity_id: id,
       }),
-    }).then(res => {
-      if (res.status === 10000) {
-        setTitle(res.data.title)
-        setForm(res.data.type)
-        setImage(res.data.image)
-        setTimeDone(res.data.time_done)
-        setTime(res.data.time)
-        setLocation(res.data.location)
-        setRule(res.data.role)
-        setIntro(res.data.introduction)
-      }
-    }).catch(() => setError(true)).finally(() => setLoading(false))
-  }, [id])
+    })
+      .then(res => {
+        if (res.status === 10000) {
+          const times = res.data.time.split(' - ');
+          setTitle(res.data.title);
+          setForm(res.data.type);
+          setImage(res.data.image);
+          setTimeDone(res.data.time_done);
+          setTime([moment(times[0]), moment(times[1])]);
+          setLocation(res.data.location);
+          setRule(res.data.role);
+          setIntro(res.data.introduction);
+        }
+      })
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, [id]);
 
   const submit = async () => {
-    let res
-    let timeStr = `${time[0].format('YYYY-MM-DD hh:mm:ss')} - ${time[1].format('YYYY-MM-DD hh:mm:ss')}`
+    let res;
+    let timeStr = `${time[0].format('YYYY-MM-DD hh:mm:ss')} - ${time[1].format(
+      'YYYY-MM-DD hh:mm:ss',
+    )}`;
     if (form === 1) {
       res = await request('/activity/activity/update', {
         method: 'POST',
@@ -59,8 +74,8 @@ const Change = () => {
           image,
           link,
           time: timeStr,
-        })
-      })
+        }),
+      });
     } else {
       res = await request('/activity/activity/update', {
         method: 'POST',
@@ -72,38 +87,36 @@ const Change = () => {
           role: rule,
           location,
           time: timeStr,
-        })
-      })
+        }),
+      });
     }
     if (res.status === 10000) {
-      message.success('修改成功')
+      message.success('修改成功');
     }
-    setIsUpdateMode(false)
-  }
-  
-  if (loading) return (
-    <div>
-      <PageHeader title={title}></PageHeader>
-      <div className={sharedStyles.wrapper}>
-        <Skeleton />
+    setIsUpdateMode(false);
+  };
+
+  if (loading)
+    return (
+      <div>
+        <PageHeader title={title}></PageHeader>
+        <div className={sharedStyles.wrapper}>
+          <Skeleton />
+        </div>
       </div>
-    </div>
-  )
-  if (error) return (
-    <div>
-      <PageHeader title={title}></PageHeader>
-      <div className={sharedStyles.wrapper}>
-        <Result
-          status="error"
-          subTitle="Sorry, something went wrong."
-        />
+    );
+  if (error)
+    return (
+      <div>
+        <PageHeader title={title}></PageHeader>
+        <div className={sharedStyles.wrapper}>
+          <Result status="error" subTitle="Sorry, something went wrong." />
+        </div>
       </div>
-    </div>
-  )
+    );
   return (
     <div>
-      <PageHeader title={title}>
-      </PageHeader>
+      <PageHeader title={title}></PageHeader>
       <div className={sharedStyles.wrapper}>
         <div className={sharedStyles.inputWrapper} style={{ margin: 0 }}>
           <span className={sharedStyles.name}>活动名称</span>
@@ -139,8 +152,8 @@ const Change = () => {
                 disabled={!isUpdateMode}
                 maxLength={200}
               />
-                <div className={styles.numTip}>{intro.length}/200</div>
-            </div> 
+              <div className={styles.numTip}>{intro.length}/200</div>
+            </div>
             <div className={sharedStyles.inputWrapper}>
               <span className={sharedStyles.name}>活动规则</span>
               <Input.TextArea
@@ -150,20 +163,27 @@ const Change = () => {
                 onChange={e => setRule(e.target.value)}
                 disabled={!isUpdateMode}
                 maxLength={200}
-                />
-                <div className={styles.numTip}>{rule.length}/200</div>
-            </div>    
-                <div className={sharedStyles.inputWrapper}>
+              />
+              <div className={styles.numTip}>{rule.length}/200</div>
+            </div>
+            <div className={sharedStyles.inputWrapper}>
               <span className={sharedStyles.name}>活动地点</span>
-              <Input.TextArea placeholder="请输入本次活动的地点（不超过 16 字）"
+              <Input.TextArea
+                placeholder="请输入本次活动的地点（不超过 16 字）"
                 value={location}
                 className={styles.text}
                 onChange={e => setLocation(e.target.value)}
-                onCompositionEnd={e => setLocation(e.target.value.length > 16 ? e.target.value.slice(0, 16) : e.target.value)}
+                onCompositionEnd={e =>
+                  setLocation(
+                    e.target.value.length > 16
+                      ? e.target.value.slice(0, 16)
+                      : e.target.value,
+                  )
+                }
                 disabled={!isUpdateMode}
                 maxLength={16}
-                />
-                <div className={styles.numTip}>{location.length}/16</div>
+              />
+              <div className={styles.numTip}>{location.length}/16</div>
             </div>
           </>
         )}
@@ -172,16 +192,25 @@ const Change = () => {
           <DatePicker.RangePicker
             className={sharedStyles.inputBorder}
             disabled={!isUpdateMode}
+            value={time}
             onCalendarChange={dates => {
               if (dates) {
-                setTime(dates)
+                setTime(dates);
               }
-            }} />
+            }}
+          />
         </div>
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>活动宣传图</span>
-          <ImageUploader image={image} setImage={setImage} className={styles.changeImg} disabled={!isUpdateMode} />
-          <div style={{ alignSelf: 'flex-end', marginBottom: '6px' }}>请上传 16:9 大小图片</div>
+          <ImageUploader
+            image={image}
+            setImage={setImage}
+            className={styles.changeImg}
+            disabled={!isUpdateMode}
+          />
+          <div style={{ alignSelf: 'flex-end', marginBottom: '6px' }}>
+            请上传 16:9 大小图片
+          </div>
         </div>
         <Button
           type="primary"
@@ -189,19 +218,14 @@ const Change = () => {
           style={{ margin: '15px 0' }}
           className={sharedStyles.okButton}
         >
-          {isUpdateMode ? "提交修改信息" : '修改活动信息'}
+          {isUpdateMode ? '提交修改信息' : '修改活动信息'}
         </Button>
       </div>
     </div>
   );
-}
+};
 
-export default connect(
-  ({
-    activity,
-    loading,
-  }) => ({
-    activity,
-    loading: loading.effects['activity/fetchActivityDetailInfos'],
-  }),
-)(Change);
+export default connect(({ activity, loading }) => ({
+  activity,
+  loading: loading.effects['activity/fetchActivityDetailInfos'],
+}))(Change);
