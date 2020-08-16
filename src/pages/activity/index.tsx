@@ -28,9 +28,9 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
   const submit = (values: any) => {
     const action = {
       ...values,
-      time: `${values.time[0].format(
-        'YYYY-MM-DD hh:mm:ss',
-      )} - ${values.time[1].format('YYYY-MM-DD hh:mm:ss')}`,
+      time: `${values.time[0].format('YYYY-MM-DD')} - ${values.time[1].format(
+        'YYYY-MM-DD',
+      )}`,
       time_done: values.time_done.unix(),
       image,
     };

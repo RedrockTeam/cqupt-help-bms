@@ -131,7 +131,7 @@ const YoungInput = ({ young, dispatch, loading }) => {
             }
           }}
         >
-          {isUpdateMode ? '提交信息' : '编辑信息'}
+          {isUpdateMode ? '提交信息' : !isFirst ? '编辑信息' : '上传信息'}
         </Button>
         <div style={{ marginBottom: '10px', color: '#FF3B3B' }}>
           {!isFirst ? '重邮帮小程序正式上线后将不可再编辑部门信息！' : ''}
