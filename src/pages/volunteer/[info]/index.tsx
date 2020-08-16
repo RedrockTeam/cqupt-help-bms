@@ -127,6 +127,7 @@ const AddVolunteerActivity = ({ volunteer, dispatch }: Props) => {
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>报名截止时间</span>
           <DatePicker
+            showTime
             className={sharedStyles.inputBorder}
             value={moment.unix(lastDate)}
             onChange={date => {
