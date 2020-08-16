@@ -59,6 +59,7 @@ const PushInfo = ({
   setTime,
   phone,
   setPhone,
+  groupNumber,
   setGroupNumber,
 }) => {
   if (pushForm === 3)
@@ -136,7 +137,15 @@ const PushInfo = ({
     </div>
   );
 };
-const PushCheck = ({ young, pushForm, time, name, location, phone }) => {
+const PushCheck = ({
+  young,
+  pushForm,
+  time,
+  name,
+  location,
+  phone,
+  groupNumber,
+}) => {
   if (pushForm === 3) {
     return (
       <div>
@@ -145,7 +154,7 @@ const PushCheck = ({ young, pushForm, time, name, location, phone }) => {
         </div>
         <div className={styles.pyshTextContent}>
           亲爱的同学，恭喜您通过了{young.teamInfo.name}
-          的招新筛选，成为我们部门的一员，请尽快添加QQ群：{name}
+          的招新筛选，成为我们部门的一员，请尽快添加QQ群：{groupNumber}
           ，入群申请时请按照格式：学院-姓名 加入该部门
         </div>
       </div>
