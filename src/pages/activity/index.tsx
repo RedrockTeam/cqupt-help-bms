@@ -22,10 +22,9 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
   const history = useHistory();
   const [visible, setVisible] = useState<boolean>(false);
   const [isOnlineForm, setIsOnlineForm] = useState<boolean>();
-  const [introNum, setIntroNum] = useState(0);
-  const [roleNum, setRoleNUm] = useState(0);
-  const [placeNum, setPlaceNUm] = useState(0);
-  const [timeNum, setTimeNUm] = useState([]);
+  const [intro, setIntro] = useState('');
+  const [rule, setRule] = useState('');
+  const [place, setPlace] = useState('');
   const [image, setImage] = useState('');
 
   const closeModal = useCallback(() => setVisible(false), []);
@@ -173,11 +172,12 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                   <Input.TextArea
                     placeholder="请输入本次活动的介绍（不超过 200 字）"
                     maxLength={200}
+                    value={intro}
                     onChange={e => {
-                      setIntroNum(e.target.value.length);
+                      setIntro(e.target.value);
                     }}
                   />
-                  <div className={styles.numTip}>{introNum}/200</div>
+                  <div className={styles.numTip}>{intro.length}/200</div>
                 </Form.Item>
                 <Form.Item
                   name="role"
@@ -187,11 +187,12 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                   <Input.TextArea
                     placeholder="请输入本次活动的规则（不超过 200 字）"
                     maxLength={200}
+                    value={rule}
                     onChange={e => {
-                      setRoleNUm(e.target.value.length);
+                      setRule(e.target.value);
                     }}
                   />
-                  <div className={styles.numTip}>{roleNum}/200</div>
+                  <div className={styles.numTip}>{rule.length}/200</div>
                 </Form.Item>
                 <Form.Item
                   name="location"
@@ -201,11 +202,12 @@ const Activity: ConnectRC<PageProps> = ({ dispatch, activity, loading }) => {
                   <Input.TextArea
                     placeholder="请输入本次活动的地点（不超过 16 字）"
                     maxLength={16}
+                    value={place}
                     onChange={e => {
-                      setPlaceNUm(e.target.value.length);
+                      setPlace(e.target.value);
                     }}
                   />
-                  <div className={styles.numTip}>{placeNum}/16</div>
+                  <div className={styles.numTip}>{place.length}/16</div>
                 </Form.Item>
               </>
             ))}
