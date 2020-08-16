@@ -62,8 +62,8 @@ const Change = () => {
 
   const submit = async () => {
     let res;
-    let timeStr = `${time[0].format('YYYY-MM-DD hh:mm:ss')} - ${time[1].format(
-      'YYYY-MM-DD hh:mm:ss',
+    let timeStr = `${time[0].format('YYYY-MM-DD')} - ${time[1].format(
+      'YYYY-MM-DD',
     )}`;
     if (form === 1) {
       res = await request('/activity/activity/update', {
