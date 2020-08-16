@@ -80,7 +80,7 @@ const AddTicket = ({ dispatch }: Props) => {
           style={{ margin: '20px 0' }}
           className={sharedStyles.okButton}
           onClick={() => {
-            if (timePlay && timeOut) {
+            if (timePlay && timeOut && name && location && num) {
               dispatch!(
                 createAddTicket({
                   name,
