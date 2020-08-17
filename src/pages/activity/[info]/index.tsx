@@ -1,11 +1,12 @@
 import React from 'react';
 import { Table } from 'antd';
-import { useLocation, Link, connect, ConnectRC, Loading } from 'umi';
+import { useLocation, Link, connect, ConnectRC, Loading, useParams } from 'umi';
 import PageHeader from '@/components/pageHeader';
 import PageHeaderBtn from '@/components/pageHeaderBtn';
 import sharedStyles from '@/assets/styles.css';
 import { ActivityModelState } from '@/models/activity';
 import { parse } from 'query-string';
+import { redirectTo } from '@/utils';
 
 const columns = [
   { title: '获奖人', dataIndex: 'username', key: 'username' },
@@ -29,9 +30,13 @@ type PageProps = {
 
 const Info: ConnectRC<PageProps> = ({ activity, loading }) => {
   const location = useLocation();
+  const params: any = useParams()
   const { title } = parse(location.search);
   console.log(location);
 
+  if (!loading && activity.activityGifts.length === 0) {
+    redirectTo(`/activity/${params.info}/update?title=${title}`)
+  }
   return (
     <div>
       <PageHeader title={title as string}>

@@ -33,11 +33,11 @@ const AddVolunteerActivity = ({ volunteer, dispatch }: Props) => {
 
   return (
     <div>
-      <PageHeader title="新建活动">
+      <PageHeader title="活动详情">
         <PageHeaderBtn type="add">
           <span
             onClick={() => {
-              if (Math.floor(Date.now() / 1000) - lastDate < 0) {
+              if (Math.floor(Date.now() / 1000) - lastDate < -(2 * 60 * 60)) {
                 setIsUpdateMode(true);
               }
             }}
@@ -135,9 +135,9 @@ const AddVolunteerActivity = ({ volunteer, dispatch }: Props) => {
             }}
             disabled={!isUpdateMode}
           />
-          <div style={{ marginLeft: '1vw', color: '#FF3B3B' }}>
-            该时间应该在志愿日期之前
-          </div>
+        </div>
+        <div style={{ color: '#FF3B3B' }}>
+          该时间应该在志愿日期之前
         </div>
         {isUpdateMode ? (
           <Button

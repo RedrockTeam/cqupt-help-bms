@@ -41,30 +41,8 @@ const Update = ({ activity, dispatch }: Props) => {
     });
   // const [timeBegin, setTimeBegin] = useState<number | undefined>(() => activity.time_begin);
   const timeBegin = activity.time_begin;
-  const setTimeBegin = (t: any) =>
-    dispatch!({
-      type: 'activity/setLocationAndTime',
-      payload: {
-        location: activity.location,
-        time_begin: t,
-        time_end: activity.time_end,
-        time_out: activity.time_out,
-      },
-    });
-  // const [timeEnd, setTimeEnd] = useState<number | undefined>(() => activity.time_end);
   const timeEnd = activity.time_end;
-  const setTimeEnd = (t: any) =>
-    dispatch!({
-      type: 'activity/setLocationAndTime',
-      payload: {
-        location: activity.location,
-        time_begin: activity.time_begin,
-        time_end: t,
-        time_out: activity.time_out,
-      },
-    });
-  // const [timeOut, setTimeOut] = useState<number | undefined>(() => activity.time_out);
-  const timeOut = activity.time_end;
+  const timeOut = activity.time_out;
   const setTimeOut = (t: any) =>
     dispatch!({
       type: 'activity/setLocationAndTime',
@@ -76,7 +54,7 @@ const Update = ({ activity, dispatch }: Props) => {
       },
     });
 
-  console.log(activity, timeEnd);
+  console.log(activity, timeEnd, timeBegin);
 
   return (
     <div>
@@ -105,16 +83,24 @@ const Update = ({ activity, dispatch }: Props) => {
               timeEnd !== 0 && timeEnd != null ? moment.unix(timeEnd) : null,
             ]}
             className={sharedStyles.inputBorder}
-            onCalendarChange={dates => {
+            onChange={dates => {
+              console.log(dates)
               if (dates) {
-                setTimeBegin(dates[0]?.unix());
-                setTimeEnd(dates[1]?.unix());
+                dispatch!({
+                  type: 'activity/setLocationAndTime',
+                  payload: {
+                    location: activity.location,
+                    time_begin: dates[0]?.unix(),
+                    time_end: dates[1]?.unix(),
+                    time_out: activity.time_out,
+                  },
+                });
               }
             }}
           />
-          <span className={styles.dateTip}>
-            请输入可领取奖品时间，例如：比如9点-11点，14点-17点
-          </span>
+        </div>
+        <div style={{ color: '#FF3B3B' }}>
+          领奖时间应该晚于推送时间
         </div>
         <div className={sharedStyles.inputWrapper}>
           <span className={sharedStyles.name}>推送时间</span>

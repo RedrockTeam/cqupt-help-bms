@@ -32,8 +32,8 @@ const columns = [
     title: '志愿时段',
     dataIndex: 'time_part',
     key: 'time_part',
-    sorter: (a: VolunteerActivityUserInfo, b: VolunteerActivityUserInfo) =>
-      a.time_part.localeCompare(b.time_part),
+    // sorter: (a: VolunteerActivityUserInfo, b: VolunteerActivityUserInfo) =>
+    //   a.time_part.localeCompare(b.time_part),
   },
 ];
 
@@ -79,6 +79,7 @@ const VolunteerInfo: ConnectRC<PageProps> = ({
           columns={columns}
           dataSource={volunteer.volunteerActivityUserInfos.map(i => ({
             ...i,
+            time_part: i.time_part === '0' ? '6:00-22:00' : i.time_part === '1' ? '6:00-8:00' : i.time_part === '2' ?'8:00-10:00' : i.time_part === '3' ? '10:00-12:00' : i.time_part === '4' ? '12:00-14:00' : i.time_part === '5' ? '14:00-16:00' : i.time_part === '6' ? '16:00-18:00' : i.time_part == '7'  ? '18:00-20:00' : i.time_part === '8' ? '20:00-22:00' : '',
             key: i.id,
           }))}
         />
@@ -134,8 +135,8 @@ const VolunteerInfo: ConnectRC<PageProps> = ({
           </Form.Item>
           <Form.Item
             name="down_date"
-            label="下线时间"
-            rules={[{ required: true, message: '请填写志愿活动下线时间' }]}
+            label="推送时间"
+            rules={[{ required: true, message: '请填写志愿活动推送时间' }]}
           >
             <DatePicker showTime className={sharedStyles.inputBorder} />
           </Form.Item>

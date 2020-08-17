@@ -347,6 +347,7 @@ const activityModel: ActivityModel = {
       });
     },
     setLocationAndTime(state, { payload }) {
+      console.log(payload);
       state.location = payload.location;
       state.time_begin = payload.time_begin;
       state.time_end = payload.time_end;
